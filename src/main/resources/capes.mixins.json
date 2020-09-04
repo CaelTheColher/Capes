@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "me.cael.capes.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "MixinAbstractClientPlayerEntity",
+    "MixinPlayerEntityRenderer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

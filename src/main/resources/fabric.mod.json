@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "capes",
+  "version": "${version}",
+
+  "name": "Capes",
+  "description": "Check needs his Cape",
+  "authors": [
+    "Cael"
+  ],
+  "contact": {
+    "discord": "「 Lily 」#5284"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/aglet/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "me.cael.capes.Capes"
+      }
+    ]
+  },
+  "mixins": [
+    "capes.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.9.0",
+    "fabric": "*",
+    "fabric-language-kotlin": "*",
+    "minecraft": "1.16.x"
+  }
+}
