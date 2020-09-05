@@ -24,5 +24,4 @@ public abstract class MixinPlayerEntityRenderer extends LivingEntityRenderer<Abs
         this.addFeature(new CapeRender(this));
         this.features.removeIf(renderer -> renderer instanceof CapeFeatureRenderer);
     }
-
 }

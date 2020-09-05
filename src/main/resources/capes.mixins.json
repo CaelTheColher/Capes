@@ -5,7 +5,8 @@
   "mixins": [
   ],
   "client": [
-    "MixinAbstractClientPlayerEntity",
+    "MixinClientPlayNetworkHandler",
+    "MixinClientWorld",
     "MixinPlayerEntityRenderer",
     "MixinSkinOptionsScreen"
   ],
