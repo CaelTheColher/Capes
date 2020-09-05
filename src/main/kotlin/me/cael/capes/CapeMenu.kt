@@ -10,7 +10,7 @@ import net.minecraft.client.options.GameOptions
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
-class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(parent, gameOptions, Text.of("TESTE")) {
+class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(parent, gameOptions, Text.of("Cape Options")) {
 
     override fun init() {
         addButton(ButtonWidget(width / 2 - 75, height / 6, 150, 20, Text.of("Cape Type: ${PlayerHandler.capeType.name}"), ButtonWidget.PressAction { buttonWidget: ButtonWidget? ->

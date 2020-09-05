@@ -31,10 +31,10 @@ class PlayerHandler(player: PlayerEntity, var capeTexture: Identifier? = null) {
             val playerManager = fromPlayer(player, capeTexture)
             lateinit var capeURL: URL
             capeURL = URL(when(capeType) {
-//                CapeType.OPTIFINE -> "http://s.optifine.net/capes/${player.name}.png"
-                CapeType.OPTIFINE -> "http://s.optifine.net/capes/AlexSa1000.png"
-//                CapeType.MINECRAFTCAPES -> "https://minecraftcapes.net/profile/${player.uuidAsString.replace("-","")}/cape"
-                CapeType.MINECRAFTCAPES -> "https://minecraftcapes.net/profile/b3d7b646ec3c44a2b933efc1461711bb/cape"
+                CapeType.OPTIFINE -> "http://s.optifine.net/capes/${player.name}.png"
+//                CapeType.OPTIFINE -> "http://s.optifine.net/capes/AlexSa1000.png"
+                CapeType.MINECRAFTCAPES -> "https://minecraftcapes.net/profile/${player.uuidAsString.replace("-","")}/cape"
+//                CapeType.MINECRAFTCAPES -> "https://minecraftcapes.net/profile/b3d7b646ec3c44a2b933efc1461711bb/cape"
                 CapeType.DEBUG -> "https://cdn.discordapp.com/attachments/414040382960304139/751400169752494131/glass.png"
                 CapeType.MINECRAFT -> return
             })
