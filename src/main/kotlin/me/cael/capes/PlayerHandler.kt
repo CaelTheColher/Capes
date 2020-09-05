@@ -23,7 +23,7 @@ class PlayerHandler(player: PlayerEntity) {
 
     companion object {
         val instances = HashMap<UUID, PlayerHandler>()
-        var capeType: CapeType = CapeType.DEBUG
+        var capeType: CapeType = CapeType.OPTIFINE
 
         fun fromPlayer(player: PlayerEntity): PlayerHandler {
             return instances[player.uuid] ?: PlayerHandler(player)
@@ -88,7 +88,11 @@ class PlayerHandler(player: PlayerEntity) {
             imageHeight *= 2
         }
         val imgNew = NativeImage(imageWidth, imageHeight, true)
-        imgNew.copyFrom(img)
+        for (x in 0 until srcWidth) {
+            for (y in 0 until srcHeight) {
+                imgNew.setPixelColor(x, y, img.getPixelColor(x, y))
+            }
+        }
         img.close()
         return imgNew
     }
