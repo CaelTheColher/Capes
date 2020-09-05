@@ -6,7 +6,8 @@
   ],
   "client": [
     "MixinAbstractClientPlayerEntity",
-    "MixinPlayerEntityRenderer"
+    "MixinPlayerEntityRenderer",
+    "MixinSkinOptionsScreen"
   ],
   "injectors": {
     "defaultRequire": 1
