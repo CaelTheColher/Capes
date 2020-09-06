@@ -16,7 +16,7 @@ import kotlin.concurrent.thread
 class PlayerHandler(player: PlayerEntity) {
     val uuid: UUID = player.uuid
     var capeTexture: Identifier? = null
-
+    var glint: Boolean = false
     init {
         instances[uuid] = this
     }
@@ -30,7 +30,7 @@ class PlayerHandler(player: PlayerEntity) {
 
         fun onPlayerJoin(player: PlayerEntity) {
             val playerHandler = fromPlayer(player)
-            if (player.uuidAsString == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setCapeFromURL("https://i.imgur.com/DlyUFYB.png"); return}
+            if (player.uuidAsString == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setCapeFromURL("https://i.imgur.com/DlyUFYB.png", true); return }
             if (player == MinecraftClient.getInstance().player) {
                 playerHandler.capeTexture = (player as AbstractClientPlayerEntity).capeTexture
                 val config = AutoConfig.getConfigHolder(CapeConfig::class.java).config
@@ -40,7 +40,7 @@ class PlayerHandler(player: PlayerEntity) {
                     CapeType.MINECRAFT -> return
                 }
                 thread(start = true) {
-                    playerHandler.setCapeFromURL(capeURL)
+                    playerHandler.setCapeFromURL(capeURL, config.glint)
                 }
             } else {
                 val mcCape = (player as AbstractClientPlayerEntity).capeTexture
@@ -61,7 +61,7 @@ class PlayerHandler(player: PlayerEntity) {
         }
     }
 
-    fun setCapeFromURL(capeURL: String): Boolean {
+    fun setCapeFromURL(capeURL: String, glint: Boolean = false): Boolean {
         val connection =
             URL(capeURL).openConnection(MinecraftClient.getInstance().networkProxy) as HttpURLConnection
         connection.addRequestProperty("User-Agent", "Mozilla/4.0")
@@ -69,6 +69,7 @@ class PlayerHandler(player: PlayerEntity) {
         connection.doOutput = false
         connection.connect()
         if (connection.responseCode / 100 == 2) {
+            this.glint = glint
             setCape(connection.inputStream)
             return true
         }

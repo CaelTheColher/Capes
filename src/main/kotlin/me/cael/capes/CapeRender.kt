@@ -23,7 +23,6 @@ class CapeRender(context: FeatureRendererContext<AbstractClientPlayerEntity, Pla
         val playerHandler = PlayerHandler.fromPlayer(entity)
         if (entity.canRenderCapeTexture() && !entity.isInvisible && entity.isPartVisible(PlayerModelPart.CAPE) && playerHandler.capeTexture != null) {
             val itemStack: ItemStack = entity.getEquippedStack(EquipmentSlot.CHEST)
-            val config = AutoConfig.getConfigHolder(CapeConfig::class.java).config
             if (itemStack.item !== Items.ELYTRA) {
                 matrices.push()
                 matrices.translate(0.0, 0.0, 0.125)
@@ -50,7 +49,7 @@ class CapeRender(context: FeatureRendererContext<AbstractClientPlayerEntity, Pla
                 matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(6.0f + r / 2.0f + q))
                 matrices.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(s / 2.0f))
                 matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180.0f - s / 2.0f))
-                val vertexConsumer = ItemRenderer.getArmorVertexConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(playerHandler.capeTexture), false, config.glint)
+                val vertexConsumer = ItemRenderer.getArmorVertexConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(playerHandler.capeTexture), false, playerHandler.glint)
                 (this.contextModel as PlayerEntityModel<*>).renderCape(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV)
                 matrices.pop()
             }
