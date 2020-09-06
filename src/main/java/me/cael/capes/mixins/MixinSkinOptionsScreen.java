@@ -1,6 +1,5 @@
 package me.cael.capes.mixins;
 
-import com.mojang.brigadier.Message;
 import me.cael.capes.CapeMenu;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.options.GameOptionsScreen;
@@ -22,8 +21,6 @@ public class MixinSkinOptionsScreen extends GameOptionsScreen {
 
     @Inject(method = "init", at = @At("RETURN"))
     protected void init(CallbackInfo info) {
-        this.addButton(new ButtonWidget(this.width / 2 - 179, this.height / 6, 20, 20, Text.of(""), (buttonWidget) -> {
-            this.client.openScreen(new CapeMenu(this, this.gameOptions));
-        }));
+        this.addButton(new ButtonWidget(this.width / 2 - 179, this.height / 6, 20, 20, Text.of(""), (buttonWidget) -> this.client.openScreen(new CapeMenu(this, this.gameOptions))));
     }
 }

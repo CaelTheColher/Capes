@@ -1,13 +1,18 @@
 package me.cael.capes
 
-enum class CapeType(name: String) {
-    MINECRAFT("Minecraft"), OPTIFINE("OptiFine"), MINECRAFTCAPES("MinecraftCapes Mod"), DEBUG("Debug");
+import net.minecraft.text.TranslatableText
+
+enum class CapeType(val stylized: String) {
+    MINECRAFT("Minecraft"), OPTIFINE("OptiFine"), MINECRAFTCAPES("MinecraftCapes");
 
     fun cycle() = when(this) {
         MINECRAFT -> OPTIFINE
         OPTIFINE -> MINECRAFTCAPES
-        MINECRAFTCAPES -> DEBUG
-        DEBUG -> MINECRAFT
+        MINECRAFTCAPES -> MINECRAFT
+    }
+
+    fun getText(): TranslatableText {
+        return TranslatableText("options.capes.capetype", stylized)
     }
 
 }

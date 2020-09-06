@@ -1,5 +1,6 @@
 package me.cael.capes
 
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.AbstractClientPlayerEntity
 import net.minecraft.client.texture.NativeImage
@@ -14,7 +15,6 @@ import kotlin.concurrent.thread
 
 class PlayerHandler(player: PlayerEntity) {
     val uuid: UUID = player.uuid
-    val glint: Boolean = true
     var capeTexture: Identifier? = null
 
     init {
@@ -23,7 +23,6 @@ class PlayerHandler(player: PlayerEntity) {
 
     companion object {
         val instances = HashMap<UUID, PlayerHandler>()
-        var capeType: CapeType = CapeType.OPTIFINE
 
         fun fromPlayer(player: PlayerEntity): PlayerHandler {
             return instances[player.uuid] ?: PlayerHandler(player)
@@ -31,28 +30,32 @@ class PlayerHandler(player: PlayerEntity) {
 
         fun onPlayerJoin(player: PlayerEntity) {
             val playerHandler = fromPlayer(player)
-            playerHandler.capeTexture = (player as AbstractClientPlayerEntity).capeTexture
+            if (player.uuidAsString == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setCapeFromURL("https://i.imgur.com/DlyUFYB.png"); return}
             if (player == MinecraftClient.getInstance().player) {
-                val capeURL = when (capeType) {
+                playerHandler.capeTexture = (player as AbstractClientPlayerEntity).capeTexture
+                val config = AutoConfig.getConfigHolder(CapeConfig::class.java).config
+                val capeURL = when (config.clientCapeType) {
                     CapeType.OPTIFINE -> "http://s.optifine.net/capes/${player.entityName}.png"
-//                    CapeType.OPTIFINE -> "http://s.optifine.net/capes/AlexSa1000.png"
                     CapeType.MINECRAFTCAPES -> "https://minecraftcapes.net/profile/${player.uuidAsString.replace("-", "")}/cape"
-//                    CapeType.MINECRAFTCAPES -> "https://minecraftcapes.net/profile/b3d7b646ec3c44a2b933efc1461711bb/cape"
-                    CapeType.DEBUG -> "https://cdn.discordapp.com/attachments/414040382960304139/751400169752494131/glass.png"
                     CapeType.MINECRAFT -> return
                 }
                 thread(start = true) {
                     playerHandler.setCapeFromURL(capeURL)
                 }
             } else {
-                if (playerHandler.capeTexture != null) return
-                val capeURLs = listOf("http://s.optifine.net/capes/${player.entityName}.png",
-                    "https://minecraftcapes.net/profile/${player.uuidAsString.replace("-","")}/cape"
-                )
-                thread(start = true) {
-                    for (capeURL in capeURLs) {
-                        if (playerHandler.setCapeFromURL(capeURL)) break
+                val mcCape = (player as AbstractClientPlayerEntity).capeTexture
+                if (mcCape == null) {
+                    val capeURLs = listOf(
+                        "http://s.optifine.net/capes/${player.entityName}.png",
+                        "https://minecraftcapes.net/profile/${player.uuidAsString.replace("-", "")}/cape"
+                    )
+                    thread(start = true) {
+                        for (capeURL in capeURLs) {
+                            if (playerHandler.setCapeFromURL(capeURL)) break
+                        }
                     }
+                } else {
+                    playerHandler.capeTexture = mcCape
                 }
             }
         }
