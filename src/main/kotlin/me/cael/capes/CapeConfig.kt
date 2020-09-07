@@ -7,4 +7,7 @@ import me.sargunvohra.mcmods.autoconfig1u.annotation.Config
 class CapeConfig : ConfigData {
     var clientCapeType = CapeType.MINECRAFT
     var glint = false
+    var enableOptifine = true
+    var enableLabyMod = true
+    var enableMinecraftCapesMod = false
 }
