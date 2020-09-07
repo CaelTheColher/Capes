@@ -33,22 +33,16 @@ class PlayerHandler(player: PlayerEntity) {
             val playerHandler = fromPlayer(player)
             if (player.uuidAsString == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setCapeFromURL("https://athena.wynntils.com/capes/user/${player.uuidAsString}", true); return }
             if (player == MinecraftClient.getInstance().player) {
-                playerHandler.capeTexture = (player as AbstractClientPlayerEntity).capeTexture
                 val config = AutoConfig.getConfigHolder(CapeConfig::class.java).config
                 val capeURL = config.clientCapeType.getURL(player) ?: return
                 thread(start = true) {
                     playerHandler.setCapeFromURL(capeURL, config.glint)
                 }
             } else {
-                val mcCape = (player as AbstractClientPlayerEntity).capeTexture
-                if (mcCape == null) {
-                    thread(start=true) {
-                        for (capeType in CapeType.values()) {
-                            if (playerHandler.setCapeFromURL(capeType.getURL(player))) break
-                        }
+                thread(start=true) {
+                    for (capeType in CapeType.values()) {
+                        if (playerHandler.setCapeFromURL(capeType.getURL(player))) break
                     }
-                } else {
-                    playerHandler.capeTexture = mcCape
                 }
             }
         }
