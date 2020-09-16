@@ -1,7 +1,9 @@
 package me.cael.capes
 
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
+import net.minecraft.client.gui.screen.ScreenTexts
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 
 enum class CapeType(val stylized: String) {
@@ -24,8 +26,8 @@ enum class CapeType(val stylized: String) {
         }
     }
 
-    fun getText(): TranslatableText {
-        return TranslatableText("options.capes.capetype", stylized)
-    }
+    fun getToggleText(enabled: Boolean): Text = ScreenTexts.composeToggleText(Text.of(stylized), enabled)
+
+    fun getText(): TranslatableText = TranslatableText("options.capes.capetype", stylized)
 
 }

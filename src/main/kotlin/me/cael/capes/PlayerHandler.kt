@@ -2,7 +2,6 @@ package me.cael.capes
 
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.network.AbstractClientPlayerEntity
 import net.minecraft.client.texture.NativeImage
 import net.minecraft.client.texture.NativeImageBackedTexture
 import net.minecraft.entity.player.PlayerEntity
@@ -25,9 +24,7 @@ class PlayerHandler(player: PlayerEntity) {
     companion object {
         val instances = HashMap<UUID, PlayerHandler>()
 
-        fun fromPlayer(player: PlayerEntity): PlayerHandler {
-            return instances[player.uuid] ?: PlayerHandler(player)
-        }
+        fun fromPlayer(player: PlayerEntity) = instances[player.uuid] ?: PlayerHandler(player)
 
         fun onPlayerJoin(player: PlayerEntity) {
             val playerHandler = fromPlayer(player)

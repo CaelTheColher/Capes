@@ -1,6 +1,5 @@
 package me.cael.capes
 
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.AbstractClientPlayerEntity
 import net.minecraft.client.render.OverlayTexture
