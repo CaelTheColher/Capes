@@ -1,6 +1,6 @@
 package me.cael.capes.mixins;
 
-import me.cael.capes.CapeRender;
+import me.cael.capes.render.CapeRender;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.LivingEntityRenderer;

@@ -1,5 +1,6 @@
-package me.cael.capes
+package me.cael.capes.render
 
+import me.cael.capes.handler.PlayerHandler
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.AbstractClientPlayerEntity
 import net.minecraft.client.render.OverlayTexture

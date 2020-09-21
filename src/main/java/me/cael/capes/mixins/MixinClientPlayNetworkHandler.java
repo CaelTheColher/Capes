@@ -1,6 +1,6 @@
 package me.cael.capes.mixins;
 
-import me.cael.capes.PlayerHandler;
+import me.cael.capes.handler.PlayerHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
@@ -14,6 +14,7 @@ public class MixinClientPlayNetworkHandler {
 
     @Inject(method = "onGameJoin", at = @At("RETURN"))
     private void onGameJoin(GameJoinS2CPacket packet, CallbackInfo info) {
+        System.out.println("MixinClientPlayNetworkHandler");
         PlayerHandler.Companion.onPlayerJoin(MinecraftClient.getInstance().player);
     }
 }

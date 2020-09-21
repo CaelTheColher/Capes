@@ -1,5 +1,6 @@
 package me.cael.capes
 
+import me.cael.capes.handler.PlayerHandler
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
 import me.sargunvohra.mcmods.autoconfig1u.ConfigManager
 import net.minecraft.client.gui.DrawableHelper
@@ -42,6 +43,11 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
             config.enableMinecraftCapesMod = !config.enableMinecraftCapesMod
             configManager.save()
             buttonWidget.message = CapeType.MINECRAFTCAPES.getToggleText(config.enableMinecraftCapesMod)
+        })
+        addButton(ButtonWidget(width / 2 - 155 + 160, height / 6 + 2*24, 150, 20, CapeType.WYNNTILS.getToggleText(config.enableWynntils)) { buttonWidget: ButtonWidget ->
+            config.enableWynntils = !config.enableWynntils
+            configManager.save()
+            buttonWidget.message = CapeType.WYNNTILS.getToggleText(config.enableWynntils)
         })
         addButton(ButtonWidget(width / 2 - 100, height / 6 + 3*24, 200, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
             client!!.openScreen(parent)

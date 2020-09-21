@@ -9,5 +9,6 @@ class CapeConfig : ConfigData {
     var glint = false
     var enableOptifine = true
     var enableLabyMod = true
+    var enableWynntils = false
     var enableMinecraftCapesMod = false
 }
