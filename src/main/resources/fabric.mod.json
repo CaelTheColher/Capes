@@ -12,7 +12,7 @@
     "discord": "「 Lily 」#5284"
   },
 
-  "license": "CC0-1.0",
+  "license": "Apache-2.0",
   "icon": "assets/capes/icon.png",
 
   "environment": "*",
