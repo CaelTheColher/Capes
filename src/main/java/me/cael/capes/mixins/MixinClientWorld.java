@@ -13,7 +13,6 @@ public class MixinClientWorld {
 
     @Inject(method = "addPlayer", at = @At("RETURN"))
     private void addPlayer(int id, AbstractClientPlayerEntity player, CallbackInfo info) {
-        System.out.println("MixinClientWorld");
         PlayerHandler.Companion.onPlayerJoin(player);
     }
 }

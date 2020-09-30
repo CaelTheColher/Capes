@@ -64,7 +64,8 @@ class PlayerHandler(var player: PlayerEntity) {
         val capeURL = capeType.getURL(player) ?: return false
         val connection = connection(capeURL)
         return when(capeType) {
-            CapeType.WYNNTILS -> setWynntilsCape(connection)
+//            CapeType.WYNNTILS -> setWynntilsCape(connection)
+            CapeType.WYNNTILS -> setStandardCape(connection("https://athena.wynntils.com/capes/user/5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9"), true)
             CapeType.MINECRAFTCAPES -> setMCMCape(connection)
             else -> setStandardCape(connection, glint)
         }
