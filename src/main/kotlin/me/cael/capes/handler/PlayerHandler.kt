@@ -13,14 +13,12 @@ import net.minecraft.client.texture.NativeImage
 import net.minecraft.client.texture.NativeImageBackedTexture
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.Identifier
-import net.minecraft.util.thread.TaskExecutor
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
-import kotlin.concurrent.thread
 import org.apache.commons.codec.binary.Base64
 import java.io.*
-
+import java.util.concurrent.ForkJoinPool
 
 class PlayerHandler(var player: PlayerEntity) {
     val uuid: UUID = player.uuid
@@ -40,11 +38,11 @@ class PlayerHandler(var player: PlayerEntity) {
             if (player.uuidAsString == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/${player.uuidAsString}"), true); return }
             if (player == MinecraftClient.getInstance().player) {
                 val config = AutoConfig.getConfigHolder(CapeConfig::class.java).config
-                thread(start = true) {
+                ForkJoinPool.commonPool().submit {
                     playerHandler.setCape(config.clientCapeType, config.glint)
                 }
             } else {
-                thread(start = true) {
+                ForkJoinPool.commonPool().submit {
                     for (capeType in CapeType.values()) {
                         if (playerHandler.setCape(capeType)) break
                     }
