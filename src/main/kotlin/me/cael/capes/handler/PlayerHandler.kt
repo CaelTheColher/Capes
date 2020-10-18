@@ -13,6 +13,7 @@ import net.minecraft.client.texture.NativeImage
 import net.minecraft.client.texture.NativeImageBackedTexture
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.Identifier
+import net.minecraft.util.thread.TaskExecutor
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
@@ -64,8 +65,7 @@ class PlayerHandler(var player: PlayerEntity) {
         val capeURL = capeType.getURL(player) ?: return false
         val connection = connection(capeURL)
         return when(capeType) {
-//            CapeType.WYNNTILS -> setWynntilsCape(connection)
-            CapeType.WYNNTILS -> setStandardCape(connection("https://athena.wynntils.com/capes/user/5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9"), true)
+            CapeType.WYNNTILS -> setWynntilsCape(connection)
             CapeType.MINECRAFTCAPES -> setMCMCape(connection)
             else -> setStandardCape(connection, glint)
         }
@@ -124,7 +124,9 @@ class PlayerHandler(var player: PlayerEntity) {
     fun setCapeTexture(image: InputStream): Boolean {
         return try {
             val cape = NativeImage.read(image)
-            this.capeTexture = MinecraftClient.getInstance().textureManager.registerDynamicTexture(uuid.toString().replace("-", ""), NativeImageBackedTexture(parseCape(cape)))
+            MinecraftClient.getInstance().submit {
+                this.capeTexture = MinecraftClient.getInstance().textureManager.registerDynamicTexture(uuid.toString().replace("-", ""), NativeImageBackedTexture(parseCape(cape)))
+            }
             true
         } catch (ioException: IOException) {
             false
