@@ -9,19 +9,25 @@
     "Cael"
   ],
   "contact": {
-    "discord": "「 Lily 」#5284"
+    "discord": "「 Lily 」#5284",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/capes",
+    "sources": "https://github.com/CaelTheColher/Capes",
+    "issues": "https://github.com/CaelTheColher/Capes/issues"
   },
 
-  "license": "Apache-2.0",
+  "license": "GNU Lesser General Public License v2.1",
   "icon": "assets/capes/icon.png",
 
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "client": [
       {
         "adapter": "kotlin",
         "value": "me.cael.capes.Capes"
       }
+    ],
+    "modmenu": [
+      "me.cael.capes.compatibility.ModMenuCompatibility"
     ]
   },
   "mixins": [
