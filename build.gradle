@@ -21,6 +21,14 @@ repositories {
         url = "http://maven.fabricmc.net/"
         url = "https://jitpack.io"
     }
+    maven {
+        name = "NerdHubMC"
+        url = "https://maven.abusedmaster.xyz/"
+    }
+    maven {
+        name = "AdrianTodt's Maven"
+        url = "https://dl.bintray.com/adriantodt/maven"
+    }
 }
 
 dependencies {
@@ -42,6 +50,8 @@ dependencies {
 
     // Compatibility
     modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
+    modImplementation "com.github.emilyploszaj:trinkets:${project.trinkets_version}"
+    modImplementation "net.adriantodt.fabricmc:fallflyinglib:${project.ffl_version}"
 
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
     // You may need to force-disable transitiveness on them.

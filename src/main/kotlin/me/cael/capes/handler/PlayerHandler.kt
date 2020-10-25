@@ -35,13 +35,13 @@ class PlayerHandler(var player: PlayerEntity) {
 
         fun onPlayerJoin(player: PlayerEntity) {
             val playerHandler = fromPlayer(player)
-            if (player.uuidAsString == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/${player.uuidAsString}"), true); return }
             if (player == MinecraftClient.getInstance().player) {
                 val config = AutoConfig.getConfigHolder(CapeConfig::class.java).config
                 ForkJoinPool.commonPool().submit {
                     playerHandler.setCape(config.clientCapeType, config.glint)
                 }
             } else {
+                if (player.uuidAsString == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/${player.uuidAsString}"), true); return }
                 ForkJoinPool.commonPool().submit {
                     for (capeType in CapeType.values()) {
                         if (playerHandler.setCape(capeType)) break

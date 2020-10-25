@@ -1,5 +1,6 @@
 package me.cael.capes.render
 
+import me.cael.capes.compatibility.TrinketsCompatibility
 import me.cael.capes.handler.PlayerHandler
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.AbstractClientPlayerEntity
@@ -26,7 +27,7 @@ class CapeRender(context: FeatureRendererContext<AbstractClientPlayerEntity, Pla
             MinecraftClient.getInstance().player -> playerHandler.capeTexture ?: entity.capeTexture
             else -> entity.capeTexture ?: playerHandler.capeTexture
         }
-        if (entity.canRenderCapeTexture() && !entity.isInvisible && entity.isPartVisible(PlayerModelPart.CAPE) && capeTexture != null) {
+        if (entity.canRenderCapeTexture() && !entity.isInvisible && entity.isPartVisible(PlayerModelPart.CAPE) && capeTexture != null && !TrinketsCompatibility.displayElytra(entity)) {
             val itemStack: ItemStack = entity.getEquippedStack(EquipmentSlot.CHEST)
             if (itemStack.item !== Items.ELYTRA) {
                 matrices.push()

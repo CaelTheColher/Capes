@@ -1,5 +1,6 @@
 package me.cael.capes.render
 
+import me.cael.capes.compatibility.TrinketsCompatibility
 import me.cael.capes.handler.PlayerHandler
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.AbstractClientPlayerEntity
@@ -25,7 +26,7 @@ class ElytraRender<T : LivingEntity?, M : EntityModel<T>>(featureRendererContext
     private val elytra: ElytraEntityModel<T> = ElytraEntityModel()
     override fun render(matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, i: Int, entity: T, f: Float, g: Float, h: Float, j: Float, k: Float, l: Float) {
         val itemStack = entity!!.getEquippedStack(EquipmentSlot.CHEST)
-        if (itemStack.item === Items.ELYTRA) {
+        if (itemStack.item === Items.ELYTRA || TrinketsCompatibility.displayElytra(entity as PlayerEntity)) {
             val identifier4: Identifier = (if (entity is AbstractClientPlayerEntity && entity.isPartVisible(PlayerModelPart.CAPE)) {
                 val playerHandler = PlayerHandler.fromPlayer(entity)
                 when(entity) {
