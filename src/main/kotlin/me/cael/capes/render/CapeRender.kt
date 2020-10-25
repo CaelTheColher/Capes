@@ -27,9 +27,9 @@ class CapeRender(context: FeatureRendererContext<AbstractClientPlayerEntity, Pla
             MinecraftClient.getInstance().player -> playerHandler.capeTexture ?: entity.capeTexture
             else -> entity.capeTexture ?: playerHandler.capeTexture
         }
-        if (entity.canRenderCapeTexture() && !entity.isInvisible && entity.isPartVisible(PlayerModelPart.CAPE) && capeTexture != null && !TrinketsCompatibility.displayElytra(entity)) {
+        if (entity.canRenderCapeTexture() && !entity.isInvisible && entity.isPartVisible(PlayerModelPart.CAPE) && capeTexture != null) {
             val itemStack: ItemStack = entity.getEquippedStack(EquipmentSlot.CHEST)
-            if (itemStack.item !== Items.ELYTRA) {
+            if (itemStack.item !== Items.ELYTRA && !TrinketsCompatibility.displayElytra(entity)) {
                 matrices.push()
                 matrices.translate(0.0, 0.0, 0.125)
                 val d = MathHelper.lerp(tickDelta.toDouble(), entity.prevCapeX,entity.capeX) - MathHelper.lerp(tickDelta.toDouble(), entity.prevX, entity.x)

@@ -4,6 +4,7 @@ import me.cael.capes.handler.PlayerHandler
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
 import me.sargunvohra.mcmods.autoconfig1u.ConfigManager
 import net.minecraft.client.gui.DrawableHelper
+ import net.minecraft.client.gui.screen.ConfirmChatLinkScreen
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ScreenTexts
 import net.minecraft.client.gui.screen.options.GameOptionsScreen
@@ -12,6 +13,9 @@ import net.minecraft.client.network.AbstractClientPlayerEntity
 import net.minecraft.client.options.GameOptions
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.TranslatableText
+import net.minecraft.util.Util
+import java.math.BigInteger
+import java.util.*
 
 class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(parent, gameOptions, TranslatableText("options.capes.title")) {
 
@@ -39,17 +43,38 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
             configManager.save()
             buttonWidget.message = CapeType.LABYMOD.getToggleText(config.enableLabyMod)
         })
-        addButton(ButtonWidget(width / 2 - 155, height / 6 + 2*24, 150, 20, CapeType.MINECRAFTCAPES.getToggleText(config.enableMinecraftCapesMod)) { buttonWidget: ButtonWidget ->
+        addButton(ButtonWidget(width / 2 - 155, height / 6 + 2 * 24, 150, 20, CapeType.MINECRAFTCAPES.getToggleText(config.enableMinecraftCapesMod)) { buttonWidget: ButtonWidget ->
             config.enableMinecraftCapesMod = !config.enableMinecraftCapesMod
             configManager.save()
             buttonWidget.message = CapeType.MINECRAFTCAPES.getToggleText(config.enableMinecraftCapesMod)
         })
-        addButton(ButtonWidget(width / 2 - 155 + 160, height / 6 + 2*24, 150, 20, CapeType.WYNNTILS.getToggleText(config.enableWynntils)) { buttonWidget: ButtonWidget ->
+        addButton(ButtonWidget(width / 2 - 155 + 160, height / 6 + 2 * 24, 150, 20, CapeType.WYNNTILS.getToggleText(config.enableWynntils)) { buttonWidget: ButtonWidget ->
             config.enableWynntils = !config.enableWynntils
             configManager.save()
             buttonWidget.message = CapeType.WYNNTILS.getToggleText(config.enableWynntils)
         })
-        addButton(ButtonWidget(width / 2 - 100, height / 6 + 3*24, 200, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
+        addButton(ButtonWidget(width / 2 - 100, height / 6 + 3 * 24, 200, 20, TranslatableText("options.capes.optifineeditor")) { buttonWidget: ButtonWidget ->
+            try {
+                val r1 = Random()
+                val r2 = Random(System.identityHashCode(Object()).toLong())
+                val random1Bi = BigInteger(128, r1)
+                val random2Bi = BigInteger(128, r2)
+                val serverBi = random1Bi.xor(random2Bi)
+                val serverId = serverBi.toString(16)
+                client!!.sessionService.joinServer(client!!.session.profile, client!!.session.accessToken, serverId)
+                val url = "https://optifine.net/capeChange?u=${client!!.session.uuid}&n=${client!!.session.username}&s=$serverId"
+                client!!.openScreen(ConfirmChatLinkScreen({ bool: Boolean ->
+                    if (bool) {
+                        Util.getOperatingSystem().open(url)
+                    }
+                    client!!.openScreen(this)
+                }, url, true))
+            } catch (exception: Exception) {
+                exception.printStackTrace()
+            }
+        })
+
+        addButton(ButtonWidget(width / 2 - 100, height / 6 + 4 * 24, 200, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
             client!!.openScreen(parent)
         })
     }
