@@ -41,8 +41,8 @@ class PlayerHandler(var player: PlayerEntity) {
                     playerHandler.setCape(config.clientCapeType, config.glint)
                 }
             } else {
-                if (player.uuidAsString == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/${player.uuidAsString}"), true); return }
                 ForkJoinPool.commonPool().submit {
+                    if (player.uuidAsString == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/${player.uuidAsString}"), true); return@submit }
                     for (capeType in CapeType.values()) {
                         if (playerHandler.setCape(capeType)) break
                     }

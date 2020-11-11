@@ -1,10 +1,11 @@
 package me.cael.capes
 
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
-import net.minecraft.client.gui.screen.ScreenTexts
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
+import me.cael.capes.utils.composeToggleText
+import net.minecraft.text.LiteralText
 
 enum class CapeType(val stylized: String) {
     MINECRAFT("Minecraft"), OPTIFINE("OptiFine"), LABYMOD("LabyMod"), WYNNTILS("Wynntils"), MINECRAFTCAPES("MinecraftCapes");
@@ -28,7 +29,7 @@ enum class CapeType(val stylized: String) {
         }
     }
 
-    fun getToggleText(enabled: Boolean): Text = ScreenTexts.composeToggleText(Text.of(stylized), enabled)
+    fun getToggleText(enabled: Boolean): Text = composeToggleText(LiteralText(stylized), enabled)
 
     fun getText(): TranslatableText = TranslatableText("options.capes.capetype", stylized)
 

@@ -1,6 +1,7 @@
 package me.cael.capes
 
 import me.cael.capes.handler.PlayerHandler
+import me.cael.capes.utils.composeToggleText
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
 import me.sargunvohra.mcmods.autoconfig1u.ConfigManager
 import net.minecraft.client.gui.DrawableHelper
@@ -12,6 +13,8 @@ import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.network.AbstractClientPlayerEntity
 import net.minecraft.client.options.GameOptions
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Util
 import java.math.BigInteger
@@ -79,11 +82,11 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
         })
     }
 
-    private fun glintMessage(glint: Boolean) = ScreenTexts.composeToggleText(TranslatableText("options.capes.glint"), glint)
+    private fun glintMessage(glint: Boolean) = composeToggleText(TranslatableText("options.capes.glint"), glint)
 
     override fun render(matrices: MatrixStack?, mouseX: Int, mouseY: Int, delta: Float) {
         this.renderBackground(matrices)
-        DrawableHelper.drawCenteredText(matrices, textRenderer, title, width / 2, 20, 16777215)
+        textRenderer.drawWithShadow(matrices, title.asString(), (width / 2 - textRenderer.getWidth(title.asString()) / 2).toFloat(), 20f, 16777215)
         super.render(matrices, mouseX, mouseY, delta)
     }
 }
