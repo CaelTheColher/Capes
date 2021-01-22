@@ -11,11 +11,11 @@
 </p>
 <p align="center">
   <a href="https://opensource.org/licenses/LGPL-2.1"><img src="https://img.shields.io/badge/License-LGPL%202.1-brightgreen.svg"></a>
-    <a href="https://www.curseforge.com/minecraft/mc-mods/capes"><img src="http://cf.way2muchnoise.eu/versions/capes_latest.svg"></a>
-  <a href="https://www.curseforge.com/minecraft/mc-mods/capes"><img src="http://cf.way2muchnoise.eu/capes.svg"></a>
+    <a href="https://www.curseforge.com/minecraft/mc-mods/capes"><img src="https://cf.way2muchnoise.eu/versions/capes_latest.svg"></a>
+  <a href="https://www.curseforge.com/minecraft/mc-mods/capes"><img src="https://cf.way2muchnoise.eu/capes.svg"></a>
 </p>
 
-##How to use it
+## How to use it
 You just install the mod and that's it! If you want to disable capes from certain mods you can do it on the configuration screen.
 
 ## License
