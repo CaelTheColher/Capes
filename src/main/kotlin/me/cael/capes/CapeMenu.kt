@@ -7,10 +7,10 @@ import net.minecraft.client.gui.DrawableHelper
  import net.minecraft.client.gui.screen.ConfirmChatLinkScreen
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ScreenTexts
-import net.minecraft.client.gui.screen.options.GameOptionsScreen
+import net.minecraft.client.gui.screen.option.GameOptionsScreen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.network.AbstractClientPlayerEntity
-import net.minecraft.client.options.GameOptions
+import net.minecraft.client.option.GameOptions
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Util
