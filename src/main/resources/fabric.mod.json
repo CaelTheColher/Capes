@@ -37,7 +37,7 @@
     "fabricloader": ">=0.9.0",
     "fabric": "*",
     "fabric-language-kotlin": "*",
-    "minecraft": "1.16.x",
+    "minecraft": "1.17.x",
     "autoconfig1u": "*"
   }
 }

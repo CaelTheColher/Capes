@@ -13,11 +13,11 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.client.util.math.Vector3f
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.util.math.MathHelper
+import net.minecraft.util.math.Vec3f
 
 class CapeRender(context: FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>>) : FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>>(context) {
     override fun render(matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, entity: AbstractClientPlayerEntity, limbAngle: Float, limbDistance: Float, tickDelta: Float, animationProgress: Float, headYaw: Float, headPitch: Float
@@ -52,10 +52,10 @@ class CapeRender(context: FeatureRendererContext<AbstractClientPlayerEntity, Pla
                 if (entity.isInSneakingPose) {
                     q += 25.0f
                 }
-                matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(6.0f + r / 2.0f + q))
-                matrices.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(s / 2.0f))
-                matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180.0f - s / 2.0f))
-                val vertexConsumer = ItemRenderer.getArmorVertexConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(capeTexture), false, playerHandler.glint)
+                matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(6.0f + r / 2.0f + q))
+                matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(s / 2.0f))
+                matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0f - s / 2.0f))
+                val vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(capeTexture), false, playerHandler.glint)
                 (this.contextModel as PlayerEntityModel<*>).renderCape(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV)
                 matrices.pop()
             }
