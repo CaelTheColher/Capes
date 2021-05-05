@@ -22,7 +22,7 @@ enum class CapeType(val stylized: String) {
         val config = AutoConfig.getConfigHolder(CapeConfig::class.java).config
         return when (this) {
             OPTIFINE -> if(config.enableOptifine) "http://s.optifine.net/capes/${player.entityName}.png" else null
-            LABYMOD -> if(config.enableLabyMod) "https://www.labymod.net/page/php/getCapeTexture.php?uuid=${player.uuidAsString}" else null
+            LABYMOD -> if(config.enableLabyMod) "https://dl.labymod.net/capes/${player.uuidAsString}" else null
             WYNNTILS -> if(config.enableWynntils) "https://athena.wynntils.com/user/getInfo" else null
             MINECRAFTCAPES -> if(config.enableMinecraftCapesMod) "https://minecraftcapes.net/profile/${player.uuidAsString.replace("-", "")}" else null
             MINECRAFT -> null
