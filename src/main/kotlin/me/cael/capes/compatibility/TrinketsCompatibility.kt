@@ -8,9 +8,8 @@ object TrinketsCompatibility {
 
     fun displayElytra(player: PlayerEntity): Boolean {
         if (isTrinketsLoaded()) {
-            val inventory =
-                TrinketsApi.TRINKET_COMPONENT.get(player).inventory
-            return inventory.count(Items.ELYTRA) > 0
+            val component = TrinketsApi.getTrinketComponent(player)
+            return component.isPresent && component.get().isEquipped(Items.ELYTRA)
         }
         return false
     }

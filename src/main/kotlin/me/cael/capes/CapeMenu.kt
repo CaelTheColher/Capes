@@ -22,38 +22,38 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
     override fun init() {
         val configManager = AutoConfig.getConfigHolder(CapeConfig::class.java) as ConfigManager
         val config = configManager.config
-        addButton(ButtonWidget(width / 2 - 155, height / 6, 150, 20, config.clientCapeType.getText()) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 155, height / 6, 150, 20, config.clientCapeType.getText()) { buttonWidget: ButtonWidget ->
             config.clientCapeType = config.clientCapeType.cycle()
             configManager.save()
             buttonWidget.message = config.clientCapeType.getText()
             if (this.client?.player != null) PlayerHandler.onPlayerJoin(this.client!!.player as AbstractClientPlayerEntity)
         })
-        addButton(ButtonWidget(width / 2 - 155 + 160, height / 6, 150, 20, glintMessage(config.glint)) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 155 + 160, height / 6, 150, 20, glintMessage(config.glint)) { buttonWidget: ButtonWidget ->
             config.glint = !config.glint
             configManager.save()
             buttonWidget.message = glintMessage(config.glint)
         })
-        addButton(ButtonWidget(width / 2 - 155, height / 6 + 24, 150, 20, CapeType.OPTIFINE.getToggleText(config.enableOptifine)) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 155, height / 6 + 24, 150, 20, CapeType.OPTIFINE.getToggleText(config.enableOptifine)) { buttonWidget: ButtonWidget ->
             config.enableOptifine = !config.enableOptifine
             configManager.save()
             buttonWidget.message = CapeType.OPTIFINE.getToggleText(config.enableOptifine)
         })
-        addButton(ButtonWidget(width / 2 - 155 + 160, height / 6 + 24, 150, 20, CapeType.LABYMOD.getToggleText(config.enableLabyMod)) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 155 + 160, height / 6 + 24, 150, 20, CapeType.LABYMOD.getToggleText(config.enableLabyMod)) { buttonWidget: ButtonWidget ->
             config.enableLabyMod = !config.enableLabyMod
             configManager.save()
             buttonWidget.message = CapeType.LABYMOD.getToggleText(config.enableLabyMod)
         })
-        addButton(ButtonWidget(width / 2 - 155, height / 6 + 2 * 24, 150, 20, CapeType.MINECRAFTCAPES.getToggleText(config.enableMinecraftCapesMod)) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 155, height / 6 + 2 * 24, 150, 20, CapeType.MINECRAFTCAPES.getToggleText(config.enableMinecraftCapesMod)) { buttonWidget: ButtonWidget ->
             config.enableMinecraftCapesMod = !config.enableMinecraftCapesMod
             configManager.save()
             buttonWidget.message = CapeType.MINECRAFTCAPES.getToggleText(config.enableMinecraftCapesMod)
         })
-        addButton(ButtonWidget(width / 2 - 155 + 160, height / 6 + 2 * 24, 150, 20, CapeType.WYNNTILS.getToggleText(config.enableWynntils)) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 155 + 160, height / 6 + 2 * 24, 150, 20, CapeType.WYNNTILS.getToggleText(config.enableWynntils)) { buttonWidget: ButtonWidget ->
             config.enableWynntils = !config.enableWynntils
             configManager.save()
             buttonWidget.message = CapeType.WYNNTILS.getToggleText(config.enableWynntils)
         })
-        addButton(ButtonWidget(width / 2 - 100, height / 6 + 3 * 24, 200, 20, TranslatableText("options.capes.optifineeditor")) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 3 * 24, 200, 20, TranslatableText("options.capes.optifineeditor")) { buttonWidget: ButtonWidget ->
             try {
                 val r1 = Random()
                 val r2 = Random(System.identityHashCode(Object()).toLong())
@@ -74,7 +74,7 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
             }
         })
 
-        addButton(ButtonWidget(width / 2 - 100, height / 6 + 4 * 24, 200, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 4 * 24, 200, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
             client!!.openScreen(parent)
         })
     }
