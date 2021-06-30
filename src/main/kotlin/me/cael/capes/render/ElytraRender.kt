@@ -34,10 +34,12 @@ class ElytraRender<T : LivingEntity?, M : EntityModel<T>>(
         if (itemStack.item === Items.ELYTRA || TrinketsCompatibility.displayElytra(entity as PlayerEntity)) {
             val identifier4: Identifier = (if (entity is AbstractClientPlayerEntity && entity.isPartVisible(PlayerModelPart.CAPE)) {
                 val playerHandler = PlayerHandler.fromPlayer(entity)
-                when(entity) {
-                    MinecraftClient.getInstance().player -> playerHandler.capeTexture ?: entity.capeTexture
-                    else -> entity.capeTexture ?: playerHandler.capeTexture
-                }
+                if (playerHandler.hasElytraTexture) {
+                    when (entity) {
+                        MinecraftClient.getInstance().player -> playerHandler.capeTexture ?: entity.capeTexture
+                        else -> entity.capeTexture ?: playerHandler.capeTexture
+                    }
+                } else SKIN
             } else SKIN) ?: SKIN
             matrixStack.push()
             matrixStack.translate(0.0, 0.0, 0.125)

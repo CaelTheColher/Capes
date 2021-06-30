@@ -13,17 +13,18 @@ import net.minecraft.client.texture.NativeImage
 import net.minecraft.client.texture.NativeImageBackedTexture
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.Identifier
+import org.apache.commons.codec.binary.Base64
+import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
-import org.apache.commons.codec.binary.Base64
-import java.io.*
 import java.util.concurrent.ForkJoinPool
 
 class PlayerHandler(var player: PlayerEntity) {
     val uuid: UUID = player.uuid
     var capeTexture: Identifier? = null
     var glint: Boolean = false
+    var hasElytraTexture: Boolean = true
     init {
         instances[uuid] = this
     }
@@ -123,6 +124,7 @@ class PlayerHandler(var player: PlayerEntity) {
         return try {
             val cape = NativeImage.read(image)
             MinecraftClient.getInstance().submit {
+                this.hasElytraTexture = cape.width.floorDiv(cape.height) == 2
                 this.capeTexture = MinecraftClient.getInstance().textureManager.registerDynamicTexture(uuid.toString().replace("-", ""), NativeImageBackedTexture(parseCape(cape)))
             }
             true
