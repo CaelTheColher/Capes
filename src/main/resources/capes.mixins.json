@@ -5,9 +5,11 @@
   "mixins": [
   ],
   "client": [
-    "MixinClientWorld",
-    "MixinPlayerEntityRenderer",
-    "MixinSkinOptionsScreen"
+    "MixinCapeFeatureRenderer",
+    "MixinElytraFeatureRenderer",
+    "MixinPlayerListEntry",
+    "MixinSkinOptionsScreen",
+    "AccessorPlayerListEntry"
   ],
   "injectors": {
     "defaultRequire": 1

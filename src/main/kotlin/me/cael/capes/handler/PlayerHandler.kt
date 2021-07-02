@@ -3,6 +3,7 @@ package me.cael.capes.handler
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import com.mojang.authlib.GameProfile
 import me.cael.capes.CapeConfig
 import me.cael.capes.CapeType
 import me.cael.capes.handler.data.MCMData
@@ -11,7 +12,6 @@ import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.texture.NativeImage
 import net.minecraft.client.texture.NativeImageBackedTexture
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.Identifier
 import org.apache.commons.codec.binary.Base64
 import java.io.*
@@ -20,8 +20,8 @@ import java.net.URL
 import java.util.*
 import java.util.concurrent.ForkJoinPool
 
-class PlayerHandler(var player: PlayerEntity) {
-    val uuid: UUID = player.uuid
+class PlayerHandler(var profile: GameProfile) {
+    val uuid: UUID = profile.id
     var capeTexture: Identifier? = null
     var glint: Boolean = false
     var hasElytraTexture: Boolean = true
@@ -32,18 +32,18 @@ class PlayerHandler(var player: PlayerEntity) {
     companion object {
         val instances = HashMap<UUID, PlayerHandler>()
 
-        fun fromPlayer(player: PlayerEntity) = instances[player.uuid] ?: PlayerHandler(player)
+        fun fromProfile(profile: GameProfile) = instances[profile.id] ?: PlayerHandler(profile)
 
-        fun onPlayerJoin(player: PlayerEntity) {
-            val playerHandler = fromPlayer(player)
-            if (player == MinecraftClient.getInstance().player) {
+        fun onLoadTexture(profile: GameProfile) {
+            val playerHandler = fromProfile(profile)
+            if (profile == MinecraftClient.getInstance().player?.gameProfile) {
                 val config = AutoConfig.getConfigHolder(CapeConfig::class.java).config
                 ForkJoinPool.commonPool().submit {
                     playerHandler.setCape(config.clientCapeType, config.glint)
                 }
             } else {
                 ForkJoinPool.commonPool().submit {
-                    if (player.uuidAsString == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/${player.uuidAsString}"), true); return@submit }
+                    if (profile.id.toString() == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/${profile.id}"), true); return@submit }
                     for (capeType in CapeType.values()) {
                         if (playerHandler.setCape(capeType)) break
                     }
@@ -61,7 +61,7 @@ class PlayerHandler(var player: PlayerEntity) {
     }
 
     fun setCape(capeType: CapeType, glint: Boolean = false): Boolean {
-        val capeURL = capeType.getURL(player) ?: return false
+        val capeURL = capeType.getURL(profile) ?: return false
         val connection = connection(capeURL)
         return when(capeType) {
             CapeType.WYNNTILS -> setWynntilsCape(connection)

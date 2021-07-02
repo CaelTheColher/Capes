@@ -1,8 +1,8 @@
 package me.cael.capes
 
+import com.mojang.authlib.GameProfile
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
 import net.minecraft.client.gui.screen.ScreenTexts
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 
@@ -17,13 +17,13 @@ enum class CapeType(val stylized: String) {
         MINECRAFTCAPES -> MINECRAFT
     }
 
-    fun getURL(player: PlayerEntity): String? {
+    fun getURL(profile: GameProfile): String? {
         val config = AutoConfig.getConfigHolder(CapeConfig::class.java).config
         return when (this) {
-            OPTIFINE -> if(config.enableOptifine) "http://s.optifine.net/capes/${player.entityName}.png" else null
-            LABYMOD -> if(config.enableLabyMod) "https://dl.labymod.net/capes/${player.uuidAsString}" else null
+            OPTIFINE -> if(config.enableOptifine) "http://s.optifine.net/capes/${profile.name}.png" else null
+            LABYMOD -> if(config.enableLabyMod) "https://dl.labymod.net/capes/${profile.id}" else null
             WYNNTILS -> if(config.enableWynntils) "https://athena.wynntils.com/user/getInfo" else null
-            MINECRAFTCAPES -> if(config.enableMinecraftCapesMod) "https://minecraftcapes.net/profile/${player.uuidAsString.replace("-", "")}" else null
+            MINECRAFTCAPES -> if(config.enableMinecraftCapesMod) "https://minecraftcapes.net/profile/${profile.id.toString().replace("-", "")}" else null
             MINECRAFT -> null
         }
     }
