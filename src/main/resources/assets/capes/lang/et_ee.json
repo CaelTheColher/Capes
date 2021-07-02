@@ -1,6 +1,6 @@
 {
   "options.capes.title": "Keebivalikud",
   "options.capes.capetype": "Keebi liik: %s",
-  "options.capes.glint": "Sädelus",
-  "options.capes.optifineeditor": "OptiFine'i keebimuutja"
+  "options.capes.optifineeditor": "OptiFine'i keebimuutja",
+  "options.capes.elytra": "Cape Texture on Elytra"
 }

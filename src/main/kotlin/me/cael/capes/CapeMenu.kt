@@ -30,10 +30,10 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
                 playerListEntry.setTexturesLoaded(false)
             }
         })
-        addDrawableChild(ButtonWidget(width / 2 - 155 + 160, height / 6, 150, 20, glintMessage(config.glint)) { buttonWidget: ButtonWidget ->
-            config.glint = !config.glint
+        addDrawableChild(ButtonWidget(width / 2 - 155 + 160, height / 6, 150, 20, elytraMessage(config.enableElytraTexture)) { buttonWidget: ButtonWidget ->
+            config.enableElytraTexture = !config.enableElytraTexture
             configManager.save()
-            buttonWidget.message = glintMessage(config.glint)
+            buttonWidget.message = elytraMessage(config.enableElytraTexture)
         })
         addDrawableChild(ButtonWidget(width / 2 - 155, height / 6 + 24, 150, 20, CapeType.OPTIFINE.getToggleText(config.enableOptifine)) { buttonWidget: ButtonWidget ->
             config.enableOptifine = !config.enableOptifine
@@ -78,7 +78,7 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
         })
     }
 
-    private fun glintMessage(glint: Boolean) = ScreenTexts.composeToggleText(TranslatableText("options.capes.glint"), glint)
+    private fun elytraMessage(glint: Boolean) = ScreenTexts.composeToggleText(TranslatableText("options.capes.elytra"), glint)
 
     override fun render(matrices: MatrixStack?, mouseX: Int, mouseY: Int, delta: Float) {
         this.renderBackground(matrices)

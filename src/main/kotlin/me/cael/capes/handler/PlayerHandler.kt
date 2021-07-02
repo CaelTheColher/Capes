@@ -23,7 +23,6 @@ import java.util.concurrent.ForkJoinPool
 class PlayerHandler(var profile: GameProfile) {
     val uuid: UUID = profile.id
     var capeTexture: Identifier? = null
-    var glint: Boolean = false
     var hasElytraTexture: Boolean = true
     init {
         instances[uuid] = this
@@ -39,11 +38,11 @@ class PlayerHandler(var profile: GameProfile) {
             if (profile == MinecraftClient.getInstance().player?.gameProfile) {
                 val config = AutoConfig.getConfigHolder(CapeConfig::class.java).config
                 ForkJoinPool.commonPool().submit {
-                    playerHandler.setCape(config.clientCapeType, config.glint)
+                    playerHandler.setCape(config.clientCapeType)
                 }
             } else {
                 ForkJoinPool.commonPool().submit {
-                    if (profile.id.toString() == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/${profile.id}"), true); return@submit }
+                    if (profile.id.toString() == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/${profile.id}")); return@submit }
                     for (capeType in CapeType.values()) {
                         if (playerHandler.setCape(capeType)) break
                     }
@@ -60,20 +59,19 @@ class PlayerHandler(var profile: GameProfile) {
         }
     }
 
-    fun setCape(capeType: CapeType, glint: Boolean = false): Boolean {
+    fun setCape(capeType: CapeType): Boolean {
         val capeURL = capeType.getURL(profile) ?: return false
         val connection = connection(capeURL)
         return when(capeType) {
             CapeType.WYNNTILS -> setWynntilsCape(connection)
             CapeType.MINECRAFTCAPES -> setMCMCape(connection)
-            else -> setStandardCape(connection, glint)
+            else -> setStandardCape(connection)
         }
     }
 
-    fun setStandardCape(connection: HttpURLConnection, glint: Boolean = false): Boolean {
+    fun setStandardCape(connection: HttpURLConnection): Boolean {
         connection.connect()
         if (connection.responseCode / 100 == 2) {
-            this.glint = glint
             return setCapeTexture(connection.inputStream)
         }
         this.capeTexture = null
@@ -107,7 +105,6 @@ class PlayerHandler(var profile: GameProfile) {
         if (connection.responseCode / 100 == 2) {
             val reader: Reader = InputStreamReader(connection.inputStream, "UTF-8")
             val result = Gson().fromJson(reader, MCMData::class.java)
-            this.glint = result.capeGlint
             return setCapeTextureFromBase64(result.textures["cape"])
         }
         this.capeTexture = null

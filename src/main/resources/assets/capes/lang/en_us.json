@@ -1,6 +1,6 @@
 {
   "options.capes.title": "Cape Options",
   "options.capes.capetype": "Cape Type: %s",
-  "options.capes.glint": "Glint",
-  "options.capes.optifineeditor": "OptiFine Cape Editor"
+  "options.capes.optifineeditor": "OptiFine Cape Editor",
+  "options.capes.elytra": "Cape Texture on Elytra"
 }

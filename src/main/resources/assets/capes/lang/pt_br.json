@@ -1,6 +1,6 @@
 {
   "options.capes.title": "Opções de Capa",
   "options.capes.capetype": "Tipo de Capa: %s",
-  "options.capes.glint": "Brilho",
-  "options.capes.optifineeditor": "Editor de Capa do OptiFine"
+  "options.capes.optifineeditor": "Editor de Capa do OptiFine",
+  "options.capes.elytra": "Elytra Customizada"
 }
