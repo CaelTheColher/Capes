@@ -26,7 +26,9 @@ public class MixinPlayerListEntry {
             PlayerHandler.Companion.onLoadTexture(profile);
         }
         Identifier cape = PlayerHandler.Companion.fromProfile(profile).getCapeTexture();
-        this.textures.put(Type.CAPE, cape);
+        if (cape != null) {
+            this.textures.put(Type.CAPE, cape);
+        }
     }
 
 }
