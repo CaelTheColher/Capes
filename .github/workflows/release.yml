@@ -1,0 +1,22 @@
+name: Release
+
+on: [workflow_dispatch]
+
+jobs:
+  release:
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: openjdk:16-jdk
+      options: --user root
+
+    steps:
+      - uses: actions/checkout@v2.2.0
+      - run: |
+          chmod +x ./gradlew
+          ./gradlew build github curseforge modrinth --stacktrace
+        env:
+          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GH_API_KEY }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
