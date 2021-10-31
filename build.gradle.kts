@@ -161,8 +161,8 @@ curseforge {
         mainArtifact(file(releaseFile), closureOf<CurseArtifact> {
             displayName = releaseName
             relations(closureOf<CurseRelation> {
-                embeddedLibrary("pal")
-                optionalDependency("roughly-enough-items")
+                embeddedLibrary("auto-config-updated-api")
+                optionalDependency("modmenu")
                 requiredDependency("fabric-api")
                 requiredDependency("fabric-language-kotlin")
             })
