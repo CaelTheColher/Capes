@@ -36,7 +36,7 @@ version = project["mod_version"]
 group = project["maven_group"]
 
 val environment: Map<String, String> = System.getenv()
-val releaseName = "${name.split("-").joinToString(" ") { it.capitalize() }} ${(version as String).split("+")[0]}"
+val releaseName = "[${project["minecraft_version"]}] ${name.split("-").joinToString(" ") { it.capitalize() }} ${(version as String).split("+")[0]}"
 val releaseType = (version as String).split("+")[0].split("-").let { if(it.size > 1) if(it[1] == "BETA" || it[1] == "ALPHA") it[1] else "ALPHA" else "RELEASE" }
 val releaseFile = "${buildDir}/libs/${base.archivesBaseName}-${version}.jar"
 val cfGameVersion = (version as String).split("+")[1].let{ if(!it.contains("-") && project["minecraft_version"].startsWith(it)) project["minecraft_version"] else "$it-Snapshot"}
