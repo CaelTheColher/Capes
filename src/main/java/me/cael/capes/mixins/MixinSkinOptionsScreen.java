@@ -24,6 +24,6 @@ public class MixinSkinOptionsScreen extends GameOptionsScreen {
 
     @Inject(method = "init", at = @At("RETURN"))
     protected void init(CallbackInfo info) {
-        this.addDrawableChild(new TexturedButtonWidget(this.width / 2 - 179, this.height / 6, 20, 20, 0, 0, 20, CAPE_OPTIONS_ICON_TEXTURE,32, 64, (buttonWidget) -> this.client.openScreen(new CapeMenu(this, this.gameOptions))));
+        this.addDrawableChild(new TexturedButtonWidget(this.width / 2 - 179, this.height / 6, 20, 20, 0, 0, 20, CAPE_OPTIONS_ICON_TEXTURE,32, 64, (buttonWidget) -> this.client.setScreen(new CapeMenu(this, this.gameOptions))));
     }
 }

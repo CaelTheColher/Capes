@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: openjdk:16-jdk
+      image: openjdk:17-jdk
       options: --user root
 
     steps:

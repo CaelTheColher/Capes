@@ -62,11 +62,11 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
                 val serverId = random1Bi.xor(random2Bi).toString(16)
                 client!!.sessionService.joinServer(client!!.session.profile, client!!.session.accessToken, serverId)
                 val url = "https://optifine.net/capeChange?u=${client!!.session.uuid}&n=${client!!.session.username}&s=$serverId"
-                client!!.openScreen(ConfirmChatLinkScreen({ bool: Boolean ->
+                client!!.setScreen(ConfirmChatLinkScreen({ bool: Boolean ->
                     if (bool) {
                         Util.getOperatingSystem().open(url)
                     }
-                    client!!.openScreen(this)
+                    client!!.setScreen(this)
                 }, url, true))
             } catch (exception: Exception) {
                 exception.printStackTrace()
@@ -74,7 +74,7 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
         })
 
         addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 4 * 24, 200, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
-            client!!.openScreen(parent)
+            client!!.setScreen(parent)
         })
     }
 

@@ -94,7 +94,6 @@ dependencies {
 
     // Compatibility
     modImplementation("com.terraformersmc:modmenu:${project["modmenu_version"]}")
-    modImplementation("dev.emi:trinkets:${project["trinkets_version"]}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }
 

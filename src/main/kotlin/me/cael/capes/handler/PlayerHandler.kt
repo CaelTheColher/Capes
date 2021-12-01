@@ -142,7 +142,7 @@ class PlayerHandler(var profile: GameProfile) {
         val imgNew = NativeImage(imageWidth, imageHeight, true)
         for (x in 0 until srcWidth) {
             for (y in 0 until srcHeight) {
-                imgNew.setPixelColor(x, y, img.getPixelColor(x, y))
+                imgNew.setColor(x, y, img.getColor(x, y))
             }
         }
         img.close()
