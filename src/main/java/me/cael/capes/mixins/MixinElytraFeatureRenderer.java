@@ -2,7 +2,7 @@ package me.cael.capes.mixins;
 
 import me.cael.capes.CapeConfig;
 import me.cael.capes.handler.PlayerHandler;
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.feature.ElytraFeatureRenderer;
 import org.spongepowered.asm.mixin.Mixin;

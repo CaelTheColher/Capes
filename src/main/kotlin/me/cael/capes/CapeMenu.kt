@@ -1,8 +1,8 @@
 package me.cael.capes
 
 import me.cael.capes.mixins.AccessorPlayerListEntry
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
-import me.sargunvohra.mcmods.autoconfig1u.ConfigManager
+import me.shedaniel.autoconfig.AutoConfig
+import me.shedaniel.autoconfig.ConfigManager
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.screen.ConfirmChatLinkScreen
 import net.minecraft.client.gui.screen.Screen
@@ -55,7 +55,7 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
             configManager.save()
             buttonWidget.message = CapeType.WYNNTILS.getToggleText(config.enableWynntils)
         })
-        addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 3 * 24, 200, 20, TranslatableText("options.capes.optifineeditor")) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 3 * 24, 200, 20, TranslatableText("options.capes.optifineeditor")) {
             try {
                 val random1Bi = BigInteger(128, Random())
                 val random2Bi = BigInteger(128, Random(System.identityHashCode(Object()).toLong()))
@@ -73,7 +73,7 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
             }
         })
 
-        addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 4 * 24, 200, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 4 * 24, 200, 20, ScreenTexts.DONE) {
             client!!.setScreen(parent)
         })
     }

@@ -8,7 +8,7 @@ import me.cael.capes.CapeConfig
 import me.cael.capes.CapeType
 import me.cael.capes.handler.data.MCMData
 import me.cael.capes.handler.data.WynntilsData
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
+import me.shedaniel.autoconfig.AutoConfig
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.texture.NativeImage
 import net.minecraft.client.texture.NativeImageBackedTexture
@@ -92,7 +92,7 @@ class PlayerHandler(var profile: GameProfile) {
         connection.connect()
         if (connection.responseCode / 100 == 2) {
             val reader: Reader = InputStreamReader(connection.inputStream, "UTF-8")
-            val cosmetics = JsonParser().parse(reader).asJsonObject["user"].asJsonObject["cosmetics"]
+            val cosmetics = JsonParser.parseReader(reader).asJsonObject["user"].asJsonObject["cosmetics"]
             val result = Gson().fromJson(cosmetics, WynntilsData::class.java)
             return this.setCapeTextureFromBase64(result.texture)
         }

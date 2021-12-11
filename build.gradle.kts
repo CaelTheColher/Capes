@@ -59,7 +59,6 @@ fun getBranch(): String {
 }
 
 repositories {
-    jcenter()
     maven {
 		name = "Fabric"
         url = uri("https://maven.fabricmc.net/")
@@ -76,6 +75,10 @@ repositories {
         name = "TerraformersMC"
         url = uri("https://maven.terraformersmc.com/")
     }
+    maven {
+        name = "Shedaniel"
+        url = uri("https://maven.shedaniel.me/" )
+    }
     mavenLocal()
 }
 
@@ -87,10 +90,10 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project["fabric_version"]}")
     modImplementation("net.fabricmc:fabric-language-kotlin:${project["fabric_kotlin_version"]}")
 
-    modApi("me.sargunvohra.mcmods:autoconfig1u:${project["autoconfig_version"]}") {
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${project["clothconfig_version"]}") {
         exclude(group = "net.fabricmc.fabric-api")
     }
-    include("me.sargunvohra.mcmods:autoconfig1u:${project["autoconfig_version"]}")
+    include("me.shedaniel.cloth:cloth-config-fabric:${project["clothconfig_version"]}")
 
     // Compatibility
     modImplementation("com.terraformersmc:modmenu:${project["modmenu_version"]}")
