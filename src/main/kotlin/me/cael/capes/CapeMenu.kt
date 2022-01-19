@@ -55,7 +55,12 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
             configManager.save()
             buttonWidget.message = CapeType.WYNNTILS.getToggleText(config.enableWynntils)
         })
-        addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 3 * 24, 200, 20, TranslatableText("options.capes.optifineeditor")) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 155, height / 6 + 3 * 24, 150, 20, CapeType.CLOAKSPLUSPLUS.getToggleText(config.enableCloaksPlusPlus)) { buttonWidget: ButtonWidget ->
+            config.enableCloaksPlusPlus = !config.enableCloaksPlusPlus
+            configManager.save()
+            buttonWidget.message = CapeType.CLOAKSPLUSPLUS.getToggleText(config.enableCloaksPlusPlus)
+        })
+        addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 4 * 24, 200, 20, TranslatableText("options.capes.optifineeditor")) { buttonWidget: ButtonWidget ->
             try {
                 val random1Bi = BigInteger(128, Random())
                 val random2Bi = BigInteger(128, Random(System.identityHashCode(Object()).toLong()))
@@ -73,7 +78,7 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
             }
         })
 
-        addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 4 * 24, 200, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 5 * 24, 200, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
             client!!.setScreen(parent)
         })
     }

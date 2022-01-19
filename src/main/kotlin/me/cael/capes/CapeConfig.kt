@@ -10,5 +10,6 @@ class CapeConfig : ConfigData {
     var enableLabyMod = false
     var enableWynntils = false
     var enableMinecraftCapesMod = false
+    var enableCloaksPlusPlus = false
     var enableElytraTexture = true
 }
