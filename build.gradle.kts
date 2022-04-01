@@ -28,8 +28,8 @@ operator fun Project.get(property: String): String {
 }
 
 configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_16
-    targetCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 version = project["mod_version"]
@@ -69,8 +69,8 @@ repositories {
 		url = uri("https://jitpack.io")
 	}
     maven {
-        name = "Ladysnake Libs"
-        url = uri("https://ladysnake.jfrog.io/artifactory/mods")
+        name = "Shedaniel Libs"
+        url = uri("https://maven.shedaniel.me/")
     }
     maven {
         name = "TerraformersMC"
@@ -86,11 +86,7 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${project["loader_version"]}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project["fabric_version"]}")
     modImplementation("net.fabricmc:fabric-language-kotlin:${project["fabric_kotlin_version"]}")
-
-    modApi("me.sargunvohra.mcmods:autoconfig1u:${project["autoconfig_version"]}") {
-        exclude(group = "net.fabricmc.fabric-api")
-    }
-    include("me.sargunvohra.mcmods:autoconfig1u:${project["autoconfig_version"]}")
+    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project["cloth_version"]}")
 
     // Compatibility
     modImplementation("com.terraformersmc:modmenu:${project["modmenu_version"]}")
@@ -160,9 +156,9 @@ curseforge {
         mainArtifact(file(releaseFile), closureOf<CurseArtifact> {
             displayName = releaseName
             relations(closureOf<CurseRelation> {
-                embeddedLibrary("auto-config-updated-api")
                 optionalDependency("modmenu")
                 requiredDependency("fabric-api")
+                requiredDependency("cloth-config")
                 requiredDependency("fabric-language-kotlin")
             })
         })

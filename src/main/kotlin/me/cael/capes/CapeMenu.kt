@@ -1,8 +1,8 @@
 package me.cael.capes
 
 import me.cael.capes.mixins.AccessorPlayerListEntry
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
-import me.sargunvohra.mcmods.autoconfig1u.ConfigManager
+import me.shedaniel.autoconfig.AutoConfig
+import me.shedaniel.autoconfig.ConfigManager
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.screen.ConfirmChatLinkScreen
 import net.minecraft.client.gui.screen.Screen

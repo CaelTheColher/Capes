@@ -8,7 +8,7 @@ import me.cael.capes.CapeConfig
 import me.cael.capes.CapeType
 import me.cael.capes.handler.data.MCMData
 import me.cael.capes.handler.data.WynntilsData
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
+import me.shedaniel.autoconfig.AutoConfig
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.texture.NativeImage
 import net.minecraft.client.texture.NativeImageBackedTexture

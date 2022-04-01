@@ -1,7 +1,7 @@
 package me.cael.capes
 
 import com.mojang.authlib.GameProfile
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
+import me.shedaniel.autoconfig.AutoConfig
 import net.minecraft.client.gui.screen.ScreenTexts
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
