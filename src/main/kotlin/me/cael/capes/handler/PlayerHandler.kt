@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.mojang.authlib.GameProfile
-import me.cael.capes.CapeConfig
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import me.cael.capes.CapeType
 import me.cael.capes.Capes
 import me.cael.capes.handler.data.MCMData
@@ -22,8 +22,12 @@ import java.util.concurrent.ForkJoinPool
 
 class PlayerHandler(var profile: GameProfile) {
     val uuid: UUID = profile.id
-    var capeTexture: Identifier? = null
+    var lastFrame = 0
+    var maxFrames = 0
+    var lastFrameTime = 0L
+    var hasCape: Boolean = false
     var hasElytraTexture: Boolean = true
+    var hasAnimatedCape: Boolean = false
     init {
         instances[uuid] = this
     }
@@ -36,7 +40,8 @@ class PlayerHandler(var profile: GameProfile) {
         fun onLoadTexture(profile: GameProfile) {
             val playerHandler = fromProfile(profile)
             if (profile == MinecraftClient.getInstance().player?.gameProfile) {
-                playerHandler.capeTexture = null
+                playerHandler.hasCape = false
+                playerHandler.hasAnimatedCape = false
                 val config = Capes.CONFIG
                 ForkJoinPool.commonPool().submit {
                     playerHandler.setCape(config.clientCapeType)
@@ -57,6 +62,19 @@ class PlayerHandler(var profile: GameProfile) {
             connection.doInput = true
             connection.doOutput = false
             return connection
+        }
+    }
+
+    fun getCape(): Identifier {
+        if (!hasAnimatedCape) return identifier(uuid.toString())
+        val time = System.currentTimeMillis()
+        return if (time > this.lastFrameTime + 100L) {
+            val thisFrame = (this.lastFrame + 1) % this.maxFrames
+            this.lastFrame = thisFrame
+            this.lastFrameTime = time
+            identifier("$uuid/$thisFrame")
+        } else {
+            identifier("$uuid/${this.lastFrame}")
         }
     }
 
@@ -104,23 +122,38 @@ class PlayerHandler(var profile: GameProfile) {
         if (connection.responseCode / 100 == 2) {
             val reader: Reader = InputStreamReader(connection.inputStream, "UTF-8")
             val result = Gson().fromJson(reader, MCMData::class.java)
-            return setCapeTextureFromBase64(result.textures["cape"])
+            return setCapeTextureFromBase64(result.textures["cape"], result.animatedCape)
         }
         return false
     }
 
-    fun setCapeTextureFromBase64(base64Texture: String?): Boolean {
+    fun setCapeTextureFromBase64(base64Texture: String?, animated: Boolean = false): Boolean {
         if(base64Texture == null) return false
         val bytes = Base64.decodeBase64(base64Texture)
-        return setCapeTexture(ByteArrayInputStream(bytes))
+        return setCapeTexture(ByteArrayInputStream(bytes), animated)
     }
 
-    fun setCapeTexture(image: InputStream): Boolean {
+    fun setCapeTexture(image: InputStream, animated: Boolean = false): Boolean {
         return try {
             val cape = NativeImage.read(image)
             MinecraftClient.getInstance().submit {
-                this.hasElytraTexture = cape.width.floorDiv(cape.height) == 2
-                this.capeTexture = MinecraftClient.getInstance().textureManager.registerDynamicTexture(uuid.toString().replace("-", ""), NativeImageBackedTexture(parseCape(cape)))
+                if (animated) {
+                    val animatedCapeFrames = parseAnimatedCape(cape)
+                    animatedCapeFrames.forEach { (frame, texture) ->
+                        MinecraftClient.getInstance().textureManager.registerTexture(
+                            identifier("$uuid/$frame"), NativeImageBackedTexture(texture)
+                        )
+                    }
+                    this.maxFrames = animatedCapeFrames.size
+                    this.hasCape = true
+                    this.hasAnimatedCape = true
+                } else {
+                    this.hasElytraTexture = cape.width.floorDiv(cape.height) == 2
+                    MinecraftClient.getInstance().textureManager.registerTexture(
+                        identifier(uuid.toString()), NativeImageBackedTexture(parseCape(cape))
+                    )
+                    this.hasCape = true
+                }
             }
             true
         } catch (ioException: IOException) {
@@ -146,4 +179,22 @@ class PlayerHandler(var profile: GameProfile) {
         img.close()
         return imgNew
     }
+
+    private fun parseAnimatedCape(img: NativeImage): Int2ObjectOpenHashMap<NativeImage> {
+        val animatedCape = Int2ObjectOpenHashMap<NativeImage>()
+        val totalFrames = img.height / (img.width / 2)
+        for (currentFrame in 0 until totalFrames) {
+            val frame = NativeImage(img.width, img.width / 2, true)
+            for (x in 0 until frame.width) {
+                for (y in 0 until frame.height) {
+                    frame.setColor(x, y, img.getColor(x, y + (currentFrame * (img.width / 2))))
+                }
+            }
+            animatedCape[currentFrame] = frame
+        }
+        return animatedCape
+    }
+
+    fun identifier(id: String) = Identifier("capes", id)
+
 }

@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
 
@@ -25,10 +26,15 @@ public class MixinPlayerListEntry {
         if (!texturesLoaded) {
             PlayerHandler.Companion.onLoadTexture(profile);
         }
-        Identifier cape = PlayerHandler.Companion.fromProfile(profile).getCapeTexture();
-        if (cape != null) {
-            this.textures.put(Type.CAPE, cape);
+    }
+
+    @Inject(method = "getCapeTexture", at = @At("TAIL"), cancellable = true)
+    private void getCapeTexture(CallbackInfoReturnable<Identifier> cir) {
+        PlayerHandler handler = PlayerHandler.Companion.fromProfile(profile);
+        if (handler.getHasCape()) {
+            cir.setReturnValue(handler.getCape());
         }
     }
+
 
 }
