@@ -38,7 +38,7 @@
     "fabric": "*",
     "fabric-language-kotlin": "*",
     "minecraft": "1.18.x",
-    "autoconfig1u": "*",
+    "omega-config": "*",
     "java": ">=17"
   }
 }

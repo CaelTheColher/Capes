@@ -69,10 +69,6 @@ repositories {
 		url = uri("https://jitpack.io")
 	}
     maven {
-        name = "Ladysnake Libs"
-        url = uri("https://ladysnake.jfrog.io/artifactory/mods")
-    }
-    maven {
         name = "TerraformersMC"
         url = uri("https://maven.terraformersmc.com/")
     }
@@ -87,10 +83,8 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project["fabric_version"]}")
     modImplementation("net.fabricmc:fabric-language-kotlin:${project["fabric_kotlin_version"]}")
 
-    modApi("me.sargunvohra.mcmods:autoconfig1u:${project["autoconfig_version"]}") {
-        exclude(group = "net.fabricmc.fabric-api")
-    }
-    include("me.sargunvohra.mcmods:autoconfig1u:${project["autoconfig_version"]}")
+    include("com.github.Draylar.omega-config:omega-config-base:${project["omega_config_version"]}")
+    modImplementation("com.github.Draylar.omega-config:omega-config-base:${project["omega_config_version"]}")
 
     // Compatibility
     modImplementation("com.terraformersmc:modmenu:${project["modmenu_version"]}")

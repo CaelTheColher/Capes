@@ -1,8 +1,6 @@
 package me.cael.capes
 
 import me.cael.capes.mixins.AccessorPlayerListEntry
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
-import me.sargunvohra.mcmods.autoconfig1u.ConfigManager
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.screen.ConfirmChatLinkScreen
 import net.minecraft.client.gui.screen.Screen
@@ -19,11 +17,10 @@ import java.util.*
 class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(parent, gameOptions, TranslatableText("options.capes.title")) {
 
     override fun init() {
-        val configManager = AutoConfig.getConfigHolder(CapeConfig::class.java) as ConfigManager
-        val config = configManager.config
+        val config = Capes.CONFIG
         addDrawableChild(ButtonWidget(width / 2 - 155, height / 6, 150, 20, config.clientCapeType.getText()) { buttonWidget: ButtonWidget ->
             config.clientCapeType = config.clientCapeType.cycle()
-            configManager.save()
+            config.save()
             buttonWidget.message = config.clientCapeType.getText()
             if (this.client?.player != null) {
                 val playerListEntry = this.client!!.networkHandler!!.getPlayerListEntry(this.client!!.player!!.uuid) as AccessorPlayerListEntry
@@ -32,27 +29,27 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
         })
         addDrawableChild(ButtonWidget(width / 2 - 155 + 160, height / 6, 150, 20, elytraMessage(config.enableElytraTexture)) { buttonWidget: ButtonWidget ->
             config.enableElytraTexture = !config.enableElytraTexture
-            configManager.save()
+            config.save()
             buttonWidget.message = elytraMessage(config.enableElytraTexture)
         })
         addDrawableChild(ButtonWidget(width / 2 - 155, height / 6 + 24, 150, 20, CapeType.OPTIFINE.getToggleText(config.enableOptifine)) { buttonWidget: ButtonWidget ->
             config.enableOptifine = !config.enableOptifine
-            configManager.save()
+            config.save()
             buttonWidget.message = CapeType.OPTIFINE.getToggleText(config.enableOptifine)
         })
         addDrawableChild(ButtonWidget(width / 2 - 155 + 160, height / 6 + 24, 150, 20, CapeType.LABYMOD.getToggleText(config.enableLabyMod)) { buttonWidget: ButtonWidget ->
             config.enableLabyMod = !config.enableLabyMod
-            configManager.save()
+            config.save()
             buttonWidget.message = CapeType.LABYMOD.getToggleText(config.enableLabyMod)
         })
         addDrawableChild(ButtonWidget(width / 2 - 155, height / 6 + 2 * 24, 150, 20, CapeType.MINECRAFTCAPES.getToggleText(config.enableMinecraftCapesMod)) { buttonWidget: ButtonWidget ->
             config.enableMinecraftCapesMod = !config.enableMinecraftCapesMod
-            configManager.save()
+            config.save()
             buttonWidget.message = CapeType.MINECRAFTCAPES.getToggleText(config.enableMinecraftCapesMod)
         })
         addDrawableChild(ButtonWidget(width / 2 - 155 + 160, height / 6 + 2 * 24, 150, 20, CapeType.WYNNTILS.getToggleText(config.enableWynntils)) { buttonWidget: ButtonWidget ->
             config.enableWynntils = !config.enableWynntils
-            configManager.save()
+            config.save()
             buttonWidget.message = CapeType.WYNNTILS.getToggleText(config.enableWynntils)
         })
         addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 3 * 24, 200, 20, TranslatableText("options.capes.optifineeditor")) { buttonWidget: ButtonWidget ->

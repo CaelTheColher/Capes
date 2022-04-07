@@ -1,13 +1,12 @@
 package me.cael.capes
 
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
-import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer
+import draylar.omegaconfig.OmegaConfig
 import net.fabricmc.api.ClientModInitializer
 
 
 object Capes : ClientModInitializer {
 
-    override fun onInitializeClient() {
-        AutoConfig.register(CapeConfig::class.java, ::JanksonConfigSerializer)
-    }
+    val CONFIG = OmegaConfig.register(CapeConfig::class.java)
+
+    override fun onInitializeClient() {}
 }

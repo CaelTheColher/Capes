@@ -1,7 +1,6 @@
 package me.cael.capes
 
 import com.mojang.authlib.GameProfile
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig
 import net.minecraft.client.gui.screen.ScreenTexts
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
@@ -18,7 +17,7 @@ enum class CapeType(val stylized: String) {
     }
 
     fun getURL(profile: GameProfile): String? {
-        val config = AutoConfig.getConfigHolder(CapeConfig::class.java).config
+        val config = Capes.CONFIG
         return when (this) {
             OPTIFINE -> if(config.enableOptifine) "http://s.optifine.net/capes/${profile.name}.png" else null
             LABYMOD -> if(config.enableLabyMod) "https://dl.labymod.net/capes/${profile.id}" else null

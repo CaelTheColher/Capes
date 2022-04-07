@@ -1,14 +1,15 @@
 package me.cael.capes
 
-import me.sargunvohra.mcmods.autoconfig1u.ConfigData
-import me.sargunvohra.mcmods.autoconfig1u.annotation.Config
+import draylar.omegaconfig.api.Config
 
-@Config(name = "capes")
-class CapeConfig : ConfigData {
+class CapeConfig : Config {
     var clientCapeType = CapeType.MINECRAFT
     var enableOptifine = true
     var enableLabyMod = false
     var enableWynntils = false
     var enableMinecraftCapesMod = false
     var enableElytraTexture = true
+
+    override fun getName(): String = "capes"
+    override fun getExtension(): String = "json5"
 }
