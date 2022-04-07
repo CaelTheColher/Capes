@@ -1,6 +1,7 @@
 package me.cael.capes
 
 import me.cael.capes.mixins.AccessorPlayerListEntry
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.screen.ConfirmChatLinkScreen
 import net.minecraft.client.gui.screen.Screen
@@ -31,7 +32,7 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
             config.enableElytraTexture = !config.enableElytraTexture
             config.save()
             buttonWidget.message = elytraMessage(config.enableElytraTexture)
-        })
+        }).active = !FabricLoader.getInstance().getModContainer("capetweaks").isPresent
         addDrawableChild(ButtonWidget(width / 2 - 155, height / 6 + 24, 150, 20, CapeType.OPTIFINE.getToggleText(config.enableOptifine)) { buttonWidget: ButtonWidget ->
             config.enableOptifine = !config.enableOptifine
             config.save()
@@ -75,7 +76,7 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
         })
     }
 
-    private fun elytraMessage(glint: Boolean) = ScreenTexts.composeToggleText(TranslatableText("options.capes.elytra"), glint)
+    private fun elytraMessage(enabled: Boolean) = ScreenTexts.composeToggleText(TranslatableText("options.capes.elytra"), enabled)
 
     override fun render(matrices: MatrixStack?, mouseX: Int, mouseY: Int, delta: Float) {
         this.renderBackground(matrices)

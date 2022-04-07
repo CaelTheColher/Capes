@@ -11,6 +11,7 @@
     "MixinSkinOptionsScreen",
     "AccessorPlayerListEntry"
   ],
+  "plugin": "me.cael.capes.compatibility.MixinConfigPlugin",
   "injectors": {
     "defaultRequire": 1
   }
