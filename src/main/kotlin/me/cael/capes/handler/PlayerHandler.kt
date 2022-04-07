@@ -36,6 +36,7 @@ class PlayerHandler(var profile: GameProfile) {
         fun onLoadTexture(profile: GameProfile) {
             val playerHandler = fromProfile(profile)
             if (profile == MinecraftClient.getInstance().player?.gameProfile) {
+                playerHandler.capeTexture = null
                 val config = Capes.CONFIG
                 ForkJoinPool.commonPool().submit {
                     playerHandler.setCape(config.clientCapeType)
@@ -74,7 +75,6 @@ class PlayerHandler(var profile: GameProfile) {
         if (connection.responseCode / 100 == 2) {
             return setCapeTexture(connection.inputStream)
         }
-        this.capeTexture = null
         return false
     }
 
@@ -96,7 +96,6 @@ class PlayerHandler(var profile: GameProfile) {
             val result = Gson().fromJson(cosmetics, WynntilsData::class.java)
             return this.setCapeTextureFromBase64(result.texture)
         }
-        this.capeTexture = null
         return false
     }
 
@@ -107,7 +106,6 @@ class PlayerHandler(var profile: GameProfile) {
             val result = Gson().fromJson(reader, MCMData::class.java)
             return setCapeTextureFromBase64(result.textures["cape"])
         }
-        this.capeTexture = null
         return false
     }
 

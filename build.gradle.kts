@@ -89,6 +89,9 @@ dependencies {
     // Compatibility
     modImplementation("com.terraformersmc:modmenu:${project["modmenu_version"]}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    // Test
+    modImplementation("com.ptsmods:devlogin:2.0")
 }
 
 tasks.processResources {
