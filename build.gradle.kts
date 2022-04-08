@@ -157,7 +157,7 @@ curseforge {
         mainArtifact(file(releaseFile), closureOf<CurseArtifact> {
             displayName = releaseName
             relations(closureOf<CurseRelation> {
-                embeddedLibrary("auto-config-updated-api")
+                embeddedLibrary("omega-config")
                 optionalDependency("modmenu")
                 requiredDependency("fabric-api")
                 requiredDependency("fabric-language-kotlin")
