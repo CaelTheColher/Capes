@@ -53,7 +53,12 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
             config.save()
             buttonWidget.message = CapeType.WYNNTILS.getToggleText(config.enableWynntils)
         })
-        addDrawableChild(ButtonWidget(width / 2 - 100, height / 6 + 3 * 24, 200, 20, TranslatableText("options.capes.optifineeditor")) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 155, height / 6 + 3 * 24, 150, 20, CapeType.COSMETICA.getToggleText(config.enableCosmetica)) { buttonWidget: ButtonWidget ->
+            config.enableCosmetica = !config.enableCosmetica
+            config.save()
+            buttonWidget.message = CapeType.COSMETICA.getToggleText(config.enableCosmetica)
+        })
+        addDrawableChild(ButtonWidget(width / 2 - 155 + 160, height / 6 + 3 * 24, 150, 20, TranslatableText("options.capes.optifineeditor")) { buttonWidget: ButtonWidget ->
             try {
                 val random1Bi = BigInteger(128, Random())
                 val random2Bi = BigInteger(128, Random(System.identityHashCode(Object()).toLong()))
