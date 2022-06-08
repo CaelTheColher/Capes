@@ -39,7 +39,7 @@ class PlayerHandler(var profile: GameProfile) {
 
         fun onLoadTexture(profile: GameProfile) {
             val playerHandler = fromProfile(profile)
-            if (profile == MinecraftClient.getInstance().player?.gameProfile) {
+            if (profile == MinecraftClient.getInstance().session.profile) {
                 playerHandler.hasCape = false
                 playerHandler.hasAnimatedCape = false
                 val config = Capes.CONFIG

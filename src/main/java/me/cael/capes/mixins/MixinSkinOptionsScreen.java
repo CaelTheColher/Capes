@@ -1,6 +1,7 @@
 package me.cael.capes.mixins;
 
-import me.cael.capes.CapeMenu;
+import me.cael.capes.menu.MainMenu;
+import me.cael.capes.menu.SelectorMenu;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.screen.option.SkinOptionsScreen;
@@ -17,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinSkinOptionsScreen extends GameOptionsScreen {
 
     private static final Identifier CAPE_OPTIONS_ICON_TEXTURE = new Identifier("capes","textures/gui/options.png");
+    private final SelectorMenu selectorMenu = new SelectorMenu(this, this.gameOptions);
 
     public MixinSkinOptionsScreen(Screen parent, GameOptions gameOptions, Text title) {
         super(parent, gameOptions, title);
@@ -24,6 +26,6 @@ public class MixinSkinOptionsScreen extends GameOptionsScreen {
 
     @Inject(method = "init", at = @At("RETURN"))
     protected void init(CallbackInfo info) {
-        this.addDrawableChild(new TexturedButtonWidget(this.width / 2 - 179, this.height / 6, 20, 20, 0, 0, 20, CAPE_OPTIONS_ICON_TEXTURE,32, 64, (buttonWidget) -> this.client.setScreen(new CapeMenu(this, this.gameOptions))));
+        this.addDrawableChild(new TexturedButtonWidget(this.width / 2 - 179, this.height / 6, 20, 20, 0, 0, 20, CAPE_OPTIONS_ICON_TEXTURE,32, 64, (buttonWidget) -> this.client.setScreen(selectorMenu)));
     }
 }

@@ -5,11 +5,14 @@
   "mixins": [
   ],
   "client": [
+    "AccessorPlayerListEntry",
     "MixinCapeFeatureRenderer",
     "MixinElytraFeatureRenderer",
+    "MixinLivingEntityRenderer",
     "MixinPlayerListEntry",
     "MixinSkinOptionsScreen",
-    "AccessorPlayerListEntry"
+    "AccessorPlayerEntityModel",
+    "MixinPlayerEntityRenderer"
   ],
   "plugin": "me.cael.capes.compatibility.MixinConfigPlugin",
   "injectors": {
