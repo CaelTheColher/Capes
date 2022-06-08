@@ -1,9 +1,10 @@
 package me.cael.capes
 
 import com.mojang.authlib.GameProfile
-import net.minecraft.client.gui.screen.ScreenTexts
+import net.minecraft.screen.ScreenTexts
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.TranslatableTextContent
 
 enum class CapeType(val stylized: String) {
     MINECRAFT("Minecraft"), OPTIFINE("OptiFine"), LABYMOD("LabyMod"), WYNNTILS("Wynntils"), MINECRAFTCAPES("MinecraftCapes"), COSMETICA("Cosmetica");
@@ -31,6 +32,6 @@ enum class CapeType(val stylized: String) {
 
     fun getToggleText(enabled: Boolean): Text = ScreenTexts.composeToggleText(Text.of(stylized), enabled)
 
-    fun getText(): TranslatableText = TranslatableText("options.capes.capetype", stylized)
+    fun getText(): Text = MutableText.of(TranslatableTextContent("options.capes.capetype", stylized))
 
 }

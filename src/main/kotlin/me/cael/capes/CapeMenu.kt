@@ -5,17 +5,18 @@ import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.screen.ConfirmChatLinkScreen
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.screen.ScreenTexts
 import net.minecraft.client.gui.screen.option.GameOptionsScreen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.option.GameOptions
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.TranslatableText
+import net.minecraft.screen.ScreenTexts
+import net.minecraft.text.MutableText
+import net.minecraft.text.TranslatableTextContent
 import net.minecraft.util.Util
 import java.math.BigInteger
 import java.util.*
 
-class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(parent, gameOptions, TranslatableText("options.capes.title")) {
+class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(parent, gameOptions, MutableText.of(TranslatableTextContent("options.capes.title"))) {
 
     override fun init() {
         val config = Capes.CONFIG
@@ -58,7 +59,7 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
             config.save()
             buttonWidget.message = CapeType.COSMETICA.getToggleText(config.enableCosmetica)
         })
-        addDrawableChild(ButtonWidget(width / 2 - 155 + 160, height / 6 + 3 * 24, 150, 20, TranslatableText("options.capes.optifineeditor")) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 155 + 160, height / 6 + 3 * 24, 150, 20, MutableText.of(TranslatableTextContent("options.capes.optifineeditor"))) { buttonWidget: ButtonWidget ->
             try {
                 val random1Bi = BigInteger(128, Random())
                 val random2Bi = BigInteger(128, Random(System.identityHashCode(Object()).toLong()))
@@ -81,7 +82,7 @@ class CapeMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(par
         })
     }
 
-    private fun elytraMessage(enabled: Boolean) = ScreenTexts.composeToggleText(TranslatableText("options.capes.elytra"), enabled)
+    private fun elytraMessage(enabled: Boolean) = ScreenTexts.composeToggleText(MutableText.of(TranslatableTextContent("options.capes.elytra")), enabled)
 
     override fun render(matrices: MatrixStack?, mouseX: Int, mouseY: Int, delta: Float) {
         this.renderBackground(matrices)
