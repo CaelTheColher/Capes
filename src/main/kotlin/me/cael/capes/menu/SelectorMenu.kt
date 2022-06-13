@@ -2,11 +2,9 @@ package me.cael.capes.menu
 
 import com.mojang.blaze3d.systems.RenderSystem
 import me.cael.capes.Capes
-import me.cael.capes.handler.PlayerHandler
 import me.cael.capes.mixins.AccessorPlayerEntityModel
 import me.cael.capes.mixins.AccessorPlayerListEntry
 import me.cael.capes.utils.FakePlayer
-import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
@@ -41,6 +39,10 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
                 val playerListEntry = this.client!!.networkHandler!!.getPlayerListEntry(this.client!!.player!!.uuid) as AccessorPlayerListEntry
                 playerListEntry.setTexturesLoaded(false)
             }
+        })
+
+        addDrawableChild(ButtonWidget((width/2) - (buttonW / 2), 220, buttonW, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
+            client!!.setScreen(parent)
         })
 
         buttonW = 100

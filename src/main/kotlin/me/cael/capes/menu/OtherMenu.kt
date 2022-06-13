@@ -1,13 +1,10 @@
 package me.cael.capes.menu
 
-import me.cael.capes.CapeType
-import me.cael.capes.Capes
-import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.gui.screen.ConfirmChatLinkScreen
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.screen.ScreenTexts
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.option.GameOptions
+import net.minecraft.screen.ScreenTexts
 import net.minecraft.text.Text
 import net.minecraft.util.Util
 import java.math.BigInteger
@@ -20,7 +17,7 @@ class OtherMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, gam
 
         val buttonW = 200
 
-        addDrawableChild(ButtonWidget((width/2) - (buttonW / 2), 60, buttonW, 20, Text.translatable("options.capes.optifineeditor")) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget((width/2) - (buttonW / 2), height / 7 + 24, buttonW, 20, Text.translatable("options.capes.optifineeditor")) { buttonWidget: ButtonWidget ->
             try {
                 val random1Bi = BigInteger(128, Random())
                 val random2Bi = BigInteger(128, Random(System.identityHashCode(Object()).toLong()))
@@ -36,6 +33,10 @@ class OtherMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, gam
             } catch (exception: Exception) {
                 exception.printStackTrace()
             }
+        })
+
+        addDrawableChild(ButtonWidget((width/2) - (buttonW / 2), height / 7 + 2 * 24, buttonW, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
+            client!!.setScreen(parent)
         })
     }
 
