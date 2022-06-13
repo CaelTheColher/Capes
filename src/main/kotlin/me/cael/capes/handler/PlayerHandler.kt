@@ -28,6 +28,7 @@ class PlayerHandler(var profile: GameProfile) {
     var hasCape: Boolean = false
     var hasElytraTexture: Boolean = true
     var hasAnimatedCape: Boolean = false
+    var capeType: CapeType? = null
     init {
         instances[uuid] = this
     }
@@ -81,11 +82,12 @@ class PlayerHandler(var profile: GameProfile) {
     fun setCape(capeType: CapeType): Boolean {
         val capeURL = capeType.getURL(profile) ?: return false
         val connection = connection(capeURL)
+
         return when(capeType) {
             CapeType.WYNNTILS -> setWynntilsCape(connection)
             CapeType.MINECRAFTCAPES -> setMCMCape(connection)
             else -> setStandardCape(connection)
-        }
+        }.also { if (it) this.capeType = capeType}
     }
 
     fun setStandardCape(connection: HttpURLConnection): Boolean {
