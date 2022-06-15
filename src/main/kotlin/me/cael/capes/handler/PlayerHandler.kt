@@ -7,6 +7,7 @@ import com.mojang.authlib.GameProfile
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import me.cael.capes.CapeType
 import me.cael.capes.Capes
+import me.cael.capes.Capes.identifier
 import me.cael.capes.handler.data.MCMData
 import me.cael.capes.handler.data.WynntilsData
 import net.minecraft.client.MinecraftClient
@@ -196,7 +197,5 @@ class PlayerHandler(var profile: GameProfile) {
         }
         return animatedCape
     }
-
-    fun identifier(id: String) = Identifier("capes", id)
 
 }

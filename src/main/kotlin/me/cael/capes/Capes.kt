@@ -15,6 +15,7 @@ import net.minecraft.text.HoverEvent
 import net.minecraft.text.Style
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
+import net.minecraft.util.Identifier
 
 
 object Capes : ClientModInitializer {
@@ -72,4 +73,6 @@ object Capes : ClientModInitializer {
 
         return text
     }
+    fun identifier(id: String) = Identifier("capes", id)
+
 }

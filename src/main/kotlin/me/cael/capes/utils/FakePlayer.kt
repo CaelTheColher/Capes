@@ -2,6 +2,7 @@ package me.cael.capes.utils
 
 import com.google.common.collect.Maps
 import com.mojang.authlib.minecraft.MinecraftProfileTexture
+import me.cael.capes.Capes
 import me.cael.capes.handler.PlayerHandler
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayNetworkHandler
@@ -17,7 +18,10 @@ import net.minecraft.network.ClientConnection
 import net.minecraft.network.NetworkSide
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.BuiltinRegistries
+import net.minecraft.util.registry.Registry
+import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.Difficulty
+import net.minecraft.world.World
 import net.minecraft.world.dimension.DimensionTypes
 import java.util.*
 
@@ -63,7 +67,6 @@ object FakePlayer : ClientPlayerEntity(MinecraftClient.getInstance(),
         val d = this.x - capeX
         val e = this.y - capeY
         val f = this.z - capeZ
-        val g = 10.0
         if (d > 10.0) {
             capeX = this.x
             prevCapeX = capeX
@@ -108,5 +111,5 @@ object FakePlayer : ClientPlayerEntity(MinecraftClient.getInstance(),
     }
 
     object FakeNetworkHandler : ClientPlayNetworkHandler(MinecraftClient.getInstance(), null, ClientConnection(NetworkSide.CLIENTBOUND), MinecraftClient.getInstance().session.profile, MinecraftClient.getInstance().createTelemetrySender())
-    object FakeWorld : ClientWorld(FakeNetworkHandler, Properties(Difficulty.EASY, false, true), null, BuiltinRegistries.DIMENSION_TYPE.entryOf(DimensionTypes.OVERWORLD), 0, 0, null, null, false, 0L)
+    object FakeWorld : ClientWorld(FakeNetworkHandler, Properties(Difficulty.EASY, false, true), RegistryKey.of(Registry.WORLD_KEY, Capes.identifier("fakeworld")), BuiltinRegistries.DIMENSION_TYPE.entryOf(DimensionTypes.OVERWORLD), 0, 0, null, null, false, 0L)
 }
