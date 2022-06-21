@@ -12,7 +12,8 @@
     "MixinPlayerListEntry",
     "MixinSkinOptionsScreen",
     "AccessorPlayerEntityModel",
-    "MixinPlayerEntityRenderer"
+    "MixinPlayerEntityRenderer",
+    "MixinEntity"
   ],
   "plugin": "me.cael.capes.compatibility.MixinConfigPlugin",
   "injectors": {

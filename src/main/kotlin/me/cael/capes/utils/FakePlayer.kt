@@ -21,12 +21,11 @@ import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.Difficulty
-import net.minecraft.world.World
 import net.minecraft.world.dimension.DimensionTypes
 import java.util.*
 
 object FakePlayer : ClientPlayerEntity(MinecraftClient.getInstance(),
-    FakeWorld, FakeNetworkHandler, null, null, false, true) {
+    MinecraftClient.getInstance().world ?: FakeWorld, FakeNetworkHandler, null, null, false, true) {
 
     private val textures: EnumMap<MinecraftProfileTexture.Type, Identifier> = Maps.newEnumMap(MinecraftProfileTexture.Type::class.java)
     private var model: String? = null
