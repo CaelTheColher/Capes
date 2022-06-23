@@ -12,8 +12,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinEntity<T extends Entity> {
 
     @Inject(method = "squaredDistanceTo(Lnet/minecraft/entity/Entity;)D", at = @At(value = "HEAD"), cancellable = true)
-    private void hasLabel(T entity, CallbackInfoReturnable<Double> cir) {
+    private void squareDistanceTo(T entity, CallbackInfoReturnable<Double> cir) {
         if (MinecraftClient.getInstance().currentScreen instanceof SelectorMenu) cir.setReturnValue(0.0);
+    }
+
+    @Inject(method = "distanceTo", at = @At(value = "HEAD"), cancellable = true)
+    private void distanceTo(T entity, CallbackInfoReturnable<Float> cir) {
+        if (MinecraftClient.getInstance().currentScreen instanceof SelectorMenu) cir.setReturnValue(0f);
     }
 
 }
