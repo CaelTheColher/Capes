@@ -23,6 +23,9 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
+**Debug info**
+The result from the command `/capes debug`
+
 **Context (please complete the following information):**
  - Minecraft version: [e.g. 1.17.1]
  - Capes version: [e.g. 1.2.1]
