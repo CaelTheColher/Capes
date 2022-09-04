@@ -1,0 +1,11 @@
+{
+  "options.capes.title": "Možnosti plášťů",
+  "options.capes.capetype": "Typ pláště: %s",
+  "options.capes.optifineeditor": "Editor plášťů OptiFine",
+  "options.capes.elytra": "Textura pláště na krovkách",
+  "options.capes.selector": "Výběr pláště",
+  "options.capes.toggle": "Přepnout",
+  "options.capes.other": "Jiné",
+  "options.capes.selector.elytra": "Přepnout krovky",
+  "options.capes.selector.player": "Přepnout hráče"
+}
