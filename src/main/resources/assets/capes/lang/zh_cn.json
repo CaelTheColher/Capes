@@ -1,0 +1,11 @@
+{
+  "options.capes.title": "披风选项",
+  "options.capes.capetype": "披风类型: %s",
+  "options.capes.optifineeditor": "OptiFine 披风编辑器",
+  "options.capes.elytra": "鞘翅上的披风纹理",
+  "options.capes.selector": "披风选择器",
+  "options.capes.toggle": "切换",
+  "options.capes.other": "其他",
+  "options.capes.selector.elytra": "切换鞘翅显示",
+  "options.capes.selector.player": "切换玩家显示"
+}
