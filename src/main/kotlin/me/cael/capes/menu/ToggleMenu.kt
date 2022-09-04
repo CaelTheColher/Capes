@@ -52,13 +52,19 @@ class ToggleMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, ga
             buttonWidget.message = CapeType.CLOAKSPLUS.getToggleText(config.enableCloaksPlus)
         })
 
-        addDrawableChild(ButtonWidget((width/2) - (200 / 2), height / 7 + 4 * 24, 200, 20, elytraMessage(config.enableElytraTexture)) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget(width / 2 - 155, height / 7 + 4 * 24, 150, 20, CapeType.ADVANCEDCAPES.getToggleText(config.enableAdvancedCapes)) { buttonWidget: ButtonWidget ->
+            config.enableAdvancedCapes = !config.enableAdvancedCapes
+            config.save()
+            buttonWidget.message = CapeType.ADVANCEDCAPES.getToggleText(config.enableAdvancedCapes)
+        })
+
+        addDrawableChild(ButtonWidget((width/2) - (200 / 2), height / 7 + 5 * 24, 200, 20, elytraMessage(config.enableElytraTexture)) { buttonWidget: ButtonWidget ->
             config.enableElytraTexture = !config.enableElytraTexture
             config.save()
             buttonWidget.message = elytraMessage(config.enableElytraTexture)
         }).active = !FabricLoader.getInstance().getModContainer("capetweaks").isPresent
 
-        addDrawableChild(ButtonWidget((width/2) - (200 / 2), height / 7 + 5 * 24, 200, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget((width/2) - (200 / 2), height / 7 + 6 * 24, 200, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
             client!!.setScreen(parent)
         })
 
