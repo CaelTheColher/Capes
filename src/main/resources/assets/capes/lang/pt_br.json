@@ -2,5 +2,10 @@
   "options.capes.title": "Opções de Capa",
   "options.capes.capetype": "Tipo de Capa: %s",
   "options.capes.optifineeditor": "Editor de Capa do OptiFine",
-  "options.capes.elytra": "Elytra Customizada"
+  "options.capes.elytra": "Elytra Customizada",
+  "options.capes.selector": "Seletor de Capa",
+  "options.capes.toggle": "Alternar",
+  "options.capes.other": "Outro",
+  "options.capes.selector.elytra": "Alternar Elytra",
+  "options.capes.selector.player": "Alternar Jogador"
 }
