@@ -19,7 +19,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
 
 
-class DisplayPlayerEntityRenderer(ctx: EntityRendererFactory.Context, slim: Boolean) :
+class DisplayPlayerEntityRenderer(val ctx: EntityRendererFactory.Context, slim: Boolean) :
     LivingEntityRenderer<LivingEntity, PlayerEntityModel<LivingEntity>> (
         ctx,
         PlayerEntityModel<LivingEntity>(
@@ -67,7 +67,8 @@ class DisplayPlayerEntityRenderer(ctx: EntityRendererFactory.Context, slim: Bool
             matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f))
 
             val vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getArmorCutoutNoCull(PlaceholderEntity.getCapeTexture()))
-            model.renderCape(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV)
+            ctx.getPart(EntityModelLayers.PLAYER).getChild("cloak")
+                .render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV)
             matrixStack.pop()
         } else {
             val identifier = PlaceholderEntity.getElytraTexture()
