@@ -15,15 +15,20 @@ open class MainMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScree
         val buttonW = 100
         val offset = (buttonW / 2) + 5
 
-        addDrawableChild(ButtonWidget((width/2) - (buttonW / 2), 35, buttonW, 20, Text.translatable("options.capes.selector")) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget.builder(Text.translatable("options.capes.selector")) {
             client!!.setScreen(SelectorMenu(parent, gameOptions))
-        }).active = this !is SelectorMenu
-        addDrawableChild(ButtonWidget((width/2) - (buttonW + offset), 35, buttonW, 20, Text.translatable("options.capes.toggle")) { buttonWidget: ButtonWidget ->
+        }.position((width/2) - (buttonW / 2), 35).size(buttonW, 20).build())
+            .active = this !is SelectorMenu
+
+        addDrawableChild(ButtonWidget.builder(Text.translatable("options.capes.toggle")) {
             client!!.setScreen(ToggleMenu(parent, gameOptions))
-        }).active = this !is ToggleMenu
-        addDrawableChild(ButtonWidget((width/2) + offset, 35, buttonW, 20, Text.translatable("options.capes.other")) { buttonWidget: ButtonWidget ->
+        }.position((width/2) - (buttonW + offset), 35).size(buttonW, 20).build())
+            .active = this !is ToggleMenu
+
+        addDrawableChild(ButtonWidget.builder(Text.translatable("options.capes.other")) {
             client!!.setScreen(OtherMenu(parent, gameOptions))
-        })
+        }.position((width/2) + offset, 35).size(buttonW, 20).build())
+            .active = this !is OtherMenu
 
     }
 

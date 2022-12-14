@@ -8,12 +8,8 @@
     "AccessorPlayerListEntry",
     "MixinCapeFeatureRenderer",
     "MixinElytraFeatureRenderer",
-    "MixinLivingEntityRenderer",
     "MixinPlayerListEntry",
-    "MixinSkinOptionsScreen",
-    "AccessorPlayerEntityModel",
-    "MixinPlayerEntityRenderer",
-    "MixinEntity"
+    "MixinSkinOptionsScreen"
   ],
   "plugin": "me.cael.capes.compatibility.MixinConfigPlugin",
   "injectors": {

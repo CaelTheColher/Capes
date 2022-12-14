@@ -2,26 +2,23 @@ package me.cael.capes.menu
 
 import com.mojang.blaze3d.systems.RenderSystem
 import me.cael.capes.Capes
-import me.cael.capes.mixins.AccessorPlayerEntityModel
 import me.cael.capes.mixins.AccessorPlayerListEntry
-import me.cael.capes.utils.FakePlayer
+import me.cael.capes.render.DisplayPlayerEntityRenderer
+import me.cael.capes.render.PlaceholderEntity
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.option.GameOptions
 import net.minecraft.client.render.DiffuseLighting
-import net.minecraft.client.render.entity.PlayerEntityRenderer
+import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.screen.ScreenTexts
 import net.minecraft.text.Text
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
 
 
 class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, gameOptions) {
 
-    var yaw = 0f
-    var showBody = true
     var lastTime = 0L
 
     override fun init() {
@@ -30,30 +27,31 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
         var buttonW = 200
         val config = Capes.CONFIG
 
-        addDrawableChild(ButtonWidget((width/2) - (buttonW / 2), 60, buttonW, 20, config.clientCapeType.getText()) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget.builder(config.clientCapeType.getText()) {
             config.clientCapeType = config.clientCapeType.cycle()
             config.save()
-            buttonWidget.message = config.clientCapeType.getText()
-            FakePlayer.capeLoaded = false
+            it.message = config.clientCapeType.getText()
+            PlaceholderEntity.capeLoaded = false
             if (this.client?.player != null) {
                 val playerListEntry = this.client!!.networkHandler!!.getPlayerListEntry(this.client!!.player!!.uuid) as AccessorPlayerListEntry
                 playerListEntry.setTexturesLoaded(false)
             }
-        })
+        }.position((width / 2) - (buttonW / 2), 60).size(buttonW, 20).build())
 
-        addDrawableChild(ButtonWidget((width/2) - (buttonW / 2), 220, buttonW, 20, ScreenTexts.DONE) { buttonWidget: ButtonWidget ->
+        addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE) {
             client!!.setScreen(parent)
-        })
+        }.position((width / 2) - (buttonW / 2), 220).size(buttonW, 20).build())
 
         buttonW = 100
 
-        addDrawableChild(ButtonWidget((width/4) - (buttonW / 2), 120, buttonW, 20, Text.translatable("options.capes.selector.elytra")) { buttonWidget: ButtonWidget ->
-            FakePlayer.showElytra = !FakePlayer.showElytra
-        })
+        addDrawableChild(ButtonWidget.builder(Text.translatable("options.capes.selector.elytra")) {
+            PlaceholderEntity.showElytra = !PlaceholderEntity.showElytra
+        }.position((width / 4) - (buttonW / 2), 120).size(buttonW, 20).build())
 
-        addDrawableChild(ButtonWidget((width/4) - (buttonW / 2), 145, buttonW, 20, Text.translatable("options.capes.selector.player")) { buttonWidget: ButtonWidget ->
-            showBody = !showBody
-        })
+        addDrawableChild(ButtonWidget.builder(Text.translatable("options.capes.selector.player")) {
+            PlaceholderEntity.showBody = !PlaceholderEntity.showBody
+        }.position((width / 4) - (buttonW / 2), 145).size(buttonW, 20).build())
+
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
@@ -64,15 +62,18 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
 
         val time = System.currentTimeMillis()
 
+        val entity = PlaceholderEntity
+
         if (time > lastTime + (1000 / 60)) {
             lastTime = time
-            FakePlayer.prevX = FakePlayer.x + 0.025
-            FakePlayer.updateLimbs(FakePlayer, false)
+            entity.prevX = entity.x + 0.025
+            entity.updateLimbs()
         }
-        drawPlayer(playerX, playerY, 70, FakePlayer)
+        drawPlayer(playerX, playerY, 70, entity)
     }
 
-    fun drawPlayer(x: Int, y: Int, size: Int, entity: ClientPlayerEntity) {
+
+    fun drawPlayer(x: Int, y: Int, size: Int, entity: PlaceholderEntity) {
         val matrixStack = RenderSystem.getModelViewStack()
         matrixStack.push()
         matrixStack.translate(x.toDouble(), y.toDouble(), 1050.0)
@@ -81,35 +82,29 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
         val matrixStack2 = MatrixStack()
         matrixStack2.translate(0.0, 0.0, 1000.0)
         matrixStack2.scale(size.toFloat(), size.toFloat(), size.toFloat())
-        val quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0f)
+
+        val quaternion = RotationAxis.POSITIVE_Z.rotationDegrees(180.0f)
         matrixStack2.multiply(quaternion)
-        val h = entity.bodyYaw
-        val i = entity.yaw
-        val j = entity.pitch
-        val k = entity.prevHeadYaw
-        val l = entity.headYaw
-        entity.bodyYaw = yaw
-        entity.yaw = yaw
-        entity.pitch = 0f
-        entity.headYaw = entity.yaw
-        entity.prevHeadYaw = entity.yaw
+
         DiffuseLighting.method_34742()
         val entityRenderDispatcher = MinecraftClient.getInstance().entityRenderDispatcher
         entityRenderDispatcher.setRenderShadows(false)
         val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
         RenderSystem.runAsFancy {
-            val playerEntityRenderer = entityRenderDispatcher.getRenderer(entity) as PlayerEntityRenderer
-            playerEntityRenderer.model.setVisible(showBody)
-            (playerEntityRenderer.model as AccessorPlayerEntityModel).cloak.visible = true
-            playerEntityRenderer.render(entity, 0.0f, 1.0f, matrixStack2, immediate, 0xF000F0)
+            val ctx = EntityRendererFactory.Context(
+                MinecraftClient.getInstance().entityRenderDispatcher,
+                MinecraftClient.getInstance().itemRenderer,
+                MinecraftClient.getInstance().blockRenderManager,
+                MinecraftClient.getInstance().entityRenderDispatcher.heldItemRenderer,
+                MinecraftClient.getInstance().resourceManager,
+                MinecraftClient.getInstance().entityModelLoader,
+                MinecraftClient.getInstance().textRenderer
+            )
+            val displayPlayerEntityRenderer = DisplayPlayerEntityRenderer(ctx, entity.slim)
+            displayPlayerEntityRenderer.render(entity, 1.0f, matrixStack2, immediate, 0xF000F0)
         }
         immediate.draw()
         entityRenderDispatcher.setRenderShadows(true)
-        entity.bodyYaw = h
-        entity.yaw = i
-        entity.pitch = j
-        entity.prevHeadYaw = k
-        entity.headYaw = l
         matrixStack.pop()
         RenderSystem.applyModelViewMatrix()
         DiffuseLighting.enableGuiDepthLighting()
@@ -117,10 +112,9 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
 
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
         super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
-        this.yaw = yaw - deltaX.toFloat()
+        PlaceholderEntity.prevYaw = PlaceholderEntity.yaw
+        PlaceholderEntity.yaw = PlaceholderEntity.yaw - deltaX.toFloat()
         return true
     }
-
-    private fun elytraMessage(enabled: Boolean) = ScreenTexts.composeToggleText(Text.translatable("options.capes.elytra"), enabled)
 
 }

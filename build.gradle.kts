@@ -91,7 +91,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     // Test
-    modImplementation("com.ptsmods:devlogin:2.1")
+    modImplementation("com.ptsmods:devlogin:3.1")
 }
 
 tasks.processResources {
