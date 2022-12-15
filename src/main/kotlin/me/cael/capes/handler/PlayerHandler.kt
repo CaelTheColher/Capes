@@ -19,7 +19,7 @@ import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
-import java.util.concurrent.ForkJoinPool
+import java.util.concurrent.Executors
 
 class PlayerHandler(var profile: GameProfile) {
     val uuid: UUID = profile.id
@@ -36,6 +36,7 @@ class PlayerHandler(var profile: GameProfile) {
 
     companion object {
         val instances = HashMap<UUID, PlayerHandler>()
+        val capeExecutor = Executors.newFixedThreadPool(2)
 
         fun fromProfile(profile: GameProfile) = instances[profile.id] ?: PlayerHandler(profile)
 
@@ -45,11 +46,11 @@ class PlayerHandler(var profile: GameProfile) {
                 playerHandler.hasCape = false
                 playerHandler.hasAnimatedCape = false
                 val config = Capes.CONFIG
-                ForkJoinPool.commonPool().submit {
+                capeExecutor.submit {
                     playerHandler.setCape(config.clientCapeType)
                 }
             } else {
-                ForkJoinPool.commonPool().submit {
+                capeExecutor.submit {
                     if (profile.id.toString() == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/${profile.id}")); return@submit }
                     for (capeType in CapeType.values()) {
                         if (playerHandler.setCape(capeType)) break
