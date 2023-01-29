@@ -1,8 +1,8 @@
 {
   "options.capes.title": "披風選項",
-  "options.capes.capetype": "披風類型: %s",
+  "options.capes.capetype": "披風類型：%s",
   "options.capes.optifineeditor": "OptiFine 披風編輯器",
-  "options.capes.elytra": "鞘翅上的披風紋理",
+  "options.capes.elytra": "披風在鞘翅上的紋理",
   "options.capes.selector": "披風選擇器",
   "options.capes.toggle": "切換",
   "options.capes.other": "其他",
