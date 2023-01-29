@@ -2,7 +2,6 @@ package me.cael.capes.menu
 
 import me.cael.capes.CapeType
 import me.cael.capes.Capes
-import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.option.GameOptions
@@ -57,7 +56,6 @@ class ToggleMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, ga
             config.save()
             it.message = elytraMessage(config.enableElytraTexture)
         }.position((width/2) - (200 / 2), height / 7 + 4 * 24).size(200, 20).build())
-            .active = !FabricLoader.getInstance().getModContainer("capetweaks").isPresent
 
         addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE) {
             client!!.setScreen(parent)

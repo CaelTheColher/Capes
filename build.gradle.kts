@@ -86,6 +86,10 @@ dependencies {
     include("com.github.Draylar.omega-config:omega-config-base:${project["omega_config_version"]}")
     modImplementation("com.github.Draylar.omega-config:omega-config-base:${project["omega_config_version"]}")
 
+    implementation("com.github.LlamaLad7:MixinExtras:${project["mixinextras_version"]}")
+    include("com.github.LlamaLad7:MixinExtras:${project["mixinextras_version"]}")
+    annotationProcessor("com.github.LlamaLad7:MixinExtras:${project["mixinextras_version"]}")
+
     // Compatibility
     modImplementation("com.terraformersmc:modmenu:${project["modmenu_version"]}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

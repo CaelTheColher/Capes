@@ -26,6 +26,9 @@
         "value": "me.cael.capes.Capes"
       }
     ],
+    "preLaunch": [
+      "com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
+    ],
     "modmenu": [
       "me.cael.capes.compatibility.ModMenuCompatibility"
     ]
