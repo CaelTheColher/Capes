@@ -1,6 +1,14 @@
+buildscript {
+    dependencies {
+        classpath("org.kohsuke:github-api:1.313")
+    }
+}
+
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
     id "org.jetbrains.kotlin.jvm" version "1.8.0"
+    id "me.shedaniel.unified-publishing"
+    id "org.ajoberstar.grgit"
 }
 
 architectury {
@@ -52,7 +60,9 @@ remapJar {
     injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier null
+    classifier "fabric"
+
+    from rootProject.file("LICENSE")
 }
 
 jar {
@@ -82,5 +92,90 @@ publishing {
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
         // Add repositories to publish to here.
+    }
+}
+String getDisplayName() {
+    return "[Forge ${rootProject.minecraft_version}] Capes ${project.version.toString().split('\\+')[0]}}"
+}
+
+String getChangelog() {
+    "A changelog can be found at https://github.com/CaelTheColher/Capes"
+}
+
+def getBranch() {
+    def env = System.getenv()
+    if (env.GITHUB_REF) {
+        def branch = env.GITHUB_REF
+        return branch.substring(branch.lastIndexOf("/") + 1)
+    }
+
+    if (grgit == null) {
+        return "unknown"
+    }
+
+    def branch = grgit.branch.current().name
+    return branch.substring(branch.lastIndexOf("/") + 1)
+}
+
+import org.kohsuke.github.GHReleaseBuilder
+import org.kohsuke.github.GitHub
+
+tasks.register('github') {
+    dependsOn remapJar
+    def env = System.getenv()
+    onlyIf {
+        env.GITHUB_TOKEN
+    }
+
+    doLast {
+        def github = GitHub.connectUsingOAuth(env.GITHUB_TOKEN as String)
+        def repository = github.getRepository(env.GITHUB_REPOSITORY)
+
+        def releaseBuilder = new GHReleaseBuilder(repository, version as String)
+        releaseBuilder.name(getDisplayName())
+        releaseBuilder.body(getChangelog())
+        releaseBuilder.commitish(getBranch())
+
+        def ghRelease = releaseBuilder.create()
+        ghRelease.uploadAsset(tasks.remapJar.archiveFile.get().getAsFile(), "application/java-archive")
+    }
+}
+unifiedPublishing {
+    project {
+        displayName = getDisplayName()
+        releaseType = "release"
+        gameVersions = ["1.19.3"]
+        gameLoaders = ["fabric"]
+        changelog = getChangelog()
+
+        mainPublication tasks.remapJar // Declares the publicated jar
+
+        var cfToken = System.getenv("CURSEFORGE_API_KEY")
+        if (cfToken != null) {
+            curseforge {
+                token = cfToken
+                id = "408481" // Required, must be a string, ID of CurseForge project
+
+                relations {
+                    depends "fabric-language-kotlin"
+                    depends "fabric-api"
+                    optional "modmenu"
+                }
+            }
+        }
+
+        var mrToken = System.getenv("MODRINTH_TOKEN")
+        if (mrToken != null) {
+            modrinth {
+                token = mrToken
+                id = "89Wsn8GD" // Required, must be a string, ID of Modrinth project
+
+                relations {
+                    depends "fabric-language-kotlin"
+                    depends "fabric-api"
+                    optional "modmenu"
+                }
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@ license = "LGPL 2.1"
 [[mods]]
 modId = "capes"
 version = "${version}"
-displayName = "Forged Capes"
+displayName = "Capes"
 authors = "Cael"
 description = '''
 A mod that lets you use capes from Optifine, LabyMod, Cosmetica, Wynntils, Capes++, and the MinecraftCapes Mod.

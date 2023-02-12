@@ -18,7 +18,6 @@ class OtherMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, gam
 
         val buttonW = 200
 
-
         addDrawableChild(ButtonWidget.builder(Text.translatable("options.capes.optifineeditor")) {
             try {
                 val random1Bi = BigInteger(128, Random())

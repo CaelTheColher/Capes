@@ -16,7 +16,6 @@ import net.minecraft.screen.ScreenTexts
 import net.minecraft.text.Text
 import net.minecraft.util.math.RotationAxis
 
-
 class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, gameOptions) {
 
     var lastTime = 0L
@@ -29,6 +28,7 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
 
         addDrawableChild(ButtonWidget.builder(config.clientCapeType.getText()) {
             config.clientCapeType = config.clientCapeType.cycle()
+            config.save()
             it.message = config.clientCapeType.getText()
             PlaceholderEntity.capeLoaded = false
             if (this.client?.player != null) {

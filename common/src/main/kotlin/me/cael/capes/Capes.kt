@@ -12,12 +12,12 @@ object Capes {
 
     const val MOD_ID = "capes"
 
-    val LOGGER = LoggerFactory.getLogger("Fabric Capes")
+    val LOGGER = LoggerFactory.getLogger("Capes")
 
     val CONFIG: CapeConfig by lazy {
         val parser = JsonParser()
         val gson = GsonBuilder().setPrettyPrinting().create()
-        val configFile = File("${Platform.getConfigDirectory()}${File.separator}capes.json")
+        val configFile = File("${Platform.getConfigDirectory()}${File.separator}capes.json5")
         var finalConfig: CapeConfig
         LOGGER.info("Trying to read config file...")
         try {
