@@ -143,7 +143,7 @@ tasks.register('github') {
 unifiedPublishing {
     project {
         displayName = getDisplayName()
-        releaseType = "release"
+        releaseType.set("release")
         gameVersions = ["1.19.3"]
         gameLoaders = ["fabric"]
         changelog = getChangelog()
@@ -153,7 +153,7 @@ unifiedPublishing {
         var cfToken = System.getenv("CURSEFORGE_API_KEY")
         if (cfToken != null) {
             curseforge {
-                token = cfToken
+                token.set(cfToken)
                 id.set("408481") // Required, must be a string, ID of CurseForge project
 
                 relations {
@@ -167,7 +167,7 @@ unifiedPublishing {
         var mrToken = System.getenv("MODRINTH_TOKEN")
         if (mrToken != null) {
             modrinth {
-                token = mrToken
+                token.set(mrToken)
                 id.set("89Wsn8GD") // Required, must be a string, ID of Modrinth project
 
                 relations {

@@ -174,9 +174,9 @@ unifiedPublishing {
         var cfToken = System.getenv("CURSEFORGE_API_KEY")
         if (cfToken != null) {
             curseforge {
-                token = cfToken
+                token.set(cfToken)
                 id.set("408481") // Required, must be a string, ID of CurseForge project
-                releaseType = "beta"
+                releaseType.set("beta")
 
                 relations {
                     depends "kotlin-for-forge"
@@ -187,9 +187,9 @@ unifiedPublishing {
         var mrToken = System.getenv("MODRINTH_TOKEN")
         if (mrToken != null) {
             modrinth {
-                token = mrToken
+                token.set("mrToken")
                 id.set("89Wsn8GD") // Required, must be a string, ID of Modrinth project
-                releaseType = "release"
+                releaseType.set("release")
 
                 relations {
                     depends "kotlin-for-forge"
