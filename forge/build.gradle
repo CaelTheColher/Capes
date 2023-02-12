@@ -175,7 +175,7 @@ unifiedPublishing {
         if (cfToken != null) {
             curseforge {
                 token = cfToken
-                id = "408481" // Required, must be a string, ID of CurseForge project
+                id = rootProject.curseforge_id // Required, must be a string, ID of CurseForge project
                 releaseType = "beta"
 
                 relations {
@@ -188,7 +188,7 @@ unifiedPublishing {
         if (mrToken != null) {
             modrinth {
                 token = mrToken
-                id = "89Wsn8GD" // Required, must be a string, ID of Modrinth project
+                id = rootProject.modrinth_id // Required, must be a string, ID of Modrinth project
                 releaseType = "release"
 
                 relations {
