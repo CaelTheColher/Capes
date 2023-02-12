@@ -154,7 +154,7 @@ unifiedPublishing {
         if (cfToken != null) {
             curseforge {
                 token = cfToken
-                id = rootProject.curseforge_id // Required, must be a string, ID of CurseForge project
+                id.set("408481") // Required, must be a string, ID of CurseForge project
 
                 relations {
                     depends "fabric-language-kotlin"
@@ -168,7 +168,7 @@ unifiedPublishing {
         if (mrToken != null) {
             modrinth {
                 token = mrToken
-                id = rootProject.modrinth_id // Required, must be a string, ID of Modrinth project
+                id.set("89Wsn8GD") // Required, must be a string, ID of Modrinth project
 
                 relations {
                     depends "fabric-language-kotlin"
