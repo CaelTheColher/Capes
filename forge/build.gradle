@@ -198,3 +198,6 @@ unifiedPublishing {
         }
     }
 }
+
+rootProject.tasks.named("modPublish").get().dependsOn tasks.named("publishUnified").get()
+rootProject.tasks.named("modPublish").get().dependsOn tasks.named("github").get()

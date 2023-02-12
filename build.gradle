@@ -50,3 +50,5 @@ allprojects {
         withSourcesJar()
     }
 }
+
+tasks.register('modPublish')
