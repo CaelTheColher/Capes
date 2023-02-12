@@ -1,0 +1,28 @@
+modLoader = "kotlinforforge"
+loaderVersion = "[3,)"
+issueTrackerURL = "https://github.com/CaelTheColher/Capes/issues"
+license = "LGPL 2.1"
+
+[[mods]]
+modId = "capes"
+version = "${version}"
+displayName = "Forged Capes"
+authors = "Cael"
+description = '''
+A mod that lets you use capes from Optifine, LabyMod, Cosmetica, Wynntils, Capes++, and the MinecraftCapes Mod.
+'''
+logoFile = "assets/capes/icon.png"
+
+[[dependencies.capes]]
+modId = "forge"
+mandatory = true
+versionRange = "[44,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.capes]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19.3,)"
+ordering = "NONE"
+side = "BOTH"

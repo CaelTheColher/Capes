@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "capes",
+  "version": "${version}",
+
+  "name": "Capes",
+  "description": "A mod that lets you use capes from Optifine, LabyMod, Cosmetica, Wynntils, Capes++, and the MinecraftCapes Mod.",
+  "authors": [
+    "Cael"
+  ],
+  "contact": {
+    "discord": "「 Lily 」#5284",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/capes",
+    "sources": "https://github.com/CaelTheColher/Capes",
+    "issues": "https://github.com/CaelTheColher/Capes/issues"
+  },
+
+  "license": "GNU Lesser General Public License v2.1",
+  "icon": "assets/capes/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "me.cael.capes.fabric.FabricCapes"
+      }
+    ],
+    "preLaunch": [
+      "com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
+    ],
+    "modmenu": [
+      "me.cael.capes.fabric.compatibility.ModMenuCompatibility"
+    ]
+  },
+  "mixins": [
+    "capes-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "fabric-language-kotlin": "*",
+    "minecraft": "1.19.3",
+    "java": ">=17"
+  }
+}

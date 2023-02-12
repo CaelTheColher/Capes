@@ -1,0 +1,11 @@
+{
+  "options.capes.title": "Opzioni dei Mantelli",
+  "options.capes.capetype": "Tipo di Mantello: %s",
+  "options.capes.optifineeditor": "Editor del Mantello OptiFine",
+  "options.capes.elytra": "Applica il Mantello all'Elitra",
+  "options.capes.selector": "Seleziona il Mantello",
+  "options.capes.toggle": "Generale",
+  "options.capes.other": "Altro",
+  "options.capes.selector.elytra": "Mostra Elitra",
+  "options.capes.selector.player": "Mostra Giocatore"
+}

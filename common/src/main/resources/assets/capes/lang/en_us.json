@@ -1,0 +1,11 @@
+{
+  "options.capes.title": "Cape Options",
+  "options.capes.capetype": "Cape Type: %s",
+  "options.capes.optifineeditor": "OptiFine Cape Editor",
+  "options.capes.elytra": "Cape Texture on Elytra",
+  "options.capes.selector": "Cape Selector",
+  "options.capes.toggle": "Toggle",
+  "options.capes.other": "Other",
+  "options.capes.selector.elytra": "Toggle Elytra",
+  "options.capes.selector.player": "Toggle Player"
+}
