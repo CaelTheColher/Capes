@@ -117,7 +117,7 @@ publishing {
 }
 
 String getDisplayName() {
-    return "[Forge ${minecraft_version}] Capes ${mod_version.split('\\+')[0]}}"
+    return "[Forge ${minecraft_version}] Capes ${mod_version.split('\\+')[0]}"
 }
 
 static String getChangelog() {
@@ -154,7 +154,7 @@ modrinth {
     versionName = getDisplayName()
     versionType = "release"
     changelog = getChangelog()
-    uploadFile = tasks.remapJar.archiveFile.get().getAsFile()
+    uploadFile = remapJar
     gameVersions = [minecraft_version]
     loaders = ["forge"]
     dependencies {
