@@ -184,5 +184,6 @@ tasks.register('github') {
     }
 }
 
-
+rootProject.tasks.named("modPublish").get().dependsOn tasks.named("curseforge").get()
+rootProject.tasks.named("modPublish").get().dependsOn tasks.named("modrinth").get()
 rootProject.tasks.named("modPublish").get().dependsOn tasks.named("github").get()
