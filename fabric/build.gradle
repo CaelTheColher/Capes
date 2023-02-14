@@ -7,8 +7,9 @@ buildscript {
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
     id "org.jetbrains.kotlin.jvm" version "1.8.0"
-    id "me.shedaniel.unified-publishing"
     id "org.ajoberstar.grgit"
+    id "com.matthewprenger.cursegradle"
+    id "com.modrinth.minotaur"
 }
 
 architectury {
@@ -94,12 +95,54 @@ publishing {
         // Add repositories to publish to here.
     }
 }
+
 String getDisplayName() {
-    return "[Forge ${rootProject.minecraft_version}] Capes ${project.version.toString().split('\\+')[0]}}"
+    return "[Fabric ${minecraft_version}] Capes ${mod_version.split('\\+')[0]}}"
 }
 
-String getChangelog() {
+static String getChangelog() {
     "A changelog can be found at https://github.com/CaelTheColher/Capes"
+}
+
+curseforge {
+    String token = System.getenv("CURSEFORGE_API_KEY")
+    apiKey = token == null || token.isEmpty() ? "unset" : token
+    project {
+        id = curseforge_id
+        changelog = getChangelog()
+        releaseType = "release"
+        addGameVersion("fabric")
+        addGameVersion(minecraft_version)
+        relations {
+            requiredDependency("fabric-api")
+            requiredDependency("fabric-language-kotlin")
+            optionalDependency("modmenu")
+        }
+        mainArtifact(tasks.remapJar.archiveFile.get().getAsFile()) {
+            displayName = getDisplayName()
+        }
+        afterEvaluate {
+            uploadTask.dependsOn(remapJar)
+        }
+    }
+    curseGradleOptions.forgeGradleIntegration = false
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = modrinth_id
+    versionNumber = project.version
+    versionName = getDisplayName()
+    versionType = "release"
+    changelog = getChangelog()
+    uploadFile = tasks.remapJar.archiveFile.get().getAsFile()
+    gameVersions = [minecraft_version]
+    loaders = ["fabric"]
+    dependencies {
+        required.project("fabric-api")
+        required.project("fabric-language-kotlin")
+        optional.project("modmenu")
+    }
 }
 
 def getBranch() {
@@ -140,45 +183,6 @@ tasks.register('github') {
         ghRelease.uploadAsset(tasks.remapJar.archiveFile.get().getAsFile(), "application/java-archive")
     }
 }
-unifiedPublishing {
-    project {
-        displayName = getDisplayName()
-        releaseType.set("release")
-        gameVersions = ["1.19.3"]
-        gameLoaders = ["fabric"]
-        changelog = getChangelog()
 
-        mainPublication tasks.remapJar // Declares the publicated jar
 
-        var cfToken = System.getenv("CURSEFORGE_API_KEY")
-        if (cfToken != null) {
-            curseforge {
-                token.set(cfToken)
-                id.set("408481") // Required, must be a string, ID of CurseForge project
-
-                relations {
-                    depends "fabric-language-kotlin"
-                    depends "fabric-api"
-                    optional "modmenu"
-                }
-            }
-        }
-
-        var mrToken = System.getenv("MODRINTH_TOKEN")
-        if (mrToken != null) {
-            modrinth {
-                token.set(mrToken)
-                id.set("89Wsn8GD") // Required, must be a string, ID of Modrinth project
-
-                relations {
-                    depends "fabric-language-kotlin"
-                    depends "fabric-api"
-                    optional "modmenu"
-                }
-            }
-        }
-    }
-}
-
-rootProject.tasks.named("modPublish").get().dependsOn tasks.named("publishUnified").get()
 rootProject.tasks.named("modPublish").get().dependsOn tasks.named("github").get()

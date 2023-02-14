@@ -7,8 +7,9 @@ buildscript {
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
     id "org.jetbrains.kotlin.jvm" version "1.8.0"
-    id "me.shedaniel.unified-publishing"
     id "org.ajoberstar.grgit"
+    id "com.matthewprenger.cursegradle"
+    id "com.modrinth.minotaur"
 }
 
 architectury {
@@ -44,16 +45,16 @@ repositories {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.forge_version}"
+    forge "net.minecraftforge:forge:${forge_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
 
-    modImplementation "thedarkcolour:kotlinforforge:${rootProject.forge_kotlin_version}"
+    modImplementation "thedarkcolour:kotlinforforge:${forge_kotlin_version}"
 
-    annotationProcessor(shadowCommon("com.github.LlamaLad7:MixinExtras:${rootProject.mixinextras_version}"))
-    implementation("com.github.LlamaLad7:MixinExtras:${rootProject.mixinextras_version}")
-    forgeRuntimeLibrary("com.github.LlamaLad7:MixinExtras:${rootProject.mixinextras_version}")
+    annotationProcessor(shadowCommon("com.github.LlamaLad7:MixinExtras:${mixinextras_version}"))
+    implementation("com.github.LlamaLad7:MixinExtras:${mixinextras_version}")
+    forgeRuntimeLibrary("com.github.LlamaLad7:MixinExtras:${mixinextras_version}")
 
 //    modImplementation "com.ptsmods:devlogin:3.1.1"
 }
@@ -116,11 +117,49 @@ publishing {
 }
 
 String getDisplayName() {
-    return "[Forge ${rootProject.minecraft_version}] Capes ${project.version.toString().split('\\+')[0]}}"
+    return "[Forge ${minecraft_version}] Capes ${mod_version.split('\\+')[0]}}"
 }
 
-String getChangelog() {
+static String getChangelog() {
     "A changelog can be found at https://github.com/CaelTheColher/Capes"
+}
+
+curseforge {
+    String token = System.getenv("CURSEFORGE_API_KEY")
+    apiKey = token == null || token.isEmpty() ? "unset" : token
+    String gameVersion = minecraft_version
+    project {
+        id = curseforge_id
+        changelog = getChangelog()
+        releaseType = "beta"
+        addGameVersion("forge")
+        addGameVersion(gameVersion)
+        relations {
+            requiredDependency("kotlin-for-forge")
+        }
+        mainArtifact(tasks.remapJar.archiveFile.get().getAsFile()) {
+            displayName = getDisplayName()
+        }
+        afterEvaluate {
+            uploadTask.dependsOn(remapJar)
+        }
+    }
+    curseGradleOptions.forgeGradleIntegration = false
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = modrinth_id
+    versionNumber = project.version
+    versionName = getDisplayName()
+    versionType = "release"
+    changelog = getChangelog()
+    uploadFile = tasks.remapJar.archiveFile.get().getAsFile()
+    gameVersions = [minecraft_version]
+    loaders = ["forge"]
+    dependencies {
+        required.project("kotlin-for-forge")
+    }
 }
 
 def getBranch() {
@@ -162,42 +201,5 @@ tasks.register('github') {
     }
 }
 
-unifiedPublishing {
-    project {
-        displayName = getDisplayName()
-        gameVersions = ["1.19.3"]
-        gameLoaders = ["forge"]
-        changelog = getChangelog()
 
-        mainPublication tasks.remapJar // Declares the publicated jar
-
-        var cfToken = System.getenv("CURSEFORGE_API_KEY")
-        if (cfToken != null) {
-            curseforge {
-                token.set(cfToken)
-                id.set("408481") // Required, must be a string, ID of CurseForge project
-                releaseType.set("beta")
-
-                relations {
-                    depends "kotlin-for-forge"
-                }
-            }
-        }
-
-        var mrToken = System.getenv("MODRINTH_TOKEN")
-        if (mrToken != null) {
-            modrinth {
-                token.set("mrToken")
-                id.set("89Wsn8GD") // Required, must be a string, ID of Modrinth project
-                releaseType.set("release")
-
-                relations {
-                    depends "kotlin-for-forge"
-                }
-            }
-        }
-    }
-}
-
-rootProject.tasks.named("modPublish").get().dependsOn tasks.named("publishUnified").get()
 rootProject.tasks.named("modPublish").get().dependsOn tasks.named("github").get()
