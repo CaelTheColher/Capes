@@ -132,7 +132,7 @@ curseforge {
         id = curseforge_id
         changelog = getChangelog()
         releaseType = "beta"
-        addGameVersion("forge")
+        addGameVersion("Forge")
         addGameVersion(gameVersion)
         relations {
             requiredDependency("kotlin-for-forge")
