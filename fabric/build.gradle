@@ -6,7 +6,7 @@ buildscript {
 
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
-    id "org.jetbrains.kotlin.jvm" version "1.8.0"
+    id "org.jetbrains.kotlin.jvm"
     id "org.ajoberstar.grgit"
     id "com.matthewprenger.cursegradle"
     id "com.modrinth.minotaur"
@@ -98,8 +98,8 @@ publishing {
 
 def DISPLAY_NAME = "[Fabric ${minecraft_version}] Capes ${mod_version.split('\\+')[0]}"
 
-static String getChangelog() {
-    "A changelog can be found at https://github.com/CaelTheColher/Capes"
+static def getChangeLog() {
+    return "A changelog can be found at https://github.com/CaelTheColher/Capes"
 }
 
 curseforge {
@@ -107,7 +107,7 @@ curseforge {
     apiKey = token == null || token.isEmpty() ? "unset" : token
     project {
         id = curseforge_id
-        changelog = getChangelog()
+        changelog = getChangeLog()
         releaseType = "release"
         addGameVersion("Fabric")
         addGameVersion(minecraft_version)
@@ -131,11 +131,11 @@ modrinth {
     projectId = modrinth_id
     versionNumber = mod_version
     versionName = DISPLAY_NAME
-    versionType = "release"
-    changelog = getChangelog()
     uploadFile = remapJar
     gameVersions = [minecraft_version]
-    loaders = ["fabric"]
+    loaders = ['fabric']
+    versionType = "release"
+    changelog = getChangeLog()
     dependencies {
         required.project("fabric-api")
         required.project("fabric-language-kotlin")
@@ -174,7 +174,7 @@ tasks.register('github') {
 
         def releaseBuilder = new GHReleaseBuilder(repository, version as String)
         releaseBuilder.name(DISPLAY_NAME)
-        releaseBuilder.body(getChangelog())
+        releaseBuilder.body(getChangeLog())
         releaseBuilder.commitish(getBranch())
 
         def ghRelease = releaseBuilder.create()
