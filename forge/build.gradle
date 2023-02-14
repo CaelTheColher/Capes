@@ -125,13 +125,12 @@ static def getChangeLog() {
 curseforge {
     String token = System.getenv("CURSEFORGE_API_KEY")
     apiKey = token == null || token.isEmpty() ? "unset" : token
-    String gameVersion = minecraft_version
     project {
         id = curseforge_id
         changelog = getChangeLog()
         releaseType = "beta"
         addGameVersion("Forge")
-        addGameVersion(gameVersion)
+        addGameVersion(minecraft_version)
         relations {
             requiredDependency("kotlin-for-forge")
         }
@@ -189,7 +188,7 @@ tasks.register('github') {
         def github = GitHub.connectUsingOAuth(env.GITHUB_TOKEN as String)
         def repository = github.getRepository(env.GITHUB_REPOSITORY)
 
-        def releaseBuilder = new GHReleaseBuilder(repository, version as String)
+        def releaseBuilder = new GHReleaseBuilder(repository, "forge-" + version as String)
         releaseBuilder.name(DISPLAY_NAME)
         releaseBuilder.body(getChangeLog())
         releaseBuilder.commitish(getBranch())

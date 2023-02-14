@@ -172,7 +172,7 @@ tasks.register('github') {
         def github = GitHub.connectUsingOAuth(env.GITHUB_TOKEN as String)
         def repository = github.getRepository(env.GITHUB_REPOSITORY)
 
-        def releaseBuilder = new GHReleaseBuilder(repository, version as String)
+        def releaseBuilder = new GHReleaseBuilder(repository, "fabric-" + version as String)
         releaseBuilder.name(DISPLAY_NAME)
         releaseBuilder.body(getChangeLog())
         releaseBuilder.commitish(getBranch())
