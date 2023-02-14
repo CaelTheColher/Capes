@@ -96,9 +96,7 @@ publishing {
     }
 }
 
-String getDisplayName() {
-    return "[Fabric ${minecraft_version}] Capes ${mod_version.split('\\+')[0]}"
-}
+def DISPLAY_NAME = "[Fabric ${minecraft_version}] Capes ${mod_version.split('\\+')[0]}"
 
 static String getChangelog() {
     "A changelog can be found at https://github.com/CaelTheColher/Capes"
@@ -119,7 +117,7 @@ curseforge {
             optionalDependency("modmenu")
         }
         mainArtifact(tasks.remapJar.archiveFile.get().getAsFile()) {
-            displayName = getDisplayName()
+            displayName = DISPLAY_NAME
         }
         afterEvaluate {
             uploadTask.dependsOn(remapJar)
@@ -131,8 +129,8 @@ curseforge {
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = modrinth_id
-    versionNumber = project.version
-    versionName = getDisplayName()
+    versionNumber = mod_version
+    versionName = DISPLAY_NAME
     versionType = "release"
     changelog = getChangelog()
     uploadFile = remapJar
@@ -175,7 +173,7 @@ tasks.register('github') {
         def repository = github.getRepository(env.GITHUB_REPOSITORY)
 
         def releaseBuilder = new GHReleaseBuilder(repository, version as String)
-        releaseBuilder.name(getDisplayName())
+        releaseBuilder.name(DISPLAY_NAME)
         releaseBuilder.body(getChangelog())
         releaseBuilder.commitish(getBranch())
 
