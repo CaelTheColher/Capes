@@ -18,7 +18,7 @@ class OtherMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, gam
 
         val buttonW = 200
 
-        addDrawableChild(ButtonWidget.builder(Text.translatable("options.capes.optifineeditor")) {
+        addDrawableChild(ButtonWidget((width/2) - (buttonW / 2), height / 7 + 24, buttonW, 20, Text.translatable("options.capes.optifineeditor")) {
             try {
                 val random1Bi = BigInteger(128, Random())
                 val random2Bi = BigInteger(128, Random(System.identityHashCode(Object()).toLong()))
@@ -34,12 +34,11 @@ class OtherMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, gam
             } catch (_: Exception) {
                 Capes.LOGGER.error("Failed to authenticate for OptiFine cape editor.")
             }
+        })
 
-        }.position((width/2) - (buttonW / 2), height / 7 + 24).size(buttonW, 20).build())
-
-        addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE) {
+        addDrawableChild(ButtonWidget((width/2) - (buttonW / 2), height / 7 + 2 * 24, buttonW, 20, ScreenTexts.DONE) {
             client!!.setScreen(parent)
-        }.position((width/2) - (buttonW / 2), height / 7 + 2 * 24).size(buttonW, 20).build())
+        })
 
     }
 

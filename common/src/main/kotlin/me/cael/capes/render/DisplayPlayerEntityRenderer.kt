@@ -16,7 +16,7 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.RotationAxis
+import net.minecraft.util.math.Vec3f
 
 class DisplayPlayerEntityRenderer(val ctx: EntityRendererFactory.Context, slim: Boolean) :
     LivingEntityRenderer<LivingEntity, PlayerEntityModel<LivingEntity>> (
@@ -37,9 +37,9 @@ class DisplayPlayerEntityRenderer(val ctx: EntityRendererFactory.Context, slim: 
         model.child = false
 
         matrixStack.scale(0.9375f, 0.9375f, 0.9375f)
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f - livingEntity.yaw))
+        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0f - livingEntity.yaw))
         matrixStack.scale(-1.0f, -1.0f, 1.0f)
-        matrixStack.translate(0.0f, -1.501f, 0.0f)
+        matrixStack.translate(0.0, -1.501, 0.0)
 
         var limbDistance = MathHelper.lerp(tickDelta, livingEntity.lastLimbDistance, livingEntity.limbDistance)
         val limbAngle = livingEntity.limbAngle - livingEntity.limbDistance * (1.0f - tickDelta)
@@ -60,10 +60,10 @@ class DisplayPlayerEntityRenderer(val ctx: EntityRendererFactory.Context, slim: 
         if (!PlaceholderEntity.showElytra) {
             if (PlaceholderEntity.getCapeTexture() == null) return
             matrixStack.push()
-            matrixStack.translate(0.0f, 0.0f, 0.125f)
+            matrixStack.translate(0.0, 0.0, 0.125)
 
-            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(3.0f))
-            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f))
+            matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(3.0f))
+            matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0f))
 
             val vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getArmorCutoutNoCull(PlaceholderEntity.getCapeTexture()))
             ctx.getPart(EntityModelLayers.PLAYER).getChild("cloak")
@@ -72,7 +72,7 @@ class DisplayPlayerEntityRenderer(val ctx: EntityRendererFactory.Context, slim: 
         } else {
             val identifier = PlaceholderEntity.getElytraTexture()
             matrixStack.push()
-            matrixStack.translate(0.0f, 0.0f, 0.125f)
+            matrixStack.translate(0.0, 0.0, 0.125)
 
             this.model.copyStateTo(this.elytra)
 

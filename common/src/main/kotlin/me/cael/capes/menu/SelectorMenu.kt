@@ -14,7 +14,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.screen.ScreenTexts
 import net.minecraft.text.Text
-import net.minecraft.util.math.RotationAxis
+import net.minecraft.util.math.Vec3f
 
 class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, gameOptions) {
 
@@ -26,7 +26,7 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
         var buttonW = 200
         val config = Capes.CONFIG
 
-        addDrawableChild(ButtonWidget.builder(config.clientCapeType.getText()) {
+        addDrawableChild(ButtonWidget((width/2) - (buttonW / 2), 60, buttonW, 20, config.clientCapeType.getText()) {
             config.clientCapeType = config.clientCapeType.cycle()
             config.save()
             it.message = config.clientCapeType.getText()
@@ -35,21 +35,21 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
                 val playerListEntry = this.client!!.networkHandler!!.getPlayerListEntry(this.client!!.player!!.uuid) as AccessorPlayerListEntry
                 playerListEntry.setTexturesLoaded(false)
             }
-        }.position((width / 2) - (buttonW / 2), 60).size(buttonW, 20).build())
+        })
 
-        addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE) {
+        addDrawableChild(ButtonWidget((width/2) - (buttonW / 2), 220, buttonW, 20, ScreenTexts.DONE) {
             client!!.setScreen(parent)
-        }.position((width / 2) - (buttonW / 2), 220).size(buttonW, 20).build())
+        })
 
         buttonW = 100
 
-        addDrawableChild(ButtonWidget.builder(Text.translatable("options.capes.selector.elytra")) {
+        addDrawableChild(ButtonWidget((width/4) - (buttonW / 2), 120, buttonW, 20, Text.translatable("options.capes.selector.elytra")) {
             PlaceholderEntity.showElytra = !PlaceholderEntity.showElytra
-        }.position((width / 4) - (buttonW / 2), 120).size(buttonW, 20).build())
+        })
 
-        addDrawableChild(ButtonWidget.builder(Text.translatable("options.capes.selector.player")) {
+        addDrawableChild(ButtonWidget((width/4) - (buttonW / 2), 145, buttonW, 20, Text.translatable("options.capes.selector.player")) {
             PlaceholderEntity.showBody = !PlaceholderEntity.showBody
-        }.position((width / 4) - (buttonW / 2), 145).size(buttonW, 20).build())
+        })
 
     }
 
@@ -82,7 +82,7 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
         matrixStack2.translate(0.0, 0.0, 1000.0)
         matrixStack2.scale(size.toFloat(), size.toFloat(), size.toFloat())
 
-        val quaternion = RotationAxis.POSITIVE_Z.rotationDegrees(180.0f)
+        val quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0f)
         matrixStack2.multiply(quaternion)
 
         DiffuseLighting.method_34742()

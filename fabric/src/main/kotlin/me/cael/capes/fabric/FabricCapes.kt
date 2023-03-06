@@ -20,7 +20,7 @@ object FabricCapes : ClientModInitializer {
 
     override fun onInitializeClient() {
         Capes.CONFIG
-        ClientCommandRegistrationCallback.EVENT.register { dispatcher, registryAccess ->
+        ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ ->
             dispatcher.register(
                 literal("capes")
                     .then(literal("debug")
