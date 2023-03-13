@@ -1,0 +1,11 @@
+{
+  "options.capes.title": "Umhangsoptionen",
+  "options.capes.capetype": "Umhangtyp: %s",
+  "options.capes.optifineeditor": "OptiFine Umhangeditor",
+  "options.capes.elytra": "Umhangstextur auf Elytra",
+  "options.capes.selector": "Umhang Auswahl",
+  "options.capes.toggle": "Umschalten",
+  "options.capes.other": "Andere",
+  "options.capes.selector.elytra": "Umschalten Elytra",
+  "options.capes.selector.player": "Spieler umschalten"
+}
