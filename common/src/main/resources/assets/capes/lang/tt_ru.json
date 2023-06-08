@@ -1,0 +1,11 @@
+{
+  "options.capes.title": "Япма көйләүләре",
+  "options.capes.capetype": "Япма төре: %s",
+  "options.capes.optifineeditor": "OptiFine япма үзгәртүе",
+  "options.capes.elytra": "Элитрадагы япма текстуралары",
+  "options.capes.selector": "Япма сайлагы",
+  "options.capes.toggle": "Күчерү",
+  "options.capes.other": "Башка",
+  "options.capes.selector.elytra": "Элитраны күчерү",
+  "options.capes.selector.player": "Уенчыны күчерү"
+}
