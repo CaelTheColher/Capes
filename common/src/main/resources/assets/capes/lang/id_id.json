@@ -1,0 +1,11 @@
+{
+  "options.capes.title": "Opsi Jubah",
+  "options.capes.capetype": "Tipe Jubah : %s",
+  "options.capes.optifineeditor": "Editor Jubah OptiFine",
+  "options.capes.elytra": "Tekstur Jubah pada Sayap",
+  "options.capes.selector": "Pemilih Jubah",
+  "options.capes.toggle": "(Non)Aktifkan",
+  "options.capes.other": "Lainnya",
+  "options.capes.selector.elytra": "(Non)Aktifkan Sayap",
+  "options.capes.selector.player": "(Non)Aktifkan Pemain"
+}
