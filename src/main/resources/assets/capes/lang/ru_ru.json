@@ -2,5 +2,10 @@
   "options.capes.title": "Настройки плаща",
   "options.capes.capetype": "Тип плаща: %s",
   "options.capes.optifineeditor": "Редактор плаща OptiFine",
-  "options.capes.elytra": "Узор плаща на Элитрах"
+  "options.capes.elytra": "Узор плаща на Элитрах",
+  "options.capes.selector": "Выбор плаща",
+  "options.capes.toggle": "Переключатели",
+  "options.capes.other": "Прочее",
+  "options.capes.selector.elytra": "Вкл./Выкл. элитры",
+  "options.capes.selector.player": "Вкл./Выкл. игрока"
 }
