@@ -6,6 +6,7 @@ import me.cael.capes.mixins.AccessorPlayerListEntry
 import me.cael.capes.render.DisplayPlayerEntityRenderer
 import me.cael.capes.render.PlaceholderEntity
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.option.GameOptions
@@ -53,8 +54,8 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
 
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        super.render(matrices, mouseX, mouseY, delta)
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        super.render(context, mouseX, mouseY, delta)
 
         val playerX : Int = width/2
         val playerY = 215

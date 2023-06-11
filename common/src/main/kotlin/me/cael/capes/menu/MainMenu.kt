@@ -1,11 +1,10 @@
 package me.cael.capes.menu
 
-import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.option.GameOptionsScreen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.option.GameOptions
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 open class MainMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScreen(parent, gameOptions, Text.translatable("options.capes.title")) {
@@ -32,9 +31,9 @@ open class MainMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScree
 
     }
 
-    override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        this.renderBackground(matrices)
-        DrawableHelper.drawCenteredText(matrices, textRenderer, title, width / 2, 20, 16777215)
-        super.render(matrices, mouseX, mouseY, delta)
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        this.renderBackground(context)
+        context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 20, 16777215)
+        super.render(context, mouseX, mouseY, delta)
     }
 }
