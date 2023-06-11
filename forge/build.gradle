@@ -52,9 +52,8 @@ dependencies {
 
     modImplementation "thedarkcolour:kotlinforforge:${forge_kotlin_version}"
 
-    annotationProcessor(shadowCommon("com.github.LlamaLad7:MixinExtras:${mixinextras_version}"))
-    implementation("com.github.LlamaLad7:MixinExtras:${mixinextras_version}")
-    forgeRuntimeLibrary("com.github.LlamaLad7:MixinExtras:${mixinextras_version}")
+    implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-common:${mixinextras_version}"))
+    implementation(include("com.github.llamalad7.mixinextras:mixinextras-forge:${mixinextras_version}"))
 
 //    modImplementation "com.ptsmods:devlogin:3.1.1"
 }
@@ -70,7 +69,6 @@ processResources {
 shadowJar {
     exclude "fabric.mod.json"
     exclude "architectury.common.json"
-    relocate 'com.llamalad7.mixinextras', 'me.cael.capes.shaded.com.llamalad7.mixinextras'
 
     mergeServiceFiles()
 
