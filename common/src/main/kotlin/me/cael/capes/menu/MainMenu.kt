@@ -34,7 +34,7 @@ open class MainMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScree
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         this.renderBackground(matrices)
-        DrawableHelper.drawCenteredText(matrices, textRenderer, title, width / 2, 20, 16777215)
+        DrawableHelper.drawCenteredTextWithShadow(matrices, textRenderer, title, width / 2, 20, 16777215)
         super.render(matrices, mouseX, mouseY, delta)
     }
 }
