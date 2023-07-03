@@ -1,0 +1,11 @@
+{
+  "options.capes.title": "Tùy chọn Cape",
+  "options.capes.capetype": "Loại Cape: %s",
+  "options.capes.optifineeditor": "Trình chỉnh sửa Cape OptiFine",
+  "options.capes.elytra": "Kết cấu Cape trên Cánh cứng",
+  "options.capes.selector": "Bộ chọn Cape",
+  "options.capes.toggle": "Đổi",
+  "options.capes.other": "Khác",
+  "options.capes.selector.elytra": "Đổi Cánh cứng",
+  "options.capes.selector.player": "Đổi Người chơi"
+}
