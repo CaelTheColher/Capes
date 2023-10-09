@@ -13,13 +13,13 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(CapeFeatureRenderer.class)
 public class MixinCapeFeatureRenderer {
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderLayer;getEntitySolid(Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/render/RenderLayer;"))
+    @Redirect(method = "render*", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderLayer;getEntitySolid(Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/render/RenderLayer;"))
     private RenderLayer fixCapeTransparency(Identifier texture) {
         return RenderLayer.getArmorCutoutNoCull(texture);
     }
 
     // Fixes https://bugs.mojang.com/browse/MC-127749
-    @ModifyVariable(method = "render", at = @At("STORE"), ordinal = 6)
+    @ModifyVariable(method = "render*", at = @At("STORE"), ordinal = 6)
     private float fixCapeInterpolation(float bodyRotation, @Local(argsOnly = true) AbstractClientPlayerEntity playerEntity, @Local(ordinal = 2, argsOnly = true) float partialTicks) {
         return playerEntity.prevBodyYaw + (playerEntity.bodyYaw - playerEntity.prevBodyYaw) * partialTicks;
     }

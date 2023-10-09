@@ -1,4 +1,4 @@
-package me.cael.capes.forge;
+package me.cael.capes.forge.mixins;
 
 import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import org.objectweb.asm.tree.ClassNode;

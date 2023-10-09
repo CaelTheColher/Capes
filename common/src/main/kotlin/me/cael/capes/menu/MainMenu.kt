@@ -32,7 +32,7 @@ open class MainMenu(parent: Screen, gameOptions: GameOptions) : GameOptionsScree
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        this.renderBackground(context)
+        this.renderBackground(context, mouseX, mouseY, delta)
         context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 20, 16777215)
         super.render(context, mouseX, mouseY, delta)
     }

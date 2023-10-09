@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "me.cael.capes.forge.mixins",
   "compatibilityLevel": "JAVA_17",
-  "plugin": "me.cael.capes.forge.ForgedCapesPlugin",
+  "plugin": "me.cael.capes.forge.mixins.ForgedCapesPlugin",
   "mixins": [
   ],
   "client": [

@@ -2,7 +2,6 @@ package me.cael.capes.menu
 
 import com.mojang.blaze3d.systems.RenderSystem
 import me.cael.capes.Capes
-import me.cael.capes.mixins.AccessorPlayerListEntry
 import me.cael.capes.render.DisplayPlayerEntityRenderer
 import me.cael.capes.render.PlaceholderEntity
 import net.minecraft.client.MinecraftClient
@@ -32,10 +31,6 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
             config.save()
             it.message = config.clientCapeType.getText()
             PlaceholderEntity.capeLoaded = false
-            if (this.client?.player != null) {
-                val playerListEntry = this.client!!.networkHandler!!.getPlayerListEntry(this.client!!.player!!.uuid) as AccessorPlayerListEntry
-                playerListEntry.setTexturesLoaded(false)
-            }
         }.position((width / 2) - (buttonW / 2), 60).size(buttonW, 20).build())
 
         addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE) {
@@ -113,7 +108,7 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
     override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, deltaX: Double, deltaY: Double): Boolean {
         super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)
         PlaceholderEntity.prevYaw = PlaceholderEntity.yaw
-        PlaceholderEntity.yaw = PlaceholderEntity.yaw - deltaX.toFloat()
+        PlaceholderEntity.yaw -= deltaX.toFloat()
         return true
     }
 

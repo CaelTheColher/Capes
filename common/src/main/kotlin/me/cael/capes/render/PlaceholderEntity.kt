@@ -1,21 +1,20 @@
 package me.cael.capes.render
 
-import com.google.common.collect.Maps
-import com.mojang.authlib.minecraft.MinecraftProfileTexture
 import me.cael.capes.Capes
 import me.cael.capes.handler.PlayerHandler
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.DefaultSkinHelper
+import net.minecraft.client.util.SkinTextures
 import net.minecraft.util.Identifier
-import java.util.*
 import kotlin.math.sqrt
 
 object PlaceholderEntity {
-    private val textures: EnumMap<MinecraftProfileTexture.Type, Identifier> = Maps.newEnumMap(MinecraftProfileTexture.Type::class.java)
+    val gameProfile = MinecraftClient.getInstance().gameProfile
 
-    val gameProfile = MinecraftClient.getInstance().session.profile
+    var skin: SkinTextures = DefaultSkinHelper.getTexture(gameProfile)
 
     var slim = false
+
     var showBody = true
     var showElytra = false
     var capeLoaded = false
@@ -28,15 +27,10 @@ object PlaceholderEntity {
     var prevX = 0.0
 
     init {
-        MinecraftClient.getInstance().skinProvider.loadSkin(gameProfile,
-            { type: MinecraftProfileTexture.Type, identifier: Identifier, texture: MinecraftProfileTexture ->
-                this.textures[type] = identifier
-                if (type == MinecraftProfileTexture.Type.SKIN) {
-                    slim = texture.getMetadata("model") == "slim"
-                }
-            },
-            true
-        )
+        MinecraftClient.getInstance().skinProvider.fetchSkinTextures(gameProfile).thenAccept {
+            skin = it
+            slim = skin.model == SkinTextures.Model.SLIM
+        }
     }
 
     fun updateLimbs() {
@@ -56,7 +50,7 @@ object PlaceholderEntity {
             PlayerHandler.onLoadTexture(gameProfile)
         }
         val handler = PlayerHandler.fromProfile(gameProfile)
-        return if (handler.hasCape) handler.getCape() else textures[MinecraftProfileTexture.Type.CAPE]
+        return if (handler.hasCape) handler.getCape() else skin.capeTexture
     }
 
     fun getElytraTexture(): Identifier {
@@ -65,5 +59,5 @@ object PlaceholderEntity {
         return if (handler.hasElytraTexture && Capes.CONFIG.enableElytraTexture && capeTexture != null) capeTexture else Identifier("textures/entity/elytra.png")
     }
 
-    fun getSkinTexture(): Identifier = textures.getOrDefault(MinecraftProfileTexture.Type.SKIN, DefaultSkinHelper.getTexture())
+    fun getSkinTexture(): Identifier = skin.texture
 }

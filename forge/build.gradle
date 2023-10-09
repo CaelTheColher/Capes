@@ -50,12 +50,12 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
 
-    modImplementation "thedarkcolour:kotlinforforge:${forge_kotlin_version}"
+    implementation "thedarkcolour:kotlinforforge:${forge_kotlin_version}"
 
     implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-common:${mixinextras_version}"))
     implementation(include("com.github.llamalad7.mixinextras:mixinextras-forge:${mixinextras_version}"))
 
-//    modImplementation "com.ptsmods:devlogin:3.1.1"
+    modImplementation "com.ptsmods:devlogin:3.4.1"
 }
 
 processResources {
@@ -73,19 +73,19 @@ shadowJar {
     mergeServiceFiles()
 
     configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+    archiveClassifier.set "dev-shadow"
 }
 
 remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier "forge"
+    archiveClassifier.set "forge"
 
     from rootProject.file("LICENSE")
 }
 
 jar {
-    classifier "dev"
+    archiveClassifier.set "dev"
 }
 
 sourcesJar {
