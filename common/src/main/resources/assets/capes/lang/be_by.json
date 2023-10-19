@@ -1,0 +1,11 @@
+{
+  "options.capes.title": "Налады плашча",
+  "options.capes.capetype": "Тып плашча: %s",
+  "options.capes.optifineeditor": "Рэдактар плашча OptiFine",
+  "options.capes.elytra": "Тэкстура плашча на элітрах",
+  "options.capes.selector": "Выбар плачша",
+  "options.capes.toggle": "Уключыць",
+  "options.capes.other": "Іншае",
+  "options.capes.selector.elytra": "Уключыць элітры",
+  "options.capes.selector.player": "Уключыць гульца"
+}
