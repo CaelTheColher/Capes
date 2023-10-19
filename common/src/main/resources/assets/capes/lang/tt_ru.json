@@ -1,7 +1,9 @@
 {
+  "modmenu.descriptionTranslation.capes": "Сезгә Optifine, LabyMod, Cosmetica, Wynntils, Capes++ һәм MinecraftCapes Mod модларыннан япмаларны кулланырга мөмкинлек бирә торган мод.",
+  "modmenu.summaryTranslation.capes": "Сезгә төрле модлардан япмаларны кулланырга мөмкинлек бирә торган мод.",
   "options.capes.title": "Япма көйләүләре",
   "options.capes.capetype": "Япма төре: %s",
-  "options.capes.optifineeditor": "OptiFine япма үзгәртүе",
+  "options.capes.optifineeditor": "OptiFine япма үзгәртү",
   "options.capes.elytra": "Элитрадагы япма текстуралары",
   "options.capes.selector": "Япма сайлагы",
   "options.capes.toggle": "Күчерү",
