@@ -1,0 +1,11 @@
+{
+  "options.capes.title": "Opcje peleryny",
+  "options.capes.capetype": "Typ peleryny: %s",
+  "options.capes.optifineeditor": "Edytor peleryny OptiFine'a",
+  "options.capes.elytra": "Tekstura peleryny na Elytrze",
+  "options.capes.selector": "Wybór peleryny",
+  "options.capes.toggle": "Przełącz",
+  "options.capes.other": "Inne",
+  "options.capes.selector.elytra": "Przełącz Elytry",
+  "options.capes.selector.player": "Przełącz gracza"
+}
