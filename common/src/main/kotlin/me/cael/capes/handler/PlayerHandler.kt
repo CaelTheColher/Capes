@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import me.cael.capes.CapeType
 import me.cael.capes.Capes
 import me.cael.capes.Capes.identifier
+import me.cael.capes.ListEntryAccessor
 import me.cael.capes.handler.data.MCMData
 import me.cael.capes.handler.data.WynntilsData
 import net.minecraft.client.MinecraftClient
@@ -15,7 +16,11 @@ import net.minecraft.client.texture.NativeImage
 import net.minecraft.client.texture.NativeImageBackedTexture
 import net.minecraft.util.Identifier
 import org.apache.commons.codec.binary.Base64
-import java.io.*
+import java.io.ByteArrayInputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.Reader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
@@ -23,13 +28,12 @@ import java.util.concurrent.Executors
 
 class PlayerHandler(var profile: GameProfile) {
     val uuid: UUID = profile.id
-    var lastFrame = 0
     var maxFrames = 0
-    var lastFrameTime = 0L
     var hasCape: Boolean = false
     var hasElytraTexture: Boolean = true
     var hasAnimatedCape: Boolean = false
     var capeType: CapeType? = null
+
     init {
         instances[uuid] = this
     }
@@ -37,6 +41,18 @@ class PlayerHandler(var profile: GameProfile) {
     companion object {
         val instances = HashMap<UUID, PlayerHandler>()
         val capeExecutor = Executors.newFixedThreadPool(2)
+
+        fun refreshListEntries() {
+            MinecraftClient.getInstance().networkHandler?.playerList?.forEach {
+                (it as ListEntryAccessor).refreshSkinData()
+            }
+        }
+
+        fun refreshListEntry(id: UUID) {
+            val entry = MinecraftClient.getInstance().networkHandler?.getPlayerListEntry(id)
+
+            ((entry?: return) as ListEntryAccessor).refreshSkinData()
+        }
 
         fun fromProfile(profile: GameProfile) = instances[profile.id] ?: PlayerHandler(profile)
 
@@ -51,7 +67,9 @@ class PlayerHandler(var profile: GameProfile) {
                 }
             } else {
                 capeExecutor.submit {
-                    if (profile.id.toString() == "5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9") { playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/${profile.id}")); return@submit }
+                    if (profile.id.leastSignificantBits == -4938257865578300679L && profile.id.mostSignificantBits == 6886564572230534972) {
+                        playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9")); return@submit
+                    }
                     for (capeType in CapeType.values()) {
                         if (playerHandler.setCape(capeType)) break
                     }
@@ -69,16 +87,12 @@ class PlayerHandler(var profile: GameProfile) {
     }
 
     fun getCape(): Identifier {
+        return getCape(0)
+    }
+
+    fun getCape(frame: Int): Identifier {
         if (!hasAnimatedCape) return identifier(uuid.toString())
-        val time = System.currentTimeMillis()
-        return if (time > this.lastFrameTime + 100L) {
-            val thisFrame = (this.lastFrame + 1) % this.maxFrames
-            this.lastFrame = thisFrame
-            this.lastFrameTime = time
-            identifier("$uuid/$thisFrame")
-        } else {
-            identifier("$uuid/${this.lastFrame}")
-        }
+        return identifier("$uuid/${frame}")
     }
 
     fun setCape(capeType: CapeType): Boolean {
@@ -158,6 +172,7 @@ class PlayerHandler(var profile: GameProfile) {
                     )
                     this.hasCape = true
                 }
+                refreshListEntry(profile.id)
             }
             true
         } catch (ioException: IOException) {
@@ -169,7 +184,7 @@ class PlayerHandler(var profile: GameProfile) {
         var imageWidth = 64
         var imageHeight = 32
         val srcWidth = img.width
-        val srcHeight= img.height
+        val srcHeight = img.height
         while (imageWidth < srcWidth || imageHeight < srcHeight) {
             imageWidth *= 2
             imageHeight *= 2
