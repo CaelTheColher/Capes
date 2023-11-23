@@ -13,18 +13,18 @@ import java.util.concurrent.CompletableFuture;
 
 @Mixin(targets = "net.minecraft.client.texture.PlayerSkinProvider$1")
 public class MixinPlayerSkinProvider {
-	@Inject(method = "load(Ljava/lang/Object;)Ljava/lang/Object;", at = @At("TAIL"))
-	private void getTextureFuture(Object key, CallbackInfoReturnable<Object> cir) {
-		// One it's done loading, refresh our skin providers
-		GameProfile profile = ((KeyAccessor) key).getProfile();
-		CompletableFuture<SkinTextures> result = (CompletableFuture<SkinTextures>) cir.getReturnValue();
+    @Inject(method = "load(Ljava/lang/Object;)Ljava/lang/Object;", at = @At("TAIL"))
+    private void getTextureFuture(Object key, CallbackInfoReturnable<Object> cir) {
+        // One it's done loading, refresh our skin providers
+        GameProfile profile = ((KeyAccessor) key).getProfile();
+        CompletableFuture<SkinTextures> result = (CompletableFuture<SkinTextures>) cir.getReturnValue();
 
-		result.whenCompleteAsync((textures, error) -> {
-			if(textures == null) return;
+        result.whenCompleteAsync((textures, error) -> {
+            if(textures == null) return;
 
-			MinecraftClient.getInstance().submit(() -> {
-				PlayerHandler.Companion.refreshListEntry(profile.getId());
-			});
-		});
-	}
+            MinecraftClient.getInstance().submit(() -> {
+                PlayerHandler.Companion.refreshListEntry(profile.getId());
+            });
+        });
+    }
 }
