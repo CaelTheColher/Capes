@@ -70,6 +70,8 @@ public class MixinPlayerListEntry implements ListEntryAccessor {
 
     @Unique
     private boolean isCapeTypeEnabled(CapeType type) {
+        if (type == null) return false;
+
         CapeConfig config = Capes.INSTANCE.getCONFIG();
         if (MinecraftClient.getInstance().uuidEquals(profile.getId())) {
             return type == config.getClientCapeType();
