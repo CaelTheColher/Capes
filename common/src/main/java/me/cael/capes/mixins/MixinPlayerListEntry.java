@@ -108,7 +108,7 @@ public class MixinPlayerListEntry implements ListEntryAccessor {
         PlayerHandler.Companion.onLoadTexture(profile);
     }
 
-    @Inject(method = "getSkinTextures", at = @At("TAIL"), cancellable = true)
+    @Inject(method = "getSkinTextures", at = @At("HEAD"), cancellable = true)
     private void getCapeTexture(CallbackInfoReturnable<SkinTextures> cir) {
         if (moddedTextureSupplier != null) {
             cir.setReturnValue(moddedTextureSupplier.get());
