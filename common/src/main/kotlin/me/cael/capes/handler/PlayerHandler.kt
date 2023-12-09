@@ -15,6 +15,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.texture.NativeImage
 import net.minecraft.client.texture.NativeImageBackedTexture
 import net.minecraft.util.Identifier
+import net.minecraft.util.Util
 import org.apache.commons.codec.binary.Base64
 import java.io.ByteArrayInputStream
 import java.io.IOException
@@ -24,7 +25,6 @@ import java.io.Reader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
-import java.util.concurrent.Executors
 
 class PlayerHandler(var profile: GameProfile) {
     val uuid: UUID = profile.id
@@ -40,7 +40,6 @@ class PlayerHandler(var profile: GameProfile) {
 
     companion object {
         val instances = HashMap<UUID, PlayerHandler>()
-        val capeExecutor = Executors.newFixedThreadPool(2)
 
         fun refreshListEntries() {
             MinecraftClient.getInstance().networkHandler?.playerList?.forEach {
@@ -58,6 +57,7 @@ class PlayerHandler(var profile: GameProfile) {
 
         fun onLoadTexture(profile: GameProfile) {
             val playerHandler = fromProfile(profile)
+            val capeExecutor = Util.getMainWorkerExecutor()
             if (profile == MinecraftClient.getInstance().gameProfile) {
                 playerHandler.hasCape = false
                 playerHandler.hasAnimatedCape = false
