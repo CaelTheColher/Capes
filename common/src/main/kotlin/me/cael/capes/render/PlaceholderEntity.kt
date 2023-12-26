@@ -47,7 +47,7 @@ object PlaceholderEntity {
     fun getCapeTexture(): Identifier? {
         if (!capeLoaded) {
             capeLoaded = true
-            PlayerHandler.onLoadTexture(gameProfile)
+            PlayerHandler.downloadTextures(gameProfile)
         }
         val handler = PlayerHandler.fromProfile(gameProfile)
         return if (handler.hasCape) handler.getCape() else skin.capeTexture

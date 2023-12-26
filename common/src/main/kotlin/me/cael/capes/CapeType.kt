@@ -1,13 +1,14 @@
 package me.cael.capes
 
 import com.mojang.authlib.GameProfile
+import net.minecraft.client.MinecraftClient
 import net.minecraft.screen.ScreenTexts
 import net.minecraft.text.Text
 
 enum class CapeType(val stylized: String) {
     MINECRAFT("Minecraft"), OPTIFINE("OptiFine"), LABYMOD("LabyMod"), WYNNTILS("Wynntils"), MINECRAFTCAPES("MinecraftCapes"), COSMETICA("Cosmetica"), CLOAKSPLUS("Cloaks+");
 
-    fun cycle() = when(this) {
+    fun cycle() = when (this) {
         MINECRAFT -> OPTIFINE
         OPTIFINE -> LABYMOD
         LABYMOD -> WYNNTILS
@@ -18,15 +19,29 @@ enum class CapeType(val stylized: String) {
     }
 
     fun getURL(profile: GameProfile): String? {
-        val config = Capes.CONFIG
+        if (!isEnabled(profile)) return null
         return when (this) {
-            OPTIFINE -> if(config.enableOptifine) "http://s.optifine.net/capes/${profile.name}.png" else null
-            LABYMOD -> if(config.enableLabyMod) "https://dl.labymod.net/capes/${profile.id}" else null
-            WYNNTILS -> if(config.enableWynntils) "https://athena.wynntils.com/user/getInfo" else null
-            COSMETICA -> if(config.enableCosmetica) "https://api.cosmetica.cc/get/cloak?username=${profile.name}&uuid=${profile.id}&nothirdparty" else null
-            MINECRAFTCAPES -> if(config.enableMinecraftCapesMod) "https://api.minecraftcapes.net/profile/${profile.id.toString().replace("-", "")}" else null
-            CLOAKSPLUS -> if(config.enableCloaksPlus) "http://161.35.130.99/capes/${profile.name}.png" else null
+            OPTIFINE -> "http://s.optifine.net/capes/${profile.name}.png"
+            LABYMOD -> "https://dl.labymod.net/capes/${profile.id}"
+            WYNNTILS -> "https://athena.wynntils.com/user/getInfo"
+            COSMETICA -> "https://api.cosmetica.cc/get/cloak?username=${profile.name}&uuid=${profile.id}&nothirdparty"
+            MINECRAFTCAPES -> "https://api.minecraftcapes.net/profile/${profile.id.toString().replace("-", "")}"
+            CLOAKSPLUS -> "http://161.35.130.99/capes/${profile.name}.png"
             MINECRAFT -> null
+        }
+    }
+
+    fun isEnabled(profile: GameProfile): Boolean {
+        return if (MinecraftClient.getInstance().uuidEquals(profile.id)) {
+            Capes.CONFIG.clientCapeType === this
+        } else return when (this) {
+            MINECRAFT -> false
+            LABYMOD -> Capes.CONFIG.enableLabyMod
+            OPTIFINE -> Capes.CONFIG.enableOptifine
+            WYNNTILS -> Capes.CONFIG.enableWynntils
+            COSMETICA -> Capes.CONFIG.enableCosmetica
+            CLOAKSPLUS -> Capes.CONFIG.enableCloaksPlus
+            MINECRAFTCAPES -> Capes.CONFIG.enableMinecraftCapesMod
         }
     }
 
