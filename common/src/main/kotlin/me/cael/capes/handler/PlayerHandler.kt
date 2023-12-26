@@ -41,21 +41,16 @@ class PlayerHandler(var profile: GameProfile) {
     companion object {
         val instances = HashMap<UUID, PlayerHandler>()
 
-        fun refreshListEntries() {
+        fun redownloadCapes() {
             MinecraftClient.getInstance().networkHandler?.playerList?.forEach {
-                (it as ListEntryAccessor).refreshSkinData()
+                it as ListEntryAccessor
+                it.capesRefresh(true)
             }
-        }
-
-        fun refreshListEntry(id: UUID) {
-            val entry = MinecraftClient.getInstance().networkHandler?.getPlayerListEntry(id)
-
-            ((entry?: return) as ListEntryAccessor).refreshSkinData()
         }
 
         fun fromProfile(profile: GameProfile) = instances[profile.id] ?: PlayerHandler(profile)
 
-        fun onLoadTexture(profile: GameProfile) {
+        fun downloadTextures(profile: GameProfile) {
             val playerHandler = fromProfile(profile)
             val capeExecutor = Util.getMainWorkerExecutor()
             if (profile == MinecraftClient.getInstance().gameProfile) {
@@ -68,6 +63,7 @@ class PlayerHandler(var profile: GameProfile) {
             } else {
                 capeExecutor.submit {
                     if (profile.id.leastSignificantBits == -4938257865578300679L && profile.id.mostSignificantBits == 6886564572230534972) {
+                        // 5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9
                         playerHandler.setStandardCape(connection("https://athena.wynntils.com/capes/user/5f91fdfd-ea97-473c-bb77-c8a2a0ed3af9")); return@submit
                     }
                     for (capeType in CapeType.values()) {
@@ -154,11 +150,12 @@ class PlayerHandler(var profile: GameProfile) {
     fun setCapeTexture(image: InputStream, animated: Boolean = false): Boolean {
         return try {
             val cape = NativeImage.read(image)
-            MinecraftClient.getInstance().submit {
+            val client = MinecraftClient.getInstance()
+            client.submit {
                 if (animated) {
                     val animatedCapeFrames = parseAnimatedCape(cape)
                     animatedCapeFrames.forEach { (frame, texture) ->
-                        MinecraftClient.getInstance().textureManager.registerTexture(
+                        client.textureManager.registerTexture(
                             identifier("$uuid/$frame"), NativeImageBackedTexture(texture)
                         )
                     }
@@ -167,12 +164,14 @@ class PlayerHandler(var profile: GameProfile) {
                     this.hasAnimatedCape = true
                 } else {
                     this.hasElytraTexture = cape.width.floorDiv(cape.height) == 2
-                    MinecraftClient.getInstance().textureManager.registerTexture(
+                    client.textureManager.registerTexture(
                         identifier(uuid.toString()), NativeImageBackedTexture(parseCape(cape))
                     )
                     this.hasCape = true
                 }
-                refreshListEntry(profile.id)
+
+                val entry = client.networkHandler?.getPlayerListEntry(profile.id)
+                ((entry?: return@submit) as ListEntryAccessor).capesRefresh(false)
             }
             true
         } catch (ioException: IOException) {

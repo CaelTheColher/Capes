@@ -1,7 +1,7 @@
 package me.cael.capes.mixins;
 
 import com.mojang.authlib.GameProfile;
-import me.cael.capes.handler.PlayerHandler;
+import me.cael.capes.ListEntryAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.SkinTextures;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,10 +20,15 @@ public class MixinPlayerSkinProvider {
         CompletableFuture<SkinTextures> result = (CompletableFuture<SkinTextures>) cir.getReturnValue();
 
         result.whenCompleteAsync((textures, error) -> {
-            if(textures == null) return;
+            if (textures == null) return;
 
-            MinecraftClient.getInstance().submit(() -> {
-                PlayerHandler.Companion.refreshListEntry(profile.getId());
+            MinecraftClient client = MinecraftClient.getInstance();
+            client.submit(() -> {
+                var network = client.getNetworkHandler();
+                if (network == null) return;
+                var entry = (ListEntryAccessor) network.getPlayerListEntry(profile.getId());
+                if (entry == null) return;
+                entry.capesRefresh(false);
             });
         });
     }

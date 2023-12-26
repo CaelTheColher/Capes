@@ -1,5 +1,5 @@
 package me.cael.capes;
 
 public interface ListEntryAccessor {
-    void refreshSkinData();
+    void capesRefresh(boolean tryDownload);
 }

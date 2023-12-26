@@ -7,7 +7,6 @@ import me.cael.capes.CapeType;
 import me.cael.capes.Capes;
 import me.cael.capes.ListEntryAccessor;
 import me.cael.capes.handler.PlayerHandler;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.SkinTextures;
 import net.minecraft.util.Identifier;
@@ -27,6 +26,8 @@ public class MixinPlayerListEntry implements ListEntryAccessor {
     @Shadow @Final private GameProfile profile;
     @Shadow @Final private Supplier<SkinTextures> texturesSupplier;
 
+    @Unique private PlayerHandler handler;
+
     @Unique private int lastFrame = 0;
     @Unique private int maxFrames = 0;
     @Unique private long lastFrameTime = 0;
@@ -34,10 +35,20 @@ public class MixinPlayerListEntry implements ListEntryAccessor {
     @Unique private Supplier<SkinTextures> moddedTextureSupplier;
 
     @Override
-    public void refreshSkinData() {
-        PlayerHandler handler = PlayerHandler.Companion.fromProfile(profile);
+    public void capesRefresh(boolean tryDownload) {
+        CapeType type = handler.getCapeType();
 
-        if (!handler.getHasCape() || !isCapeTypeEnabled(handler.getCapeType())) {
+        if (!handler.getHasCape() || type == null) {
+            moddedTextureSupplier = null;
+
+            if (tryDownload) {
+                PlayerHandler.Companion.downloadTextures(profile);
+            }
+
+            return;
+        }
+
+        if (!type.isEnabled(profile)) {
             moddedTextureSupplier = null;
             return;
         }
@@ -69,26 +80,6 @@ public class MixinPlayerListEntry implements ListEntryAccessor {
     }
 
     @Unique
-    private boolean isCapeTypeEnabled(CapeType type) {
-        if (type == null) return false;
-
-        CapeConfig config = Capes.INSTANCE.getCONFIG();
-        if (MinecraftClient.getInstance().uuidEquals(profile.getId())) {
-            return type == config.getClientCapeType();
-        }
-
-        return switch(type) {
-            case MINECRAFT -> false;
-            case LABYMOD -> config.getEnableLabyMod();
-            case OPTIFINE -> config.getEnableOptifine();
-            case WYNNTILS -> config.getEnableWynntils();
-            case COSMETICA -> config.getEnableCosmetica();
-            case CLOAKSPLUS -> config.getEnableCloaksPlus();
-            case MINECRAFTCAPES -> config.getEnableMinecraftCapesMod();
-        };
-    }
-
-    @Unique
     private SkinTextures makeTextures(PlayerHandler handler, Identifier capeTexture) {
         CapeConfig config = Capes.INSTANCE.getCONFIG();
         SkinTextures oldTextures = texturesSupplier.get();
@@ -102,12 +93,8 @@ public class MixinPlayerListEntry implements ListEntryAccessor {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void setupModifiedSupplier(GameProfile profile, boolean secureChatEnforced, CallbackInfo ci) {
-        refreshSkinData();
-    }
-
-    @Inject(method = "texturesSupplier", at = @At("HEAD"))
-    private static void loadTextures(GameProfile profile, CallbackInfoReturnable<Supplier<SkinTextures>> cir) {
-        PlayerHandler.Companion.onLoadTexture(profile);
+        handler = PlayerHandler.Companion.fromProfile(profile);
+        capesRefresh(true);
     }
 
     @Inject(method = "getSkinTextures", at = @At("HEAD"), cancellable = true)
