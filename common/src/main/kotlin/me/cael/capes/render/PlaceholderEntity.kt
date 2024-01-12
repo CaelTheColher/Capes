@@ -10,8 +10,7 @@ import kotlin.math.sqrt
 
 object PlaceholderEntity {
     val gameProfile = MinecraftClient.getInstance().gameProfile
-
-    var skin: SkinTextures = DefaultSkinHelper.getTexture(gameProfile)
+    var skin: SkinTextures = DefaultSkinHelper.getSkinTextures(gameProfile)
 
     var slim = false
 
