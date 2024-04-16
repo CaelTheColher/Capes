@@ -24,7 +24,7 @@ class OtherMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, gam
                 val random2Bi = BigInteger(128, Random(System.identityHashCode(Object()).toLong()))
                 val serverId = random1Bi.xor(random2Bi).toString(16)
                 client!!.sessionService.joinServer(client!!.gameProfile.id, client!!.session.accessToken, serverId)
-                val url = "https://optifine.net/capeChange?u=${client!!.gameProfile.id}&n=${client!!.session.username}&s=$serverId"
+                val url = "https://optifine.net/capeChange?u=${client!!.gameProfile.id.toString().replace("-", "")}&n=${client!!.session.username}&s=$serverId"
                 client!!.setScreen(ConfirmLinkScreen({ bool: Boolean ->
                     if (bool) {
                         Util.getOperatingSystem().open(url)
