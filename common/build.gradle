@@ -4,7 +4,9 @@ plugins {
 }
 
 architectury {
-    common(rootProject.enabled_platforms.split(","))
+    common(rootProject.enabled_platforms.split(",")) {
+        it.platformPackage("neoforge", "forge")
+    }
 }
 
 dependencies {
@@ -13,8 +15,6 @@ dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-
-    implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-common:${rootProject.mixinextras_version}"))
 }
 
 publishing {

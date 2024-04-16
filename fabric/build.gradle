@@ -32,9 +32,7 @@ dependencies {
 
     modImplementation "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
 
-    include(implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-fabric:${rootProject.mixinextras_version}")))
-
-    modImplementation "com.ptsmods:devlogin:3.4.1"
+    modImplementation "com.ptsmods:devlogin:3.5"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
