@@ -1,10 +1,10 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.5-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
     id "org.ajoberstar.grgit" version "5.0.0" apply false
     id "com.matthewprenger.cursegradle" version "1.4.0" apply false
     id "com.modrinth.minotaur" version "2.+" apply false
-    id "org.jetbrains.kotlin.jvm" version "1.8.0" apply false
+    id "org.jetbrains.kotlin.jvm" version "1.9.23" apply false
 }
 
 architectury {
@@ -20,8 +20,12 @@ subprojects {
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        mappings "net.fabricmc:yarn:${rootProject.yarn_mappings}:v2"
+        mappings loom.layered {
+            it.mappings("net.fabricmc:yarn:${rootProject.yarn_mappings}:v2")
+            it.mappings("dev.architectury:yarn-mappings-patch-neoforge:1.20.5+build.3")
+        }
     }
+
 }
 
 allprojects {
@@ -45,7 +49,7 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release = 21
     }
 
     java {
@@ -53,4 +57,8 @@ allprojects {
     }
 }
 
+tasks.register('fabricPublish')
+tasks.register('forgePublish')
 tasks.register('modPublish')
+tasks.named("modPublish").get().dependsOn tasks.named("fabricPublish").get()
+tasks.named("modPublish").get().dependsOn tasks.named("forgePublish").get()
