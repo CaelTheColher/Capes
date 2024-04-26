@@ -1,0 +1,11 @@
+{
+  "options.capes.title": "Opciones de Capa",
+  "options.capes.capetype": "Tipo de Capa: %s",
+  "options.capes.optifineeditor": "Editor de Capa OptiFine",
+  "options.capes.elytra": "Textura de Capa en Elytra",
+  "options.capes.selector": "Selector de Capa",
+  "options.capes.toggle": "Alternar",
+  "options.capes.other": "Otro",
+  "options.capes.selector.elytra": "Alternar Elytra",
+  "options.capes.selector.player": "Alternar Jugador"
+}
