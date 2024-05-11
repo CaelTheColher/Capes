@@ -2,6 +2,8 @@ package me.cael.capes.menu
 
 import com.mojang.blaze3d.systems.RenderSystem
 import me.cael.capes.Capes
+import me.cael.capes.ListEntryAccessor
+import me.cael.capes.handler.PlayerHandler
 import me.cael.capes.render.DisplayPlayerEntityRenderer
 import me.cael.capes.render.PlaceholderEntity
 import net.minecraft.client.MinecraftClient
@@ -31,6 +33,12 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
             config.save()
             it.message = config.clientCapeType.getText()
             PlaceholderEntity.capeLoaded = false
+            (client!!.player?: return@builder).uuid.let {
+                val entry = client!!.networkHandler?.getPlayerListEntry(it)
+                entry?: return@builder
+                entry as ListEntryAccessor
+                entry.capesRefresh(true)
+            }
         }.position((width / 2) - (buttonW / 2), 60).size(buttonW, 20).build())
 
         addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE) {
