@@ -78,8 +78,8 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
 
     fun drawPlayer(x: Int, y: Int, size: Int, entity: PlaceholderEntity) {
         val matrixStack = RenderSystem.getModelViewStack()
-        matrixStack.push()
-        matrixStack.translate(x.toDouble(), y.toDouble(), 1050.0)
+        matrixStack.pushMatrix()
+        matrixStack.translate(x.toFloat(), y.toFloat(), 1050.0f)
         matrixStack.scale(1.0f, 1.0f, -1.0f)
         RenderSystem.applyModelViewMatrix()
         val matrixStack2 = MatrixStack()
@@ -108,7 +108,7 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
         }
         immediate.draw()
         entityRenderDispatcher.setRenderShadows(true)
-        matrixStack.pop()
+        matrixStack.popMatrix()
         RenderSystem.applyModelViewMatrix()
         DiffuseLighting.enableGuiDepthLighting()
     }

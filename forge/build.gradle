@@ -14,18 +14,13 @@ plugins {
 
 architectury {
     platformSetupLoomIde()
-    forge()
+    neoForge {
+        platformPackage = "forge"
+    }
 }
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
-
-    forge {
-        convertAccessWideners = true
-
-        mixinConfig "capes-common.mixins.json"
-        mixinConfig "capes-forge.mixins.json"
-    }
 }
 
 configurations {
@@ -33,7 +28,7 @@ configurations {
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
+    developmentNeoForge.extendsFrom common
 }
 
 repositories {
@@ -42,20 +37,20 @@ repositories {
         url = 'https://thedarkcolour.github.io/KotlinForForge/'
         content { includeGroup "thedarkcolour" }
     }
+    maven {
+        url 'https://maven.neoforged.net/releases/'
+    }
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${forge_version}"
+    neoForge "net.neoforged:neoforge:${forge_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
 
-    implementation "thedarkcolour:kotlinforforge:${forge_kotlin_version}"
+    implementation "thedarkcolour:kotlinforforge-neoforge:${forge_kotlin_version}"
 
-    implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-common:${mixinextras_version}"))
-    implementation(include("com.github.llamalad7.mixinextras:mixinextras-forge:${mixinextras_version}"))
-
-    modImplementation "com.ptsmods:devlogin:3.4.1"
+    modImplementation "com.ptsmods:devlogin:3.5"
 }
 
 processResources {
@@ -127,7 +122,7 @@ curseforge {
         id = curseforge_id
         changelog = getChangeLog()
         releaseType = "beta"
-        addGameVersion("Forge")
+        addGameVersion("NeoForge")
         addGameVersion(minecraft_version)
         relations {
             requiredDependency("kotlin-for-forge")
@@ -149,7 +144,7 @@ modrinth {
     versionName = DISPLAY_NAME
     uploadFile = remapJar
     gameVersions = [minecraft_version]
-    loaders = ['forge']
+    loaders = ['neoforge']
     versionType = "release"
     changelog = getChangeLog()
     dependencies {
@@ -199,6 +194,6 @@ tasks.register('github') {
 tasks.named("curseforge").get().dependsOn tasks.named("remapJar").get()
 tasks.named("modrinth").get().dependsOn tasks.named("remapJar").get()
 
-rootProject.tasks.named("modPublish").get().dependsOn tasks.named("curseforge").get()
-rootProject.tasks.named("modPublish").get().dependsOn tasks.named("modrinth").get()
-rootProject.tasks.named("modPublish").get().dependsOn tasks.named("github").get()
+rootProject.tasks.named("forgePublish").get().dependsOn tasks.named("curseforge").get()
+rootProject.tasks.named("forgePublish").get().dependsOn tasks.named("modrinth").get()
+rootProject.tasks.named("forgePublish").get().dependsOn tasks.named("github").get()

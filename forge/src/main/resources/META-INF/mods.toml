@@ -13,15 +13,20 @@ A mod that lets you use capes from Optifine, LabyMod, Cosmetica, Wynntils, Capes
 '''
 
 [[dependencies.capes]]
-modId = "forge"
-mandatory = true
-versionRange = "[48,)"
+modId = "neoforge"
+type = "required"
+versionRange = "[20,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.capes]]
 modId = "minecraft"
-mandatory = true
-versionRange = "[1.20.2,)"
+type = "required"
+versionRange = "[1.20.5,)"
 ordering = "NONE"
 side = "CLIENT"
+
+[[mixins]]
+config = "capes-common.mixins.json"
+[[mixins]]
+config = "capes-forge.mixins.json"
