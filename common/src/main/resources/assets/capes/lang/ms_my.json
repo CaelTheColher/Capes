@@ -1,0 +1,11 @@
+{
+  "options.capes.title": "Tetapan Mantel",
+  "options.capes.capetype": "Jenis Mantel: %s",
+  "options.capes.optifineeditor": "Penyunting Mantel OptiFine",
+  "options.capes.elytra": "Tekstur Mantel pada Elitra",
+  "options.capes.selector": "Pemilih Mantel",
+  "options.capes.toggle": "Togol",
+  "options.capes.other": "Lain-lain",
+  "options.capes.selector.elytra": "Togol Elitra",
+  "options.capes.selector.player": "Togol Pemain"
+}
