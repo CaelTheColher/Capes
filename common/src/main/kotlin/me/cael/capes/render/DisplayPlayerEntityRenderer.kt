@@ -6,7 +6,6 @@ import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.LivingEntityRenderer
-import net.minecraft.client.render.entity.PlayerModelPart
 import net.minecraft.client.render.entity.model.ElytraEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayers
 import net.minecraft.client.render.entity.model.PlayerEntityModel
@@ -14,6 +13,7 @@ import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.DefaultSkinHelper
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerModelPart
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
@@ -54,7 +54,7 @@ class DisplayPlayerEntityRenderer(val ctx: EntityRendererFactory.Context, slim: 
             val renderLayer = this.model.getLayer(PlaceholderEntity.getSkinTexture())
             val vertexConsumer = vertexConsumerProvider.getBuffer(renderLayer)
             val overlay = OverlayTexture.packUv(OverlayTexture.getU(0f), OverlayTexture.getV(false))
-            model.render(matrixStack, vertexConsumer, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f)
+            model.render(matrixStack, vertexConsumer, light, overlay)
         }
 
         if (!PlaceholderEntity.showElytra) {
@@ -76,8 +76,8 @@ class DisplayPlayerEntityRenderer(val ctx: EntityRendererFactory.Context, slim: 
 
             this.model.copyStateTo(this.elytra)
 
-            val vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(identifier), false, false)
-            this.elytra.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f)
+            val vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(identifier), false)
+            this.elytra.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV)
             matrixStack.pop()
         }
 

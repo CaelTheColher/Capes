@@ -44,6 +44,6 @@ object Capes {
         finalConfig
     }
 
-    fun identifier(id: String) = Identifier(MOD_ID, id)
+    fun identifier(id: String) = Identifier.of(MOD_ID, id)
 
 }
