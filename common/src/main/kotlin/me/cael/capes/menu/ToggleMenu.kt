@@ -51,6 +51,12 @@ class ToggleMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, ga
             it.message = CapeType.CLOAKSPLUS.getToggleText(config.enableCloaksPlus)
         }.position(width / 2 - 155 + 160, height / 7 + 3 * 24).size(150, 20).build())
 
+        addDrawableChild(ButtonWidget.builder(CapeType.ADVANCEDCAPES.getToggleText(config.enableAdvancedCapes)) {
+            config.enableCloaksPlus = !config.enableAdvancedCapes
+            config.save()
+            it.message = CapeType.ADVANCEDCAPES.getToggleText(config.enableAdvancedCapes)
+        }.position(width / 2 - 155, height / 7 + 3 * 24).size(150, 20).build())
+
         addDrawableChild(ButtonWidget.builder(elytraMessage(config.enableElytraTexture)) {
             config.enableElytraTexture = !config.enableElytraTexture
             config.save()
@@ -59,7 +65,7 @@ class ToggleMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, ga
 
         addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE) {
             client!!.setScreen(parent)
-        }.position((width/2) - (200 / 2), height / 7 + 5 * 24).size(200, 20).build())
+        }.position((width/2) - (200 / 2), height / 7 + 6 * 24).size(200, 20).build())
 
     }
 
