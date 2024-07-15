@@ -5,17 +5,13 @@ on: [workflow_dispatch]
 jobs:
   release:
 
-    runs-on: ubuntu-latest
-
-    container:
-      image: openjdk:17-jdk
-      options: --user root
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2.2.0
       - run: |
-          chmod +x ./gradlew
-          ./gradlew build github --stacktrace
+          gradlew.bat
+          gradlew.bat build github --stacktrace
         env:
           GITHUB_TOKEN: ${{ secrets.GH_API_KEY }}
           
