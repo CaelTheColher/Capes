@@ -10,6 +10,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2.2.0
       - run: |
+          $java17Url = "https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.exe"
+          $installer = "$env:TEMP\jdk-17_windows-x64_bin.exe"
+          Invoke-WebRequest -Uri $java17Url -OutFile $installer
+          Start-Process -FilePath $installer -ArgumentList "/s" -Wait
+          Remove-Item $installer
+          setx JAVA_HOME "C:\Program Files\Java\jdk-17\"
           ./gradlew.bat
           ./gradlew.bat build github --stacktrace
         env:
