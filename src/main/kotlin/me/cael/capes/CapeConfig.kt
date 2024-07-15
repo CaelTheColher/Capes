@@ -10,6 +10,7 @@ class CapeConfig : Config {
     var enableMinecraftCapesMod = false
     var enableCosmetica = false
     var enableCloaksPlus = false
+    var enableAdvancedCapes = false
     var enableElytraTexture = true
 
     override fun getName(): String = "capes"
