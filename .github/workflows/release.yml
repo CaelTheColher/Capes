@@ -10,8 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2.2.0
       - run: |
-          gradlew.bat
-          gradlew.bat build github --stacktrace
+          ./gradlew.bat
+          ./gradlew.bat build github --stacktrace
         env:
           GITHUB_TOKEN: ${{ secrets.GH_API_KEY }}
           
