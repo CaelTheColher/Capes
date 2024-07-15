@@ -13,6 +13,7 @@ class CapeConfig {
     var enableMinecraftCapesMod = false
     var enableCosmetica = false
     var enableCloaksPlus = false
+    var enableAdvancedCapes = false
     var enableElytraTexture = true
 
     fun save() {
