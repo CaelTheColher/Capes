@@ -15,8 +15,7 @@ jobs:
       - uses: actions/checkout@v2.2.0
       - run: |
           chmod +x ./gradlew
-          ./gradlew build github curseforge modrinth --stacktrace
+          ./gradlew build github --stacktrace
         env:
-          CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GH_API_KEY }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          
