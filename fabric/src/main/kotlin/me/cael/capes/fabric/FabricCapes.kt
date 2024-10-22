@@ -33,13 +33,13 @@ object FabricCapes : ClientModInitializer {
                                     )
                                 } ?: throw EntityArgumentType.PLAYER_NOT_FOUND_EXCEPTION.create()
                                 val debugInfo = getDebugInfoForPlayer(target.gameProfile)
-                                context.source.player.sendMessage(debugInfo)
+                                context.source.player.sendMessage(debugInfo, false)
                                 return@executes 1
                             }
                         )
                         .executes { context ->
                             val debugInfo = getDebugInfoForPlayer(context.source.player.gameProfile)
-                            context.source.player.sendMessage(debugInfo)
+                            context.source.player.sendMessage(debugInfo, false)
                             return@executes 1
                         }
                     )

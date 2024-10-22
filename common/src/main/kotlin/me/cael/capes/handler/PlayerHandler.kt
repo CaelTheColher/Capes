@@ -177,7 +177,7 @@ class PlayerHandler(var profile: GameProfile) {
         val imgNew = NativeImage(imageWidth, imageHeight, true)
         for (x in 0 until srcWidth) {
             for (y in 0 until srcHeight) {
-                imgNew.setColor(x, y, img.getColor(x, y))
+                imgNew.setColorArgb(x, y, img.getColorArgb(x, y))
             }
         }
         img.close()
@@ -191,7 +191,7 @@ class PlayerHandler(var profile: GameProfile) {
             val frame = NativeImage(img.width, img.width / 2, true)
             for (x in 0 until frame.width) {
                 for (y in 0 until frame.height) {
-                    frame.setColor(x, y, img.getColor(x, y + (currentFrame * (img.width / 2))))
+                    frame.setColorArgb(x, y, img.getColorArgb(x, y + (currentFrame * (img.width / 2))))
                 }
             }
             animatedCape[currentFrame] = frame

@@ -39,13 +39,16 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
 
         buttonW = 100
 
+        addDrawableChild(ButtonWidget.builder(Text.translatable("options.capes.selector.player")) {
+            PlaceholderEntity.showBody = !PlaceholderEntity.showBody
+        }.position((width / 4) - (buttonW / 2), 145).size(buttonW, 20).build())
+
         addDrawableChild(ButtonWidget.builder(Text.translatable("options.capes.selector.elytra")) {
             PlaceholderEntity.showElytra = !PlaceholderEntity.showElytra
         }.position((width / 4) - (buttonW / 2), 120).size(buttonW, 20).build())
 
-        addDrawableChild(ButtonWidget.builder(Text.translatable("options.capes.selector.player")) {
-            PlaceholderEntity.showBody = !PlaceholderEntity.showBody
-        }.position((width / 4) - (buttonW / 2), 145).size(buttonW, 20).build())
+        addDrawableChild(ButtonWidget.builder(Text.literal("DO NOT ASK WHY THIS EXISTS")) {
+        }.size(0, 0).build())
 
     }
 
@@ -73,7 +76,7 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
         matrixStack.pushMatrix()
         matrixStack.translate(x.toFloat(), y.toFloat(), 1050.0f)
         matrixStack.scale(1.0f, 1.0f, -1.0f)
-        RenderSystem.applyModelViewMatrix()
+//        RenderSystem.applyModelViewMatrix()
         val matrixStack2 = MatrixStack()
         matrixStack2.translate(0.0, 0.0, 1000.0)
         matrixStack2.scale(size.toFloat(), size.toFloat(), size.toFloat())
@@ -85,23 +88,22 @@ class SelectorMenu(parent: Screen, gameOptions: GameOptions) : MainMenu(parent, 
         val entityRenderDispatcher = MinecraftClient.getInstance().entityRenderDispatcher
         entityRenderDispatcher.setRenderShadows(false)
         val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
-        RenderSystem.runAsFancy {
-            val ctx = EntityRendererFactory.Context(
-                MinecraftClient.getInstance().entityRenderDispatcher,
-                MinecraftClient.getInstance().itemRenderer,
-                MinecraftClient.getInstance().blockRenderManager,
-                MinecraftClient.getInstance().entityRenderDispatcher.heldItemRenderer,
-                MinecraftClient.getInstance().resourceManager,
-                MinecraftClient.getInstance().entityModelLoader,
-                MinecraftClient.getInstance().textRenderer
-            )
-            val displayPlayerEntityRenderer = DisplayPlayerEntityRenderer(ctx, entity.slim)
-            displayPlayerEntityRenderer.render(entity, 1.0f, matrixStack2, immediate, 0xF000F0)
-        }
+        val ctx = EntityRendererFactory.Context(
+            MinecraftClient.getInstance().entityRenderDispatcher,
+            MinecraftClient.getInstance().itemRenderer,
+            MinecraftClient.getInstance().mapRenderer,
+            MinecraftClient.getInstance().blockRenderManager,
+            MinecraftClient.getInstance().resourceManager,
+            MinecraftClient.getInstance().entityModelLoader,
+            MinecraftClient.getInstance().equipmentModelLoader,
+            MinecraftClient.getInstance().textRenderer
+        )
+        val displayPlayerEntityRenderer = DisplayPlayerEntityRenderer(ctx, entity.slim)
+        displayPlayerEntityRenderer.render(entity, 1.0f, matrixStack2, immediate, 0xF000F0)
         immediate.draw()
         entityRenderDispatcher.setRenderShadows(true)
         matrixStack.popMatrix()
-        RenderSystem.applyModelViewMatrix()
+//        RenderSystem.applyModelViewMatrix()
         DiffuseLighting.enableGuiDepthLighting()
     }
 

@@ -9,6 +9,7 @@ import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.model.ElytraEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLayers
 import net.minecraft.client.render.entity.model.PlayerEntityModel
+import net.minecraft.client.render.entity.state.PlayerEntityRenderState
 import net.minecraft.client.render.item.ItemRenderer
 import net.minecraft.client.util.DefaultSkinHelper
 import net.minecraft.client.util.math.MatrixStack
@@ -19,22 +20,20 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
 
 class DisplayPlayerEntityRenderer(val ctx: EntityRendererFactory.Context, slim: Boolean) :
-    LivingEntityRenderer<LivingEntity, PlayerEntityModel<LivingEntity>> (
+    LivingEntityRenderer<LivingEntity, PlayerEntityRenderState, PlayerEntityModel> (
         ctx,
-        PlayerEntityModel<LivingEntity>(
+        PlayerEntityModel(
             ctx.getPart(if (slim) EntityModelLayers.PLAYER_SLIM else EntityModelLayers.PLAYER),
             slim
         ),
         0.5f
     ) {
 
-    val elytra = ElytraEntityModel<LivingEntity>(ctx.modelLoader.getModelPart(EntityModelLayers.ELYTRA))
+    val elytra = ElytraEntityModel(ctx.modelLoader.getModelPart(EntityModelLayers.ELYTRA))
 
     fun render(livingEntity : PlaceholderEntity, tickDelta: Float, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, light: Int) {
         setModelPose()
         matrixStack.push()
-
-        model.child = false
 
         matrixStack.scale(0.9375f, 0.9375f, 0.9375f)
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f - livingEntity.yaw))
@@ -60,21 +59,16 @@ class DisplayPlayerEntityRenderer(val ctx: EntityRendererFactory.Context, slim: 
         if (!PlaceholderEntity.showElytra) {
             if (PlaceholderEntity.getCapeTexture() == null) return
             matrixStack.push()
-            matrixStack.translate(0.0f, 0.0f, 0.125f)
 
-            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(3.0f))
-            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f))
-
+            matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(6.0f))
             val vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getArmorCutoutNoCull(PlaceholderEntity.getCapeTexture()))
-            ctx.getPart(EntityModelLayers.PLAYER).getChild("cloak")
+            ctx.getPart(EntityModelLayers.PLAYER_CAPE).getChild("body").getChild("cape")
                 .render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV)
             matrixStack.pop()
         } else {
             val identifier = PlaceholderEntity.getElytraTexture()
             matrixStack.push()
             matrixStack.translate(0.0f, 0.0f, 0.125f)
-
-            this.model.copyStateTo(this.elytra)
 
             val vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(identifier), false)
             this.elytra.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV)
@@ -115,13 +109,6 @@ class DisplayPlayerEntityRenderer(val ctx: EntityRendererFactory.Context, slim: 
         model.body.pivotY = 0.0f
         model.leftArm.pivotY = 2.0f
         model.rightArm.pivotY = 2.0f
-
-        model.hat.copyTransform(model.head)
-        model.leftPants.copyTransform(model.leftLeg)
-        model.rightPants.copyTransform(model.rightLeg)
-        model.leftSleeve.copyTransform(model.leftArm)
-        model.rightSleeve.copyTransform(model.rightArm)
-        model.jacket.copyTransform(model.body)
     }
     
     private fun setModelPose() {
@@ -136,5 +123,7 @@ class DisplayPlayerEntityRenderer(val ctx: EntityRendererFactory.Context, slim: 
         playerEntityModel.rightSleeve.visible = options.isPlayerModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE)
     }
 
-    override fun getTexture(entity: LivingEntity?): Identifier = DefaultSkinHelper.getTexture()
+    override fun getTexture(state: PlayerEntityRenderState?): Identifier = DefaultSkinHelper.getTexture()
+
+    override fun createRenderState(): PlayerEntityRenderState = PlayerEntityRenderState()
 }
