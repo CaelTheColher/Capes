@@ -1,4 +1,7 @@
 {
+  "modmenu.nameTranslation.modmenu": "Capes",
+  "modmenu.descriptionTranslation.capes": "A mod that lets you use <rainbow>capes</rainbow> from OptiFine, LabyMod, Cosmetica, Wynntils, Capes++, and the MinecraftCapes mods.",
+  "modmenu.summaryTranslation.capes": "A mod that lets you use capes from few sources.",
   "options.capes.title": "Cape Options",
   "options.capes.capetype": "Cape Type: %s",
   "options.capes.optifineeditor": "OptiFine Cape Editor",
@@ -7,5 +10,11 @@
   "options.capes.toggle": "Toggle",
   "options.capes.other": "Other",
   "options.capes.selector.elytra": "Toggle Elytra",
-  "options.capes.selector.player": "Toggle Player"
+  "options.capes.selector.player": "Toggle Player",
+  "capes.optifine": "OptiFine",
+  "capes.labymod": "LabyMod",
+  "capes.cosmetica": "Cosmetica",
+  "capes.wynntils": "Wynntils",
+  "capes.capespp": "Cloaks+ (ex. Capes++)",
+  "capes.minecraftcapes": "MinecraftCapes"
 }

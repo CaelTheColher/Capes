@@ -1,4 +1,7 @@
 {
+  "modmenu.nameTranslation.modmenu": "Capes",
+  "modmenu.descriptionTranslation.capes": "A mod that lets you use <rainbow>capes</rainbow> from OptiFine, LabyMod, Cosmetica, Wynntils, Capes++, and the MinecraftCapes mods.",
+  "modmenu.summaryTranslation.capes": "A mod that lets you use capes from few sources.",
   "options.capes.title": "Opcje peleryny",
   "options.capes.capetype": "Typ peleryny: %s",
   "options.capes.optifineeditor": "Edytor peleryny OptiFine'a",

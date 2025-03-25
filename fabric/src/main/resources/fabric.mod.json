@@ -4,13 +4,13 @@
   "version": "${version}",
 
   "name": "Capes",
-  "description": "A mod that lets you use capes from Optifine, LabyMod, Cosmetica, Wynntils, Capes++, and the MinecraftCapes Mod.",
+  "description": "A mod that lets you use capes from OptiFine, LabyMod, Cosmetica, Wynntils, Capes++, and the MinecraftCapes mods.",
   "authors": [
     "Cael"
   ],
   "contact": {
     "discord": "「 Lily 」#5284",
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/capes",
+    "homepage": "https://modrinth.com/mod/capes",
     "sources": "https://github.com/CaelTheColher/Capes",
     "issues": "https://github.com/CaelTheColher/Capes/issues"
   },
@@ -33,11 +33,33 @@
   "mixins": [
     "capes-common.mixins.json"
   ],
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/G4PjhEf",
+        "modmenu.modrinth": "https://modrinth.com/mod/capes",
+        "modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/capes",
+        "modmenu.license": "https://opensource.org/licenses/LGPL-2.1",
+        "capes.optifine": "https://optifine.net/",
+        "capes.labymod": "https://labymod.net/",
+        "capes.cosmetica": "https://cosmetica.cc/",
+        "capes.wynntils": "https://wynntils.com/",
+        "capes.capespp": "https://cloaksplus.com/",
+        "capes.minecraftcapes": "https://minecraftcapes.net/"
+      }
+    }
+  },
   "depends": {
     "fabricloader": ">=0.14.21",
     "fabric": "*",
     "fabric-language-kotlin": "*",
     "minecraft": ">=1.21",
     "java": ">=21"
+  },
+  "suggests": {
+    "modmenu": "*"
+  },
+  "breaks": {
+    "cosmetica": "*"
   }
 }

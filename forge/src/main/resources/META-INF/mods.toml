@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "Capes"
 authors = "Cael"
 description = '''
-A mod that lets you use capes from Optifine, LabyMod, Cosmetica, Wynntils, Capes++, and the MinecraftCapes Mod.
+A mod that lets you use capes from OptiFine, LabyMod, Cosmetica, Wynntils, Capes++, and the MinecraftCapes Mod.
 '''
 
 [[dependencies.capes]]

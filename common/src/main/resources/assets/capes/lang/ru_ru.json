@@ -1,6 +1,14 @@
 {
+  "modmenu.nameTranslation.modmenu": "Плащи",
+  "modmenu.descriptionTranslation.capes": "Мод, позволяющий использовать <rainbow>плащи</rainbow> из таких модов, как: OptiFine, LabyMod, Cosmetica, Wynntils, Capes++ и MinecraftCapes.",
+  "modmenu.summaryTranslation.capes": "Поддержка плащей из нескольких источников.",
   "options.capes.title": "Настройки плаща",
   "options.capes.capetype": "Тип плаща: %s",
   "options.capes.optifineeditor": "Редактор плаща OptiFine",
-  "options.capes.elytra": "Узор плаща на Элитрах"
+  "options.capes.elytra": "Узор плаща на элитрах",
+  "options.capes.selector": "Выбор плаща",
+  "options.capes.toggle": "Отображение",
+  "options.capes.other": "Прочее",
+  "options.capes.selector.elytra": "Показать элитры",
+  "options.capes.selector.player": "Показать игрока"
 }
