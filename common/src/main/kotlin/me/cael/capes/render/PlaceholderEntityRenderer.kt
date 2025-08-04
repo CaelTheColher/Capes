@@ -16,7 +16,9 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerModelPart
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.util.Colors
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.RotationAxis
 
 class PlaceholderEntityRenderer(ctx: EntityRendererFactory.Context, slim: Boolean) :
     LivingEntityRenderer<LivingEntity, PlayerEntityRenderState, PlayerEntityModel>(
@@ -39,9 +41,35 @@ class PlaceholderEntityRenderer(ctx: EntityRendererFactory.Context, slim: Boolea
         )
     }
 
-    override fun render(livingEntityRenderState: PlayerEntityRenderState?, matrixStack: MatrixStack?, vertexConsumerProvider: VertexConsumerProvider?, i: Int) {
-        this.model.parts.forEach { it.visible = PlaceholderEntity.showBody }
-        super.render(livingEntityRenderState, matrixStack, vertexConsumerProvider, i)
+    override fun render(livingEntityRenderState: PlayerEntityRenderState, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, light: Int) {
+        matrixStack.push()
+
+        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f - livingEntityRenderState.bodyYaw))
+        matrixStack.scale(-1.0f, -1.0f, 1.0f)
+        this.scale(livingEntityRenderState, matrixStack)
+        matrixStack.translate(0.0f, -1.501f, 0.0f)
+        this.model.setAngles(livingEntityRenderState)
+        val renderLayer = this.getRenderLayer(livingEntityRenderState, PlaceholderEntity.showBody, false, false)
+        if (renderLayer != null) {
+            val vertexConsumer = vertexConsumerProvider.getBuffer(renderLayer)
+            val overlay = getOverlay(livingEntityRenderState, this.getAnimationCounter(livingEntityRenderState))
+            this.model.render(matrixStack, vertexConsumer, light, overlay, Colors.WHITE)
+        }
+
+        if (this.shouldRenderFeatures(livingEntityRenderState)) {
+            for (featureRenderer in this.features) {
+                featureRenderer.render(
+                    matrixStack,
+                    vertexConsumerProvider,
+                    light,
+                    livingEntityRenderState,
+                    livingEntityRenderState.relativeHeadYaw,
+                    livingEntityRenderState.pitch
+                )
+            }
+        }
+
+        matrixStack.pop()
     }
 
     override fun getTexture(playerEntityRenderState: PlayerEntityRenderState): Identifier? {

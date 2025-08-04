@@ -1,0 +1,22 @@
+name: Build Fabric
+
+on: [workflow_dispatch]
+
+jobs:
+  buildFabric:
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: openjdk:21-jdk
+      options: --user root
+
+    steps:
+      - uses: actions/checkout@v2.2.0
+      - run: |
+          chmod +x ./gradlew
+          ./gradlew :fabric:build --stacktrace
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: fabric/build/libs/*-fabric.jar
