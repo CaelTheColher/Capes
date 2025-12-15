@@ -4,16 +4,21 @@ on: [workflow_dispatch]
 
 jobs:
   releaseFabric:
-
     runs-on: ubuntu-latest
 
-    container:
-      image: openjdk:21-jdk
-      options: --user root
-
     steps:
-      - uses: actions/checkout@v2.2.0
-      - run: |
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Build and publish
+        run: |
           chmod +x ./gradlew
           ./gradlew :fabric:build fabricPublish --stacktrace
         env:
