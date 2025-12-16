@@ -1,4 +1,5 @@
 {
+  "modmenu.descriptionTranslation.capes": "Um mod que permite usar capas do Optifine, LabyMod, Cosmetica, Wynntils, Capes++, e do MinecraftCapes Mod.",
   "options.capes.title": "Opções de Capa",
   "options.capes.capetype": "Tipo de Capa: %s",
   "options.capes.optifineeditor": "Editor de Capa do OptiFine",
