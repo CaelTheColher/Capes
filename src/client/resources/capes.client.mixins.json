@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"package": "me.cael.capes.mixin.client",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"AccessorEntityRenderDispatcher",
+		"MixinCapeFeatureRenderer",
+		"MixinEntityRenderDispatcher",
+		"MixinPlayerInfo",
+		"MixinSkinCustomizationScreen"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

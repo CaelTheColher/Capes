@@ -1,61 +1,200 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+buildscript {
+	dependencies {
+		classpath("org.kohsuke:github-api:1.313")
+	}
+}
+
 plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.13-SNAPSHOT" apply false
-    id "org.ajoberstar.grgit" version "5.0.0" apply false
-    id "com.matthewprenger.cursegradle" version "1.4.0" apply false
-    id "com.modrinth.minotaur" version "2.+" apply false
-    id "org.jetbrains.kotlin.jvm" version "2.1.20" apply false
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+	id 'maven-publish'
+	id "org.jetbrains.kotlin.jvm" version "2.3.10"
+	id "org.ajoberstar.grgit" version "5.0.0"
+	id "com.matthewprenger.cursegradle" version "1.4.0"
+	id "com.modrinth.minotaur" version "2.+"
 }
 
-architectury {
-    minecraft = rootProject.minecraft_version
+version = project.mod_version
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
 }
 
-subprojects {
-    apply plugin: "dev.architectury.loom"
+repositories {
+	// Add repositories to retrieve artifacts from in here.
+	// You should only use this when depending on other mods because
+	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
+	// for more information about repositories.
+}
 
-    loom {
-        silentMojangMappingsLicense()
-    }
+loom {
+	splitEnvironmentSourceSets()
 
-    dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        mappings "net.fabricmc:yarn:${rootProject.yarn_mappings}:v2"
-    }
+	mods {
+		"capes" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
 
 }
 
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
+dependencies {
+	// To change the versions see the gradle.properties file
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    archivesBaseName = rootProject.archives_base_name
-    version = rootProject.mod_version
-    group = rootProject.maven_group
+	// Fabric API. This is technically optional, but you probably want it anyway.
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	implementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
-    repositories {
-        // Add repositories to retrieve artifacts from in here.
-        // You should only use this when depending on other mods because
-        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-        // for more information about repositories.
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://maven.terraformersmc.com/'}
-    }
+	implementation "com.ptsmods:devlogin:3.5"
+}
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-        options.release = 21
-    }
+processClientResources {
+	inputs.property "version", project.version
 
-    java {
-        withSourcesJar()
-    }
+	filesMatching("fabric.mod.json") {
+		expand "version": inputs.properties.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+}
+
+kotlin {
+	compilerOptions {
+		jvmTarget = JvmTarget.JVM_25
+	}
+}
+
+java {
+	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+	// if it is present.
+	// If you remove this line, sources will not be generated.
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
+
+jar {
+	inputs.property "archivesName", project.base.archivesName
+
+	from("LICENSE") {
+		rename { "${it}_${inputs.properties.archivesName}"}
+	}
+}
+
+// configure the maven publication
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			artifactId = project.archives_base_name
+			from components.java
+		}
+	}
+
+	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+	repositories {
+		// Add repositories to publish to here.
+		// Notice: This block does NOT have the same function as the block in the top level.
+		// The repositories here will be used for publishing your artifact, not for
+		// retrieving dependencies.
+	}
+}
+def DISPLAY_NAME = "[Fabric ${minecraft_version}] Capes ${mod_version.split('\\+')[0]}"
+
+static def getChangeLog() {
+	return "A changelog can be found at https://github.com/CaelTheColher/Capes"
+}
+
+curseforge {
+	String token = System.getenv("CURSEFORGE_API_KEY")
+	apiKey = token == null || token.isEmpty() ? "unset" : token
+	project {
+		id = curseforge_id
+		changelog = getChangeLog()
+		releaseType = "release"
+		addGameVersion("Fabric")
+		addGameVersion(minecraft_version)
+		relations {
+			requiredDependency("fabric-api")
+			requiredDependency("fabric-language-kotlin")
+			optionalDependency("modmenu")
+		}
+		mainArtifact(tasks.jar.archiveFile.get().getAsFile()) {
+			displayName = DISPLAY_NAME
+		}
+		afterEvaluate {
+			uploadTask.dependsOn(jar)
+		}
+	}
+	curseGradleOptions.forgeGradleIntegration = false
+}
+
+modrinth {
+	token = System.getenv("MODRINTH_TOKEN")
+	projectId = modrinth_id
+	versionNumber = mod_version
+	versionName = DISPLAY_NAME
+	uploadFile = jar
+	gameVersions = [minecraft_version]
+	loaders = ['fabric']
+	versionType = "release"
+	changelog = getChangeLog()
+	dependencies {
+		required.project("fabric-api")
+		required.project("fabric-language-kotlin")
+		optional.project("modmenu")
+	}
+}
+
+def getBranch() {
+	def env = System.getenv()
+	if (env.GITHUB_REF) {
+		def branch = env.GITHUB_REF
+		return branch.substring(branch.lastIndexOf("/") + 1)
+	}
+
+	if (grgit == null) {
+		return "unknown"
+	}
+
+	def branch = grgit.branch.current().name
+	return branch.substring(branch.lastIndexOf("/") + 1)
+}
+
+import org.kohsuke.github.GHReleaseBuilder
+import org.kohsuke.github.GitHub
+
+tasks.register('github') {
+	dependsOn jar
+	def env = System.getenv()
+	onlyIf {
+		env.GITHUB_TOKEN
+	}
+
+	doLast {
+		def github = GitHub.connectUsingOAuth(env.GITHUB_TOKEN as String)
+		def repository = github.getRepository(env.GITHUB_REPOSITORY)
+
+		def releaseBuilder = new GHReleaseBuilder(repository, "fabric-" + version as String)
+		releaseBuilder.name(DISPLAY_NAME)
+		releaseBuilder.body(getChangeLog())
+		releaseBuilder.commitish(getBranch())
+
+		def ghRelease = releaseBuilder.create()
+		ghRelease.uploadAsset(tasks.jar.archiveFile.get().getAsFile(), "application/java-archive")
+	}
 }
 
 tasks.register('fabricPublish')
-tasks.register('forgePublish')
-tasks.register('modPublish')
-tasks.named("modPublish").get().dependsOn tasks.named("fabricPublish").get()
-tasks.named("modPublish").get().dependsOn tasks.named("forgePublish").get()
+tasks.named("fabricPublish").get().dependsOn tasks.named("curseforge").get()
+tasks.named("fabricPublish").get().dependsOn tasks.named("modrinth").get()
+tasks.named("fabricPublish").get().dependsOn tasks.named("github").get()
