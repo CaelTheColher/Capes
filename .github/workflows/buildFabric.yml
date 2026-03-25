@@ -26,4 +26,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: fabric-build
-          path: fabric/build/libs/*-fabric.jar
+          path: build/libs/*-fabric.jar
