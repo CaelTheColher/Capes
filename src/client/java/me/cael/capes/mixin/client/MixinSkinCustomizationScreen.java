@@ -28,6 +28,6 @@ public abstract class MixinSkinCustomizationScreen extends OptionsSubScreen {
 
     @Inject(method = "addOptions", at = @At("RETURN"))
     public void addOptions(CallbackInfo info) {
-        this.addRenderableWidget(SpriteIconButton.builder(Component.empty(), (buttonWidget) -> this.minecraft.setScreen(capes$selectorMenu), true).size(20, 20).sprite(CAPE_OPTIONS_ICON_TEXTURE, 16, 16).build()).setPosition(list.getRowLeft() - 25, list.getY() + 4);
+        this.addRenderableWidget(SpriteIconButton.builder(Component.empty(), (buttonWidget) -> this.minecraft.gui.setScreen(capes$selectorMenu), true).size(20, 20).sprite(CAPE_OPTIONS_ICON_TEXTURE, 16, 16).build()).setPosition(list.getRowLeft() - 25, list.getY() + 4);
     }
 }

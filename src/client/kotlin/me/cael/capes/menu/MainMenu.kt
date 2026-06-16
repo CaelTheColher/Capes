@@ -14,17 +14,17 @@ open class MainMenu(parent: Screen, gameOptions: Options) : OptionsSubScreen(par
         val offset = (buttonW / 2) + 5
 
         addRenderableWidget(Button.builder(Component.translatable("options.capes.selector")) {
-            minecraft.setScreen(SelectorMenu(lastScreen, options))
+            minecraft.gui.setScreen(SelectorMenu(lastScreen, options))
         }.pos((width/2) - (buttonW / 2), 35).size(buttonW, 20).build())
             .active = this !is SelectorMenu
 
         addRenderableWidget(Button.builder(Component.translatable("options.capes.toggle")) {
-            minecraft.setScreen(ToggleMenu(lastScreen, options))
+            minecraft.gui.setScreen(ToggleMenu(lastScreen, options))
         }.pos((width/2) - (buttonW + offset), 35).size(buttonW, 20).build())
             .active = this !is ToggleMenu
 
         addRenderableWidget(Button.builder(Component.translatable("options.capes.other")) {
-            minecraft.setScreen(OtherMenu(lastScreen, options))
+            minecraft.gui.setScreen(OtherMenu(lastScreen, options))
         }.pos((width/2) + offset, 35).size(buttonW, 20).build())
             .active = this !is OtherMenu
     }

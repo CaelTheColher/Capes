@@ -25,11 +25,11 @@ class OtherMenu(parent: Screen, gameOptions: Options) : MainMenu(parent, gameOpt
                 val serverId = random1Bi.xor(random2Bi).toString(16)
                 minecraft!!.services().sessionService.joinServer(minecraft!!.gameProfile.id, minecraft!!.user.accessToken, serverId)
                 val url = "https://optifine.net/capeChange?u=${minecraft!!.gameProfile.id.toString().replace("-", "")}&n=${minecraft!!.user.name}&s=$serverId"
-                minecraft!!.setScreen(ConfirmLinkScreen({ bool: Boolean ->
+                minecraft!!.gui.setScreen(ConfirmLinkScreen({ bool: Boolean ->
                     if (bool) {
                         Util.getPlatform().openUri(url)
                     }
-                    minecraft!!.setScreen(this)
+                    minecraft!!.gui.setScreen(this)
                 }, url, true))
             } catch (_: Exception) {
                 Capes.LOGGER.error("Failed to authenticate for OptiFine cape editor.")
@@ -38,7 +38,7 @@ class OtherMenu(parent: Screen, gameOptions: Options) : MainMenu(parent, gameOpt
         }.pos((width/2) - (buttonW / 2), height / 7 + 24).size(buttonW, 20).build())
 
         addRenderableWidget(Button.builder(CommonComponents.GUI_DONE) {
-            minecraft!!.setScreen(lastScreen)
+            minecraft!!.gui.setScreen(lastScreen)
         }.pos((width/2) - (buttonW / 2), height / 7 + 2 * 24).size(buttonW, 20).build())
 
     }

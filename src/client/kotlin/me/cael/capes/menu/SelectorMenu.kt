@@ -31,7 +31,7 @@ class SelectorMenu(parent: Screen, gameOptions: Options) : MainMenu(parent, game
         }.pos((width / 2) - (buttonW / 2), 60).size(buttonW, 20).build())
 
         addRenderableWidget(Button.builder(CommonComponents.GUI_DONE) {
-            minecraft!!.setScreen(lastScreen)
+            minecraft!!.gui.setScreen(lastScreen)
         }.pos((width / 2) - (buttonW / 2), 220).size(buttonW, 20).build())
 
         buttonW = 100

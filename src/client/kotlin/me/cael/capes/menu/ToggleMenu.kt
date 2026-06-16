@@ -58,7 +58,7 @@ class ToggleMenu(parent: Screen, gameOptions: Options) : MainMenu(parent, gameOp
         }.pos((width/2) - (200 / 2), height / 7 + 4 * 24).size(200, 20).build())
 
         addRenderableWidget(Button.builder(CommonComponents.GUI_DONE) {
-            minecraft!!.setScreen(lastScreen)
+            minecraft!!.gui.setScreen(lastScreen)
         }.pos((width/2) - (200 / 2), height / 7 + 5 * 24).size(200, 20).build())
 
     }
