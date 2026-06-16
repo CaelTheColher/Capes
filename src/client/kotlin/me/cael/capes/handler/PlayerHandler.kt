@@ -2,6 +2,7 @@ package me.cael.capes.handler
 
 import com.google.gson.Gson
 import com.mojang.authlib.GameProfile
+import com.mojang.blaze3d.platform.NativeImage
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import me.cael.capes.CapeType
 import me.cael.capes.Capes
@@ -9,13 +10,12 @@ import me.cael.capes.Capes.identifier
 import me.cael.capes.handler.data.CosmeticaData
 import me.cael.capes.handler.data.MCMData
 import net.minecraft.client.Minecraft
-import com.mojang.blaze3d.platform.NativeImage
-import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.renderer.texture.DynamicTexture
 import net.minecraft.core.ClientAsset
 import net.minecraft.core.UUIDUtil
-import org.apache.commons.codec.binary.Base64
-import java.io.*
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.Reader
 import java.net.HttpURLConnection
 import java.net.URI
 import java.util.*
@@ -37,7 +37,7 @@ class PlayerHandler(var profile: GameProfile) {
 
     companion object {
         val instances = HashMap<UUID, PlayerHandler>()
-        val capeExecutor = Executors.newCachedThreadPool()
+        val capeExecutor = Executors.newVirtualThreadPerTaskExecutor()
 
         fun fromProfile(profile: GameProfile) = instances[profile.id] ?: PlayerHandler(profile)
 
@@ -94,10 +94,10 @@ class PlayerHandler(var profile: GameProfile) {
         }.also { if (it) this.capeType = capeType}
     }
 
-    fun setStandardCape(connection: HttpURLConnection, labymod: Boolean = false): Boolean {
+    fun setStandardCape(connection: HttpURLConnection, labymod: Boolean = false, animated: Boolean = false): Boolean {
         connection.connect()
         if (connection.responseCode / 100 == 2) {
-            return setCapeTexture(connection.inputStream, labymod = labymod)
+            return setCapeTexture(connection.inputStream, animated, labymod)
         }
         return false
     }
@@ -107,8 +107,12 @@ class PlayerHandler(var profile: GameProfile) {
         if (connection.responseCode / 100 == 2) {
             val reader: Reader = InputStreamReader(connection.inputStream, "UTF-8")
             val result = Gson().fromJson(reader, CosmeticaData::class.java)
-            return result.cape?.origin == "Cosmetica"
-                    && setCapeTextureFromBase64(result.cape.image.substring(22), result.cape.isAnimated())
+            if (result.cloak?.texture == null) return false
+            val connection = connection(result.cloak.texture)
+
+            if (connection.responseCode / 100 == 2) {
+                return setStandardCape(connection, animated = result.cloak.isAnimated())
+            }
         }
         return false
     }
@@ -120,18 +124,12 @@ class PlayerHandler(var profile: GameProfile) {
             val profile = Gson().fromJson(reader, MCMData::class.java)
 
             val result = connection(profile.cape_url)
-            result.connect();
+            result.connect()
             if(result.responseCode / 100 == 2) {
                 return setCapeTexture(result.inputStream, profile.animated_cape_url != null, false)
             }
         }
         return false
-    }
-
-    fun setCapeTextureFromBase64(base64Texture: String?, animated: Boolean = false): Boolean {
-        if(base64Texture == null) return false
-        val bytes = Base64.decodeBase64(base64Texture)
-        return setCapeTexture(ByteArrayInputStream(bytes), animated)
     }
 
     fun setCapeTexture(image: InputStream, animated: Boolean = false, labymod: Boolean = false): Boolean {

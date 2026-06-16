@@ -21,7 +21,7 @@ enum class CapeType(val stylized: String) {
         return when (this) {
             OPTIFINE -> if(config.enableOptifine) "http://s.optifine.net/capes/${profile.name}.png" else null
             LABYMOD -> if(config.enableLabyMod) "https://dl.labymod.net/capes/${profile.id}" else null
-            COSMETICA -> if(config.enableCosmetica) "https://api.cosmetica.cc/v2/get/info?uuid=${profile.id}" else null
+            COSMETICA -> if(config.enableCosmetica) "https://api.cosmetica.cc/users/${profile.id}/cape" else null
             MINECRAFTCAPES -> if(config.enableMinecraftCapesMod) "https://api.minecraftcapes.net/profile/${profile.id.toString().replace("-", "")}" else null
             CLOAKSPLUS -> if(config.enableCloaksPlus) "http://161.35.130.99/capes/${profile.name}.png" else null
             MINECRAFT -> null
