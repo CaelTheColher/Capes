@@ -5,7 +5,7 @@ import net.minecraft.network.chat.CommonComponents
 import net.minecraft.network.chat.Component
 
 enum class CapeType(val stylized: String) {
-    MINECRAFT("Minecraft"), OPTIFINE("OptiFine"), LABYMOD("LabyMod"), MINECRAFTCAPES("MinecraftCapes"), COSMETICA("Cosmetica"), CLOAKSPLUS("Cloaks+");
+    MINECRAFT("Minecraft"), OPTIFINE("OptiFine"), LABYMOD("LabyMod"), MINECRAFTCAPES("MinecraftCapes"), COSMETICA("Cosmetica"), CLOAKSPLUS("Cloaks+"), NORISK("Norisk");
 
     fun cycle() = when(this) {
         MINECRAFT -> OPTIFINE
@@ -13,7 +13,8 @@ enum class CapeType(val stylized: String) {
         LABYMOD -> COSMETICA
         COSMETICA -> MINECRAFTCAPES
         MINECRAFTCAPES -> CLOAKSPLUS
-        CLOAKSPLUS -> MINECRAFT
+        CLOAKSPLUS -> NORISK
+        NORISK -> MINECRAFT
     }
 
     fun getURL(profile: GameProfile): String? {
@@ -24,6 +25,7 @@ enum class CapeType(val stylized: String) {
             COSMETICA -> if(config.enableCosmetica) "https://api.cosmetica.cc/users/${profile.id}/cape" else null
             MINECRAFTCAPES -> if(config.enableMinecraftCapesMod) "https://api.minecraftcapes.net/profile/${profile.id.toString().replace("-", "")}" else null
             CLOAKSPLUS -> if(config.enableCloaksPlus) "http://161.35.130.99/capes/${profile.name}.png" else null
+            NORISK -> if(config.enableNorisk) "https://api.errexe.xyz/capes/norisk/${profile.id}?image=true" else null
             MINECRAFT -> null
         }
     }

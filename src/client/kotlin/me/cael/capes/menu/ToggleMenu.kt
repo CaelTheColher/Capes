@@ -45,6 +45,12 @@ class ToggleMenu(parent: Screen, gameOptions: Options) : MainMenu(parent, gameOp
             it.message = CapeType.CLOAKSPLUS.getToggleText(config.enableCloaksPlus)
         }.pos(width / 2 - 155, height / 7 + 3 * 24).size(150, 20).build())
 
+        addRenderableWidget(Button.builder(CapeType.NORISK.getToggleText(config.enableNorisk)) {
+            config.enableNorisk = !config.enableNorisk
+            config.save()
+            it.message = CapeType.NORISK.getToggleText(config.enableNorisk)
+        }.pos(width / 2 - 155 + 160, height / 7 + 3 * 24).size(150, 20).build())
+
 //        addDrawableChild(ButtonWidget.builder(CapeType.CLOAKSPLUS.getToggleText(config.enableCloaksPlus)) {
 //            config.enableCloaksPlus = !config.enableCloaksPlus
 //            config.save()

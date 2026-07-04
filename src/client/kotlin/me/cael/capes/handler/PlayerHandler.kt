@@ -90,6 +90,7 @@ class PlayerHandler(var profile: GameProfile) {
             CapeType.LABYMOD -> setStandardCape(connection, true)
             CapeType.COSMETICA -> setCosmeticaCape(connection)
             CapeType.MINECRAFTCAPES -> setMCMCape(connection)
+            CapeType.NORISK -> setNoriskCape(connection)
             else -> setStandardCape(connection)
         }.also { if (it) this.capeType = capeType}
     }
@@ -128,6 +129,14 @@ class PlayerHandler(var profile: GameProfile) {
             if(result.responseCode / 100 == 2) {
                 return setCapeTexture(result.inputStream, profile.animated_cape_url != null, false)
             }
+        }
+        return false
+    }
+
+    fun setNoriskCape(connection: HttpURLConnection): Boolean {
+        connection.connect()
+        if (connection.responseCode / 100 == 2) {
+            return setCapeTexture(connection.inputStream, animated = false, labymod = false)
         }
         return false
     }
