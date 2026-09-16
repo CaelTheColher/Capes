@@ -11,7 +11,7 @@ plugins {
 	id 'maven-publish'
 	id "org.jetbrains.kotlin.jvm" version "2.3.10"
 	id "org.ajoberstar.grgit" version "5.0.0"
-	id "com.matthewprenger.cursegradle" version "1.4.0"
+	id "de.maxhenkel.cursegradle" version "1.5.2"
 	id "com.modrinth.minotaur" version "2.+"
 }
 
@@ -123,6 +123,7 @@ curseforge {
 		releaseType = "release"
 		addGameVersion("Fabric")
 		addGameVersion(minecraft_version)
+		addGameVersion("Client")
 		relations {
 			requiredDependency("fabric-api")
 			requiredDependency("fabric-language-kotlin")

@@ -4,6 +4,10 @@ pluginManagement {
 			name = 'Fabric'
 			url = 'https://maven.fabricmc.net/'
 		}
+		maven {
+			name = 'Henkelmax'
+			url = 'https://maven.maxhenkel.de/repository/public'
+		}
 		mavenCentral()
 		gradlePluginPortal()
 	}
