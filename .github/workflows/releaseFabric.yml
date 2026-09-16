@@ -1,6 +1,17 @@
 name: Release Fabric
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'What to publish'
+        type: choice
+        default: all
+        options:
+          - all
+          - modrinth
+          - curseforge
+          - github
 
 jobs:
   releaseFabric:
@@ -20,7 +31,11 @@ jobs:
       - name: Build and publish
         run: |
           chmod +x ./gradlew
-          ./gradlew build fabricPublish --stacktrace
+          if [ "${{ inputs.publish }}" = "all" ]; then
+            ./gradlew build fabricPublish --stacktrace
+          else
+            ./gradlew build ${{ inputs.publish }} --stacktrace
+          fi
         env:
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GH_API_KEY }}
