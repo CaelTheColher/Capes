@@ -13,8 +13,6 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.texture.DynamicTexture
 import net.minecraft.core.ClientAsset
 import net.minecraft.core.UUIDUtil
-import org.apache.commons.codec.binary.Base64
-import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.Reader
@@ -109,7 +107,6 @@ class PlayerHandler(var profile: GameProfile) {
         if (connection.responseCode / 100 == 2) {
             val reader: Reader = InputStreamReader(connection.inputStream, "UTF-8")
             val result = Gson().fromJson(reader, CosmeticaData::class.java)
-            println(result.cloak?.isAnimated())
             if (result.cloak?.texture == null) return false
             val connection = connection(result.cloak.texture)
 
@@ -127,18 +124,12 @@ class PlayerHandler(var profile: GameProfile) {
             val profile = Gson().fromJson(reader, MCMData::class.java)
 
             val result = connection(profile.cape_url)
-            result.connect();
+            result.connect()
             if(result.responseCode / 100 == 2) {
                 return setCapeTexture(result.inputStream, profile.animated_cape_url != null, false)
             }
         }
         return false
-    }
-
-    fun setCapeTextureFromBase64(base64Texture: String?, animated: Boolean = false): Boolean {
-        if(base64Texture == null) return false
-        val bytes = Base64.decodeBase64(base64Texture)
-        return setCapeTexture(ByteArrayInputStream(bytes), animated)
     }
 
     fun setCapeTexture(image: InputStream, animated: Boolean = false, labymod: Boolean = false): Boolean {
