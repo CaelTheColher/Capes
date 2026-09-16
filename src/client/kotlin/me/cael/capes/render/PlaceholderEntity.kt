@@ -42,7 +42,8 @@ object PlaceholderEntity {
             (Minecraft.getInstance().entityRenderDispatcher as AccessorEntityRenderDispatcher).equipmentAssets,
             Minecraft.getInstance().atlasManager,
             Minecraft.getInstance().font,
-            Minecraft.getInstance().playerSkinRenderCache()
+            Minecraft.getInstance().playerSkinRenderCache(),
+            Minecraft.getInstance().palettedTextureManager
         )
         renderer = PlaceholderEntityRenderer(ctx, slim)
         Minecraft .getInstance().skinManager.get(gameProfile).thenAccept {

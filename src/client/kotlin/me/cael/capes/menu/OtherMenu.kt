@@ -7,8 +7,9 @@ import net.minecraft.client.gui.components.Button
 import net.minecraft.client.Options
 import net.minecraft.network.chat.CommonComponents
 import net.minecraft.network.chat.Component
-import net.minecraft.util.Util
+import com.mojang.blaze3d.Blaze3D
 import java.math.BigInteger
+import java.net.URI
 import java.util.*
 
 class OtherMenu(parent: Screen, gameOptions: Options) : MainMenu(parent, gameOptions) {
@@ -24,10 +25,10 @@ class OtherMenu(parent: Screen, gameOptions: Options) : MainMenu(parent, gameOpt
                 val random2Bi = BigInteger(128, Random(System.identityHashCode(Object()).toLong()))
                 val serverId = random1Bi.xor(random2Bi).toString(16)
                 minecraft!!.services().sessionService.joinServer(minecraft!!.gameProfile.id, minecraft!!.user.accessToken, serverId)
-                val url = "https://optifine.net/capeChange?u=${minecraft!!.gameProfile.id.toString().replace("-", "")}&n=${minecraft!!.user.name}&s=$serverId"
+                val url = URI("https://optifine.net/capeChange?u=${minecraft!!.gameProfile.id.toString().replace("-", "")}&n=${minecraft!!.user.name}&s=$serverId")
                 minecraft!!.gui.setScreen(ConfirmLinkScreen({ bool: Boolean ->
                     if (bool) {
-                        Util.getPlatform().openUri(url)
+                        Blaze3D.openUri(url)
                     }
                     minecraft!!.gui.setScreen(this)
                 }, url, true))
